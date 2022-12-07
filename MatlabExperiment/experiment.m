@@ -6,16 +6,19 @@ close all;
 clear;
 Screen('Preference', 'SkipSyncTests', 1);
 Screen('Preference','VisualDebugLevel', 0);
-KbName('UnifyKeyNames');
+KbName('UnifyKeyNames'); 
 % HideCursor();
-InitializePsychSound;
+InitializePsychSound; 
 
-leftArrow = KbName('LeftArrow');
+mkdir ExperimentResults 
+mkdir ExperimentResults Experiment1
+
+ctrlKey = KbName('Control'); 
 rightArrow = KbName('RightArrow');
 spaceKey = KbName('space');
 escKey = KbName('escape');
 
-activeKeys = [leftArrow, rightArrow];
+activeKeys = [ctrlKey, rightArrow];
 % ListenChar(2);
 
 % % Here we call some default settings for setting up Psychtoolbox
@@ -87,18 +90,24 @@ allRects(:, 2) = CenterRectOnPointd(verticalRect,...
 % % port = hex2dec('2010');
 % % lptwrite(port,0);
 
-sounds = ["./CompletedRecordings/CarBus_Recording.wav", "./CompletedRecordings/ApartmentHouse_Recording.wav", "./CompletedRecordings/LakeSea_Recording.wav"];
-
-timeDecisionMade=zeros(1,3);
-itr = 1;
-decisionLeftKey=zeros(1,3);
-itr2 = 1;
-decisionRightKey=zeros(1,3);
-itr3 = 1;
+sounds = {'./CompletedRecordings/CarBus/CB_M1_1.wav', './CompletedRecordings/ApartmentHouse/AH_M1_1.wav'};
 
 timedout= false;
-number_of_trials = 3;
+number_of_trials = 2;
+
+
+timeDecisionMade=zeros(1,number_of_trials);
+itr = 1;
+decisionLeftKey=zeros(1,number_of_trials);
+itr2 = 1;
+decisionRightKey=zeros(1,number_of_trials);
+itr3 = 1;
+
+participantScore = 0;
+
 for trial_counter = 1:number_of_trials
+    
+    % set key to 0
     
     KbReleaseWait;
     line1 = ['This is trial ', num2str(trial_counter), ' of 5 trials']; 
@@ -110,24 +119,37 @@ for trial_counter = 1:number_of_trials
         if keyCode(spaceKey) == 1
             break;
         end
-%         if keyCode(escKey) == 1
-%             Screen('Close')
-%             sca;
-%             break;
-%         end
+        if keyCode(escKey) == 1
+            Screen('CloseAll')
+            sca;
+            break;
+        end
     end 
    
     timedout = false;   
     while ~timedout
 
         [meaning1, meaning2] = returnMeanings(trial_counter);    
-
+ 
         Screen('FillRect', window, allColors, allRects);
-        DrawFormattedText(window, meaning1, 690 , 550 , [0.6 0.6 0.6],[],[],[],2);
-        DrawFormattedText(window, meaning2, 1150 , 550 , [0.6 0.6 0.6],[],[],[],2);
-        Screen('Flip', window);
+        
+        if (length(meaning1) > 5) 
+            crossAwayL = 270;
+        else
+            crossAwayL  = 150; 
+        end
+        
+        if (length(meaning2) > 5) 
+            crossAwayR = 180;
+        else 
+            crossAwayR = 100;
+        end
+     
+        DrawFormattedText(window, meaning1, (1440+(length(meaning1))-crossAwayL), 810 , [0.6 0.6 0.6],[],[],[],2);
+        DrawFormattedText(window, meaning2, (1440-(length(meaning2))+crossAwayR), 810 , [0.6 0.6 0.6],[],[],[],2);
+        Screen('Flip', window, [], 1);
 
-        [soundCorrect, freq] = audioread(sounds(trial_counter));
+        [soundCorrect, freq] = audioread(sounds{trial_counter});
 
         wave = soundCorrect';
         nrchannels = size(wave,1);
@@ -144,20 +166,34 @@ for trial_counter = 1:number_of_trials
             
             RestrictKeysForKbCheck(activeKeys);
             [keyIsDown,when,keyCode] = KbCheck(); %checking if key is pressed
-            WaitSecs(0.05);
+            WaitSecs(0.05); 
 
-            if (toc >= 14)
-                keyIsDown = 1;
-            end   
+            decisionText = 'Please choose a meaning';
+            if (toc >= 15)
+                DrawFormattedText(window, decisionText, 'center', 1000, [0.6 0.6 0.6],[],[],[],2);
+                Screen('Flip', window, []);
+                while(~keyIsDown)
+                    RestrictKeysForKbCheck(activeKeys);
+                    [keyIsDown,when,keyCode] = KbCheck(); %checking if key is pressed
+                    WaitSecs(0.05);
+                end
+             
+            end 
+            
         end 
         
-        timeDecisionMade(itr) = toc;
-        itr=itr+1;
+        Screen('Flip', window, []);
         
-        if keyCode(leftArrow) == 1
+        decisionTime = toc;
+        timeDecisionMade(itr) = decisionTime; 
+        itr=itr+1;
+   
+        if keyCode(ctrlKey) == 1
+           keyPressed = 1;
            decisionLeftKey(itr2) = 1;
         end
         if keyCode(rightArrow) == 1
+           keyPressed = 2;
            decisionRightKey(itr2) = 1;
         end
         
@@ -165,14 +201,46 @@ for trial_counter = 1:number_of_trials
         
         PsychPortAudio('Close', audioBuff);
         PsychPortAudio('Close');
+
+        RestrictKeysForKbCheck([]);
         
-        RestrictKeysForKbCheck([]); 
+        % Get score 
+         
+        % call getScore and pass in trialNo, toc, key, participantScore
+        % get back scorechange and newscore and print it up top before
+        % resetting variables
+        
+        [scoreChange , newScore, approxWord] = getScore(trial_counter, decisionTime, keyPressed, participantScore);
+        participantScore = newScore;
+%         disp(scoreChange) % pass this into the next window: score changed by:
+%         disp(participantScore) % pass this into the next window: current score:
+%         disp(approxWord);
+%         disp(round(approxWord));
+        
+        line = ['End of trial number ', num2str(trial_counter), ' of 5 trials'];
+        DrawFormattedText(window, line, 'center', 810-200, [0.6 0.6 0.6],[],[],[],2);
+        DrawFormattedText(window, sprintf('Change in score: %d Current score: %d\n', scoreChange, participantScore), 'center'  , 810); %value gotten from windowRect on line 35 
+        next = '\n Press the space bar to continue';
+        DrawFormattedText(window, next, 'center', 810+120, [0.6 0.6 0.6],[],[],[],2);
+        Screen('Flip', window); 
+        while 1
+            [~, secs, keyCode] = KbCheck; 
+            if keyCode(spaceKey) == 1
+                break;
+            end
+        end 
+        
         timedout = true; %start the next trial
     end  
 
 end
+ 
+isLeftKeyPress = decisionLeftKey';
+keyPressTime  = timeDecisionMade';
 
-% ListenChar(1)
+T = table(isLeftKeyPress, keyPressTime);
+writetable(T, './ExperimentResults/Experiment1/DecisionsAndTimings.txt'); 
+ 
 Screen('Close')
 
 % %  Clear the screen
