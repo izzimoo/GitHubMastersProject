@@ -1,0 +1,96 @@
+import atexit
+from operator import index
+import numpy as np
+import gensim
+from gensim.models import KeyedVectors
+import pandas as pd
+import math
+from numpy.linalg import norm
+from sklearn.metrics.pairwise import cosine_similarity
+np.seterr(divide='ignore', invalid='ignore')
+
+def indexGivenValue(value, array):
+    for idx, val in enumerate(array):
+        if(value == val):           
+            return(idx)
+
+## ------- READ IN CSV FILES, NUMPY ARRAYS AND WORD2VEC MODEL --------- ##
+allWordsdf = pd.read_csv('./CSVFiles/all_words.csv')
+ambigdf = pd.read_csv("./CSVFiles/Ambigembedding.csv", index_col=0)
+mean1df = pd.read_csv("./CSVFiles/Meaning1embedding.csv", index_col=0)
+mean2df = pd.read_csv("./CSVFiles/Meaning2embedding.csv", index_col=0)
+
+syn1neg = np.load('./gensim_models/word2vec.model.syn1neg.npy')
+vectors = np.load('./gensim_models/word2vec.model.wv.vectors.npy')
+
+#trainedModel = gensim.models.Word2Vec.load('./gensim_models/word2vec.model')
+trainedModel = KeyedVectors.load_word2vec_format('./gensim_models/vectors.bin',binary=True,limit=298887)
+
+# ----------------------------------------------------------------------- #
+# ---------- READ IN ALL WORDS, AMBIGUOUS WORDS AN MEANING WORDS -------- #
+
+allWords = allWordsdf.iloc[:,1] #used later to find the vectors of the candidate words
+# #allVectors = allWordsdf.iloc[:,2:]
+# print(indexGivenValue('commute', allWords))
+# print(indexGivenValue('fare', allWords))
+
+# meaningOneWord = mean1df.columns
+# meaningOneVector=np.array(mean1df.iloc[:,0:].transpose())
+
+# meaningTwoWord = mean2df.columns
+# meaningTwoVector=np.array(mean2df.iloc[:,0:].transpose())
+
+# # ------------------------------------------------------------------------ #
+# # Use Word2Vec similarity function to get candidate words for each ambiguous
+# # word and its two meanings
+
+meaning1 = 'flower'
+meaning2 = 'grass'
+candidateWords = []
+candidateWords = trainedModel.most_similar(positive=[meaning1, meaning2], topn=15)
+#candidateWords = trainedModel.most_similar(positive=[meaning2], topn=150)
+print(candidateWords)
+
+indexOfCandidateWord=[]
+for word, val in candidateWords:
+    indexOfCandidateWord.append(indexGivenValue(word, allWords))
+
+vectorsOfCandidateWords=[]
+for index in indexOfCandidateWord:
+    vectorsOfCandidateWords.append(vectors[index])
+
+vectorsOfCandidateWords = np.array(vectorsOfCandidateWords, dtype=object)
+print(vectorsOfCandidateWords.shape)
+
+# # --------------------------------------------------------------------------- #
+
+# Do the same as above but for the two meanings now 
+
+indexOfMeaning1 = indexGivenValue(meaning1, allWords)
+indexOfMeaning2 = indexGivenValue(meaning2, allWords)
+
+vectorOfMeaning1 = vectors[indexOfMeaning1]
+vectorOfMeaning2 = vectors[indexOfMeaning2]
+
+# #Stack the two vectors so that they can be passed into the cosine similarity funtion
+totalVector = (np.column_stack((vectorOfMeaning1, vectorOfMeaning2))).transpose()
+
+# # --------------------------------------------------------------------------- #
+
+prints = []
+# Calculate and print the cosine similarities for each candidate word and each meaning #
+for (word, val), candidateVector in zip(candidateWords, vectorsOfCandidateWords):
+    cosine = np.dot(totalVector, candidateVector)/(norm(totalVector, axis=1) * norm(candidateVector))
+    print("Cosine similarity of:", "\n", 
+    meaning1,"and", word, "=", cosine[0], 
+    meaning2, "and", word, "=", cosine[1])
+    print(cosine[0]/(cosine[0] + cosine[1]))
+    print(cosine[1]/(cosine[0] + cosine[1]))
+
+#         A         B
+#    [0.3432344 0.4982993]
+
+# Taking meanings: person, card candidate: dealer as an example. The above output is: 
+# Column A = cosine similarity of person and dealer (first vector in total vector * candidate) 
+# Column B = cosine similarity of card and dealer (second vector in total vector * candidate)
+
