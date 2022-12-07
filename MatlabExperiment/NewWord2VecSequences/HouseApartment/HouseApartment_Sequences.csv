@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,House Sequence 1,House Sequence 2,House Sequence 3,House Sequence 4,Apartment Sequence 1,Apartment Sequence 2,Apartment Sequence 3,Apartment Sequence 4
+doors,0.5704974769944037,kitchen,0.5520440126793426,floor,0.4523738173679886,garage,landlord,rent,garage,kitchen,bathroom,staircase,bedroom
+hall,0.6693252789676303,bedroom,0.632116908762985,rent,0.4505752729777607,doors,neighbour,landlord,doors,rent,rent,bedroom,neighbour
+neighbourhood,0.511836910935964,bathroom,0.6513109868150372,storey,0.45080434267839475,hall,garage,floor,carpark,bathroom,storey,balcony,balcony
+landlord,0.47852052993912786,balcony,0.650453207490194,neighbour,0.47278441251278347,neighbour,rent,doors,storey,storey,bedroom,rent,bathroom
+roof,0.5945115862052264,,,carpark,0.46455870150581713,rent,storey,garage,hall,staircase,balcony,kitchen,staircase
+garage,0.4909232215549979,,,staircase,0.4669388807974177,storey,carpark,staircase,neighbourhood,bedroom,staircase,bathroom,floor
+,,,,,,neighbourhood,floor,carpark,rent,balcony,carpark,neighbour,rent
+,,,,,,staircase,hall,neighbourhood,landlord,carpark,floor,carpark,carpark

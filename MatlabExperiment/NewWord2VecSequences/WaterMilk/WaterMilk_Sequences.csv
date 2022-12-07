@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Water Sequence 1,Water Sequence 2,Water Sequence 3,Water Sequence 4,Milk Sequence 1,Milk Sequence 2,Milk Sequence 3,Milk Sequence 4
+liquid,0.5568951821876995,cereal,0.6753882487212133,coconut,0.44873211550117537,thin,hydrating,potable,minerals,unsweetened,coconut,cereal,thin
+thirst,0.5576772592752142,bake,0.644570153449904,hydrating,0.4847819988656516,potable,potable,coconut,thirst,cereal,thin,coffee,hydrating
+minerals,0.6170950791496252,coffee,0.6428668113097196,odourless,0.49434387594129026,odourless,bottle,liquid,liquid,tea,tea,hydrating,cereal
+potable,0.7311878103963215,tea,0.6375270727088593,thin,0.5389096192514187,hydrating,minerals,thirst,bottle,hydrating,odourless,thin,nonfat
+bottle,0.4948464536748236,nonfat,0.6358924654554663,,,thirst,thirst,bottle,hydrating,bake,cereal,tea,coconut
+,,unsweetened,0.6019121350961787,,,minerals,odourless,minerals,odourless,odourless,bake,coconut,unsweetened
+,,,,,,liquid,thin,thin,coconut,coffee,coffee,odourless,odourless
+,,,,,,bottle,liquid,odourless,thin,thin,nonfat,unsweetened,tea

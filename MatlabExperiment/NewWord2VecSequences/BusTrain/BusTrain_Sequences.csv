@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Bus Sequence 1,Bus Sequence 2,Bus Sequence 3,Bus Sequence 4,Train Sequence 1,Train Sequence 2,Train Sequence 3,Train Sequence 4
+double-decker,0.6251334976432845,wheels,0.6482335054709171,passenger,0.4852597353826537,double-decker,commute,transit,fare,station,commute,ticket,ticket
+single-decker,0.623344878608833,station,0.5562416838903899,commute,0.4866504855541856,fare,ticket,driver,coach,coach,stop,station,wheels
+transit,0.6120578389660216,stop,0.5221705810357218,coach,0.4869183018769646,single-decker,passenger,seat,transit,wheels,seat,coach,stop
+fare,0.5892282320532473,terminus,0.5151828277131548,countrylink,0.49434427869504455,coach,double-decker,fare,countrylink,seat,coach,stop,seat
+intercity,0.5239131579989806,,,ticket,0.49789438876506653,passenger,transit,single-decker,passenger,commute,terminus,seat,countrylink
+route,0.5623975411009804,,,seat,0.5146162884575973,commute,single-decker,coach,single-decker,passenger,wheels,countrylink,terminus
+driver,0.575957003213954,,,,,ticket,driver,intercity,driver,stop,station,terminus,passenger
+,,,,,,driver,coach,ticket,intercity,terminus,passenger,wheels,station

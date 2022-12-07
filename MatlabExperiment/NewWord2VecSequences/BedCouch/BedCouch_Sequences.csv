@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Bed Sequence 1,Bed Sequence 2,Bed Sequence 3,Bed Sequence 4,Couch Sequence 1,Couch Sequence 2,Couch Sequence 3,Couch Sequence 4
+sleep,0.6293845616909053,pajamas,0.5048720075601578,comfortable,0.541129341951085,sofabed,nap,doze,futon,comfortable,comfortable,nap,cushion
+sofabed,0.6658496798523158,television,0.6768262525525395,nap,0.5197631230406765,support,sofabed,snooze,sleep,cushion,sit,television,sit
+laydown,0.7611863280951464,sit,0.6248906716864037,cushion,0.5197945125626874,futon,lounge,laydown,doze,sit,television,doze,doze
+snooze,0.6017682467776803,reclined,0.48056271462098643,futon,0.5307033363745328,pillow,snuggle,lounge,pillow,nap,pillow,sit,nap
+support,0.9946358508302148,,,doze,0.5406560869374823,comfortable,snooze,support,lounge,television,cushion,pajamas,reclined
+lounge,0.5789896945895917,,,pillow,0.5616773772150354,snuggle,cushion,nap,snuggle,pillow,doze,pillow,television
+snuggle,0.5961119235365926,,,,,doze,sleep,pillow,cushion,doze,reclined,futon,pajamas
+,,,,,,lounge,futon,snuggle,sofabed,reclined,nap,comfortable,futon

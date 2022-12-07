@@ -5,20 +5,20 @@
 % between each file in the final audio
 
 % CarBus raw audios
-[f0, fs] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_engine.wav');
-[f1] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_steer.wav');
-[f2] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_drive.wav');
-[f3] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_seat.wav');
-[f4] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_wheels.wav');
-[f5] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_commute.wav');
-[f6] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_passenger.wav');
-[f7] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_driver.wav');
-[f8] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_fuel.wav');
-[f9] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_motorway.wav');
-[f10] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_taxi.wav');
-[f11] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_crash.wav');
-[f12] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_intercity.wav');
-[f13] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_opentop.wav');
+% [f0, fs] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_engine.wav');
+% [f1] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_steer.wav');
+% [f2] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_drive.wav');
+% [f3] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_seat.wav');
+% [f4] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_wheels.wav');
+% [f5] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_commute.wav');
+% [f6] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_passenger.wav');
+% [f7] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_driver.wav');
+% [f8] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_fuel.wav');
+% [f9] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_motorway.wav');
+% [f10] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_intercity.wav');
+% [f11] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_opentop.wav');
+% [f12] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_windscreen.wav');
+% [f13] = audioread('./RawRecordingFiles/WAV/CarBus/carbus_garage.wav');
 
 % HouseApartment raw audios
 % [f0, fs] = audioread('./RawRecordingFiles/WAV/HouseApartment/houseapartment_kitchen.wav');
@@ -126,12 +126,11 @@
 % [f10] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_candelabra.wav');
 % [f11] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_element.wav');
 % [f12] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_expensive.wav');
-% [f13] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_cutlery.wav');
-% [f14] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_platter.wav');
-% [f15] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_coin.wav');
-% [f16] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_trophy.wav');
-% [f17] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_shiny.wav');
-% [f18] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_gilded.wav');
+% [f13] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_platter.wav');
+% [f14] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_coin.wav');
+% [f15] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_trophy.wav');
+% [f16] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_shiny.wav');
+% [f17] = audioread('./RawRecordingFiles/WAV/GoldSilver/goldsilver_gilded.wav');
 
 % ChickenPork raw audios
 % [f0, fs] = audioread('./RawRecordingFiles/WAV/ChickenPork/chickenpork_farm.wav');
@@ -169,6 +168,7 @@
 % [f13] = audioread('./RawRecordingFiles/WAV/MovieBook/moviebook_adaptation.wav');
 % [f14] = audioread('./RawRecordingFiles/WAV/MovieBook/moviebook_fantasy.wav');
 % [f15] = audioread('./RawRecordingFiles/WAV/MovieBook/moviebook_award.wav');
+% [f16] = audioread('./RawRecordingFiles/WAV/MovieBook/moviebook_collection.wav');
 
 % WaterMilk raw audios
 % [f0, fs] = audioread('./RawRecordingFiles/WAV/WaterMilk/watermilk_liquid.wav');
@@ -238,7 +238,7 @@
 % [f13] = audioread('./RawRecordingFiles/WAV/FlowerGrass/flowergrass_leaves.wav');
 % [f14] = audioread('./RawRecordingFiles/WAV/FlowerGrass/flowergrass_dirt.wav');
 % [f15] = audioread('./RawRecordingFiles/WAV/FlowerGrass/flowergrass_water.wav');
-% [f16] = audioread('./RawRecordingFiles/WAV/FlowerGrass/flowergrass_foilage.wav');
+% [f16] = audioread('./RawRecordingFiles/WAV/FlowerGrass/flowergrass_foliage.wav');
 % [f17] = audioread('./RawRecordingFiles/WAV/FlowerGrass/flowergrass_spring.wav');
 
 % BusTrain raw audios
@@ -296,39 +296,38 @@
 % [f14] = audioread('./RawRecordingFiles/WAV/UniversitySchool/universityschool_homework.wav');
 
 % CarrotPotato raw audios
-% [f0, fs] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_salad.wav');
-% [f1] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_ground.wav');
-% [f2] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_dirt.wav');
-% [f3] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_roots.wav');
-% [f4] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_fibre.wav');
-% [f5] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_roast.wav');
-% [f6] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_soup.wav');
-% [f7] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_peel.wav');
-% [f8] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_chop.wav');
-% [f9] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_crisp.wav');
-% [f10] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_nutritional.wav');
-% [f11] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_crop.wav');
-% [f12] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_mash.wav');
-% [f13] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_sweet.wav');
-% [f14] = audioread('./RawRecordingFiles/WAV/CarrotPotato/.wav');
+[f0, fs] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_salad.wav');
+[f1] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_ground.wav');
+[f2] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_dirt.wav');
+[f3] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_roots.wav');
+[f4] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_fibre.wav');
+[f5] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_roast.wav');
+[f6] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_soup.wav');
+[f7] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_peel.wav');
+[f8] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_chop.wav');
+[f9] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_crisp.wav');
+[f10] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_nutritional.wav');
+[f11] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_crop.wav');
+[f12] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_mash.wav');
+[f13] = audioread('./RawRecordingFiles/WAV/CarrotPotato/carrotpotato_sweet.wav');
 
 % Create audios and add the random number values to an array so that the
 % exact length of the silences and audio length can be determined later
 
-% Meaning one audios
+% Audio 1
 
 % Audio 1
 randNo = randNumber();
 
 
-combined1 = [zeros(round(fs*0.5),size(f1,2));f6;zeros(round(fs*randNo(1)),size(f1,2));
-f11;zeros(round(fs*randNo(2)),size(f1,2));f9;zeros(round(fs*randNo(3)),size(f1,2));
-f12;zeros(round(fs*randNo(4)),size(f1,2));f3;zeros(round(fs*randNo(5)),size(f1,2));
-f10;zeros(round(fs*randNo(6)),size(f1,2));f8;zeros(round(fs*randNo(7)),size(f1,2));
-f5;zeros(round(fs*randNo(8)),size(f1,2))];
+combined1 = [zeros(round(fs*0.5),size(f1,2));f3;zeros(round(fs*randNo(1)),size(f1,2));
+f5;zeros(round(fs*randNo(2)),size(f1,2));f8;zeros(round(fs*randNo(3)),size(f1,2));
+f7;zeros(round(fs*randNo(4)),size(f1,2));f4;zeros(round(fs*randNo(5)),size(f1,2));
+f13;zeros(round(fs*randNo(6)),size(f1,2));f1;zeros(round(fs*randNo(7)),size(f1,2));
+f10;zeros(round(fs*randNo(8)),size(f1,2))];
 
 
-audioLen = [length(f6)./fs, length(f11)./fs, length(f9)./fs, length(f12)./fs, length(f3)./fs, length(f10)./fs, length(f8)./fs, length(f5)./fs];
+audioLen = [length(f3)./fs, length(f5)./fs, length(f8)./fs, length(f7)./fs, length(f4)./fs, length(f13)./fs, length(f1)./fs, length(f10)./fs];
 
 
 A1 = table(audioLen);
@@ -339,14 +338,14 @@ T1 = table(randNo);
 randNo = randNumber();
 
 
-combined2 = [zeros(round(fs*0.5),size(f1,2));f5;zeros(round(fs*randNo(1)),size(f1,2));
-f12;zeros(round(fs*randNo(2)),size(f1,2));f15;zeros(round(fs*randNo(3)),size(f1,2));
-f3;zeros(round(fs*randNo(4)),size(f1,2));f10;zeros(round(fs*randNo(5)),size(f1,2));
-f11;zeros(round(fs*randNo(6)),size(f1,2));f8;zeros(round(fs*randNo(7)),size(f1,2));
-f2;zeros(round(fs*randNo(8)),size(f1,2))];
+combined2 = [zeros(round(fs*0.5),size(f1,2));f10;zeros(round(fs*randNo(1)),size(f1,2));
+f3;zeros(round(fs*randNo(2)),size(f1,2));f1;zeros(round(fs*randNo(3)),size(f1,2));
+f7;zeros(round(fs*randNo(4)),size(f1,2));f5;zeros(round(fs*randNo(5)),size(f1,2));
+f13;zeros(round(fs*randNo(6)),size(f1,2));f8;zeros(round(fs*randNo(7)),size(f1,2));
+f4;zeros(round(fs*randNo(8)),size(f1,2))];
 
 
-audioLen = [length(f5)./fs, length(f12)./fs, length(f15)./fs, length(f3)./fs, length(f10)./fs, length(f11)./fs, length(f8)./fs, length(f2)./fs];
+audioLen = [length(f10)./fs, length(f3)./fs, length(f1)./fs, length(f7)./fs, length(f5)./fs, length(f13)./fs, length(f8)./fs, length(f4)./fs];
 
 
 A2 = table(audioLen);
@@ -357,14 +356,14 @@ T2 = table(randNo);
 randNo = randNumber();
 
 
-combined3 = [zeros(round(fs*0.5),size(f1,2));f10;zeros(round(fs*randNo(1)),size(f1,2));
-f2;zeros(round(fs*randNo(2)),size(f1,2));f9;zeros(round(fs*randNo(3)),size(f1,2));
-f7;zeros(round(fs*randNo(4)),size(f1,2));f5;zeros(round(fs*randNo(5)),size(f1,2));
-f12;zeros(round(fs*randNo(6)),size(f1,2));f3;zeros(round(fs*randNo(7)),size(f1,2));
-f8;zeros(round(fs*randNo(8)),size(f1,2))];
+combined3 = [zeros(round(fs*0.5),size(f1,2));f7;zeros(round(fs*randNo(1)),size(f1,2));
+f8;zeros(round(fs*randNo(2)),size(f1,2));f10;zeros(round(fs*randNo(3)),size(f1,2));
+f1;zeros(round(fs*randNo(4)),size(f1,2));f3;zeros(round(fs*randNo(5)),size(f1,2));
+f13;zeros(round(fs*randNo(6)),size(f1,2));f5;zeros(round(fs*randNo(7)),size(f1,2));
+f4;zeros(round(fs*randNo(8)),size(f1,2))];
 
 
-audioLen = [length(f10)./fs, length(f2)./fs, length(f9)./fs, length(f7)./fs, length(f5)./fs, length(f12)./fs, length(f3)./fs, length(f8)./fs];
+audioLen = [length(f7)./fs, length(f8)./fs, length(f10)./fs, length(f1)./fs, length(f3)./fs, length(f13)./fs, length(f5)./fs, length(f4)./fs];
 
 
 A3 = table(audioLen);
@@ -375,14 +374,14 @@ T3 = table(randNo);
 randNo = randNumber();
 
 
-combined4 = [zeros(round(fs*0.5),size(f1,2));f2;zeros(round(fs*randNo(1)),size(f1,2));
-f6;zeros(round(fs*randNo(2)),size(f1,2));f11;zeros(round(fs*randNo(3)),size(f1,2));
-f12;zeros(round(fs*randNo(4)),size(f1,2));f7;zeros(round(fs*randNo(5)),size(f1,2));
-f14;zeros(round(fs*randNo(6)),size(f1,2));f9;zeros(round(fs*randNo(7)),size(f1,2));
-f5;zeros(round(fs*randNo(8)),size(f1,2))];
+combined4 = [zeros(round(fs*0.5),size(f1,2));f10;zeros(round(fs*randNo(1)),size(f1,2));
+f5;zeros(round(fs*randNo(2)),size(f1,2));f1;zeros(round(fs*randNo(3)),size(f1,2));
+f13;zeros(round(fs*randNo(4)),size(f1,2));f7;zeros(round(fs*randNo(5)),size(f1,2));
+f8;zeros(round(fs*randNo(6)),size(f1,2));f3;zeros(round(fs*randNo(7)),size(f1,2));
+f4;zeros(round(fs*randNo(8)),size(f1,2))];
 
 
-audioLen = [length(f2)./fs, length(f6)./fs, length(f11)./fs, length(f12)./fs, length(f7)./fs, length(f14)./fs, length(f9)./fs, length(f5)./fs];
+audioLen = [length(f10)./fs, length(f5)./fs, length(f1)./fs, length(f13)./fs, length(f7)./fs, length(f8)./fs, length(f3)./fs, length(f4)./fs];
 
 
 
@@ -394,14 +393,14 @@ T4 = table(randNo);
 randNo = randNumber();
 
 
-combined5 = [zeros(round(fs*0.5),size(f1,2));f8;zeros(round(fs*randNo(1)),size(f1,2));
-f0;zeros(round(fs*randNo(2)),size(f1,2));f9;zeros(round(fs*randNo(3)),size(f1,2));
-f10;zeros(round(fs*randNo(4)),size(f1,2));f2;zeros(round(fs*randNo(5)),size(f1,2));
-f4;zeros(round(fs*randNo(6)),size(f1,2));f6;zeros(round(fs*randNo(7)),size(f1,2));
-f1;zeros(round(fs*randNo(8)),size(f1,2))];
+combined5 = [zeros(round(fs*0.5),size(f1,2));f2;zeros(round(fs*randNo(1)),size(f1,2));
+f6;zeros(round(fs*randNo(2)),size(f1,2));f1;zeros(round(fs*randNo(3)),size(f1,2));
+f13;zeros(round(fs*randNo(4)),size(f1,2));f12;zeros(round(fs*randNo(5)),size(f1,2));
+f0;zeros(round(fs*randNo(6)),size(f1,2));f7;zeros(round(fs*randNo(7)),size(f1,2));
+f9;zeros(round(fs*randNo(8)),size(f1,2))];
 
 
-audioLen = [length(f8)./fs, length(f0)./fs, length(f9)./fs, length(f10)./fs, length(f2)./fs, length(f4)./fs, length(f6)./fs, length(f1)./fs];
+audioLen = [length(f2)./fs, length(f6)./fs, length(f1)./fs, length(f13)./fs, length(f12)./fs, length(f0)./fs, length(f7)./fs, length(f9)./fs];
 
 
 A5 = table(audioLen);
@@ -412,14 +411,14 @@ T5 = table(randNo);
 randNo = randNumber();
 
 
-combined6 = [zeros(round(fs*0.5),size(f1,2));f0;zeros(round(fs*randNo(1)),size(f1,2));
-f10;zeros(round(fs*randNo(2)),size(f1,2));f13;zeros(round(fs*randNo(3)),size(f1,2));
-f4;zeros(round(fs*randNo(4)),size(f1,2));f1;zeros(round(fs*randNo(5)),size(f1,2));
-f6;zeros(round(fs*randNo(6)),size(f1,2));f8;zeros(round(fs*randNo(7)),size(f1,2));
-f2;zeros(round(fs*randNo(8)),size(f1,2))];
+combined6 = [zeros(round(fs*0.5),size(f1,2));f2;zeros(round(fs*randNo(1)),size(f1,2));
+f7;zeros(round(fs*randNo(2)),size(f1,2));f0;zeros(round(fs*randNo(3)),size(f1,2));
+f11;zeros(round(fs*randNo(4)),size(f1,2));f13;zeros(round(fs*randNo(5)),size(f1,2));
+f9;zeros(round(fs*randNo(6)),size(f1,2));f12;zeros(round(fs*randNo(7)),size(f1,2));
+f5;zeros(round(fs*randNo(8)),size(f1,2))];
 
 
-audioLen = [length(f0)./fs, length(f10)./fs, length(f13)./fs, length(f4)./fs, length(f1)./fs, length(f6)./fs, length(f8)./fs, length(f2)./fs];
+audioLen = [length(f2)./fs, length(f7)./fs, length(f0)./fs, length(f11)./fs, length(f13)./fs, length(f9)./fs, length(f12)./fs, length(f5)./fs];
 
 
 A6 = table(audioLen);
@@ -430,14 +429,14 @@ T6 = table(randNo);
 randNo = randNumber();
 
 
-combined7 = [zeros(round(fs*0.5),size(f1,2));f2;zeros(round(fs*randNo(1)),size(f1,2));
-f9;zeros(round(fs*randNo(2)),size(f1,2));f13;zeros(round(fs*randNo(3)),size(f1,2));
-f8;zeros(round(fs*randNo(4)),size(f1,2));f6;zeros(round(fs*randNo(5)),size(f1,2));
-f10;zeros(round(fs*randNo(6)),size(f1,2));f14;zeros(round(fs*randNo(7)),size(f1,2));
-f4;zeros(round(fs*randNo(8)),size(f1,2))];
+combined7 = [zeros(round(fs*0.5),size(f1,2));f7;zeros(round(fs*randNo(1)),size(f1,2));
+f5;zeros(round(fs*randNo(2)),size(f1,2));f11;zeros(round(fs*randNo(3)),size(f1,2));
+f0;zeros(round(fs*randNo(4)),size(f1,2));f9;zeros(round(fs*randNo(5)),size(f1,2));
+f2;zeros(round(fs*randNo(6)),size(f1,2));f12;zeros(round(fs*randNo(7)),size(f1,2));
+f6;zeros(round(fs*randNo(8)),size(f1,2))];
 
 
-audioLen = [length(f2)./fs, length(f9)./fs, length(f13)./fs, length(f8)./fs, length(f6)./fs, length(f10)./fs, length(f14)./fs, length(f4)./fs];
+audioLen = [length(f7)./fs, length(f5)./fs, length(f11)./fs, length(f0)./fs, length(f9)./fs, length(f2)./fs, length(f12)./fs, length(f6)./fs];
 
 
 A7 = table(audioLen);
@@ -448,14 +447,14 @@ T7 = table(randNo);
 randNo = randNumber();
 
 
-combined8 = [zeros(round(fs*0.5),size(f1,2));f14;zeros(round(fs*randNo(1)),size(f1,2));
-f10;zeros(round(fs*randNo(2)),size(f1,2));f2;zeros(round(fs*randNo(3)),size(f1,2));
-f4;zeros(round(fs*randNo(4)),size(f1,2));f0;zeros(round(fs*randNo(5)),size(f1,2));
-f9;zeros(round(fs*randNo(6)),size(f1,2));f1;zeros(round(fs*randNo(7)),size(f1,2));
-f13;zeros(round(fs*randNo(8)),size(f1,2))];
+combined8 = [zeros(round(fs*0.5),size(f1,2));f9;zeros(round(fs*randNo(1)),size(f1,2));
+f11;zeros(round(fs*randNo(2)),size(f1,2));f13;zeros(round(fs*randNo(3)),size(f1,2));
+f7;zeros(round(fs*randNo(4)),size(f1,2));f1;zeros(round(fs*randNo(5)),size(f1,2));
+f0;zeros(round(fs*randNo(6)),size(f1,2));f5;zeros(round(fs*randNo(7)),size(f1,2));
+f2;zeros(round(fs*randNo(8)),size(f1,2))];
 
 
-audioLen = [length(f14)./fs, length(f10)./fs, length(f2)./fs, length(f4)./fs, length(f0)./fs, length(f9)./fs, length(f1)./fs, length(f13)./fs];
+audioLen = [length(f9)./fs, length(f11)./fs, length(f13)./fs, length(f7)./fs, length(f1)./fs, length(f0)./fs, length(f5)./fs, length(f2)./fs];
 
 
 A8 = table(audioLen);
@@ -464,17 +463,17 @@ T8 = table(randNo);
 % Write the random numbers to a final table 
 
 T = [T1;T2;T3;T4;T5;T6;T7;T8];
-writetable(T, './CompletedRecordings/BeeWasp_SilenceLength.txt');
+writetable(T, './CompletedRecordings/A_Lengths/Silences/CarrotPotato_SilenceLength.txt');
 
 A = [A1;A2;A3;A4;A5;A6;A7;A8];
-writetable(A, './CompletedRecordings/BeeWasp_AudioLength.txt');
+writetable(A, './CompletedRecordings/A_Lengths/Audios/CarrotPotato_AudioLength.txt');
 
-audiowrite('./CompletedRecordings/BeeWasp/BW_M1_1.wav',combined1, fs)
-audiowrite('./CompletedRecordings/BeeWasp/BW_M1_2.wav',combined2, fs)
-audiowrite('./CompletedRecordings/BeeWasp/BW_M1_3.wav',combined3, fs)
-audiowrite('./CompletedRecordings/BeeWasp/BW_M1_4.wav',combined4, fs)
+audiowrite('./CompletedRecordings/CarrotPotato/CP_M1_1.wav',combined1, fs)
+audiowrite('./CompletedRecordings/CarrotPotato/CP_M1_2.wav',combined2, fs)
+audiowrite('./CompletedRecordings/CarrotPotato/CP_M1_3.wav',combined3, fs)
+audiowrite('./CompletedRecordings/CarrotPotato/CP_M1_4.wav',combined4, fs)
 
-audiowrite('./CompletedRecordings/BeeWasp/BW_M2_1.wav',combined5, fs)
-audiowrite('./CompletedRecordings/BeeWasp/BW_M2_2.wav',combined6, fs)
-audiowrite('./CompletedRecordings/BeeWasp/BW_M2_3.wav',combined7, fs)
-audiowrite('./CompletedRecordings/BeeWasp/BW_M2_4.wav',combined8, fs)
+audiowrite('./CompletedRecordings/CarrotPotato/CP_M2_1.wav',combined5, fs)
+audiowrite('./CompletedRecordings/CarrotPotato/CP_M2_2.wav',combined6, fs)
+audiowrite('./CompletedRecordings/CarrotPotato/CP_M2_3.wav',combined7, fs)
+audiowrite('./CompletedRecordings/CarrotPotato/CP_M2_4.wav',combined8, fs)

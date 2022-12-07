@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Carrot Sequence 1,Carrot Sequence 2,Carrot Sequence 3,Carrot Sequence 4,Potato Sequence 1,Potato Sequence 2,Potato Sequence 3,Potato Sequence 4
+roots,0.5127145158710644,crop,0.5961442065481704,roast,0.4901474440934895,roots,nutritional,peel,nutritional,dirt,dirt,peel,crisp
+nutritional,0.5335319605224049,salad,0.593940943454409,ground,0.4945788090847904,roast,roots,chop,roast,soup,peel,roast,crop
+chop,0.5550656523533458,dirt,0.5776409498554569,peel,0.5089130463847674,chop,ground,nutritional,ground,ground,salad,crop,sweet
+fibre,0.5955806681967784,soup,0.5699400975608223,sweet,0.5092099719734383,peel,peel,ground,sweet,sweet,crop,salad,peel
+,,mash,0.5595459505002622,,,fibre,roast,roots,peel,mash,sweet,crisp,ground
+,,crisp,0.5313824938668095,,,sweet,sweet,sweet,chop,salad,crisp,dirt,salad
+,,,,,,ground,chop,roast,roots,peel,mash,mash,roast
+,,,,,,nutritional,fibre,fibre,fibre,crisp,roast,soup,dirt

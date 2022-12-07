@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Bee Sequence 1,Bee Sequence 2,Bee Sequence 3,Bee Sequence 4,Wasp Sequence 1,Wasp Sequence 2,Wasp Sequence 3,Wasp Sequence 4
+yellow,0.6235346572622075,fly,0.620145349812383,black,0.5151351101590853,queen,buzz,flower,black,worker,buzz,buzz,protect
+queen,0.5726454982301555,wing,0.6196070240633447,buzz,0.5379115264543999,pollinate,protect,yellow,worker,black,wing,worker,black
+flower,0.6500017954572694,pest,0.5510652306329937,protect,0.45574406590331534,worker,queen,sting,buzz,larva,swarm,fly,sting
+hive,0.579890244962445,larva,0.5705592153508054,sting,0.5200490069723734,swarm,pollinate,swarm,pollinate,swarm,larva,swarm,pest
+pollinate,0.5700517881633423,,,worker,0.48386974403185656,flower,yellow,black,hive,pest,worker,larva,worker
+allergy,0.5854917606929191,,,swarm,0.4768759166320626,sting,sting,queen,allergy,fly,black,wing,fly
+,,,,,,allergy,flower,allergy,swarm,protect,pest,sting,larva
+,,,,,,protect,hive,buzz,yellow,buzz,fly,black,wing

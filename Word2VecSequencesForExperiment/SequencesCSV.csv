@@ -1,9 +1,9 @@
-Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Bee Sequence 1,Bee Sequence 2,Bee Sequence 3,Bee Sequence 4,Wasp Sequence 1,Wasp Sequence 2,Wasp Sequence 3,Wasp Sequence 4
-yellow,0.6235346572622075,fly,0.620145349812383,black,0.5151351101590853,buzz,queen,worker,black,protect,fly,black,swarm
-queen,0.5726454982301555,wing,0.6196070240633447,buzz,0.5379115264543999,hive,pollinate,black,buzz,fly,worker,sting,worker
-flower,0.6500017954572694,pest,0.5510652306329937,protect,0.45574406590331534,sting,allergy,sting,hive,sting,larva,larva,black
-hive,0.579890244962445,larva,0.5705592153508054,sting,0.5200490069723734,pollinate,yellow,flower,pollinate,worker,pest,protect,pest
-pollinate,0.5700517881633423,,,worker,0.48386974403185656,yellow,worker,queen,flower,black,wing,buzz,fly
-allergy,0.5854917606929191,,,swarm,0.4768759166320626,worker,hive,pollinate,swarm,pest,buzz,worker,sting
-,,,,,,protect,protect,yellow,sting,buzz,protect,swarm,wing
-,,,,,,queen,black,protect,queen,wing,black,pest,larva
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Car Sequence 1,Car Sequence 2,Car Sequence 3,Car Sequence 4,Bus Sequence 1,Bus Sequence 2,Bus Sequence 3,Bus Sequence 4
+windscreen,0.6614025513458731,intercity,0.7352629418957817,motorway,0.45995374281190227,garage,windscreen,driver,garage,driver,driver,drive,intercity
+wheels,0.7368007148286255,commute,0.6408525250157802,seat,0.5262858666537739,motorway,steer,seat,windscreen,intercity,commute,driver,driver
+engine,0.7509081227141842,passenger,0.5740418324241314,driver,0.5941999355034179,driver,motorway,windscreen,steer,commute,passenger,seat,seat
+steer,0.7712755501586172,open-top,0.5423552040781854,,,fuel,driver,steer,engine,open-top,motorway,passenger,open-top
+garage,0.6243969518717241,drive,0.4772246677864699,,,engine,seat,fuel,fuel,seat,drive,open-top,drive
+fuel,0.6556729018269561,,,,,wheels,wheels,engine,driver,motorway,seat,commute,passenger
+,,,,,,windscreen,engine,motorway,seat,passenger,intercity,motorway,motorway
+,,,,,,seat,garage,garage,wheels,drive,open-top,intercity,commute

@@ -1,0 +1,10 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Gold Sequence 1,Gold Sequence 2,Gold Sequence 3,Gold Sequence 4,Silver Sequence 1,Silver Sequence 2,Silver Sequence 3,Silver Sequence 4
+medal,0.5049023656092341,antique,0.5489953626958901,ring,0.46702364206064956,precious,medal,necklace,mine,platter,plated,platter,enameled
+ingot,0.4918658582484744,trophy,0.5737445645174661,necklace,0.48129421646470616,plated,expensive,expensive,element,expensive,gilded,minted,shiny
+mine,0.5812157290833262,shiny,0.5594075060316077,plated,0.47461928900093564,element,minted,enameled,candelabra,trophy,shiny,candelabra,platter
+element,2.1249046502324043,gilded,0.5614109905361597,minted,0.47836338170348397,coin,ring,element,ingot,necklace,enameled,gilded,gilded
+coin,0.5066155502279062,,,precious,0.48011820952277456,ring,element,mine,necklace,antique,necklace,plated,precious
+,,,,enameled,0.4656121879366633,platter,enameled,ring,medal,minted,expensive,antique,plated
+,,,,candelabra,0.4526398562683274,expensive,necklace,platter,ring,gilded,platter,necklace,ring
+,,,,expensive,0.45111230944568886,candelabra,precious,ingot,plated,shiny,precious,trophy,candelabra
+,,,,platter,0.45588786724650815,,,,,,,,

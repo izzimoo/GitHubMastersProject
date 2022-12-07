@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Car Sequence 1,Car Sequence 2,Car Sequence 3,Car Sequence 4,Bus Sequence 1,Bus Sequence 2,Bus Sequence 3,Bus Sequence 4
+windscreen,0.6614025513458731,intercity,0.7352629418957817,motorway,0.45995374281190227,garage,windscreen,driver,garage,driver,driver,drive,intercity
+wheels,0.7368007148286255,commute,0.6408525250157802,seat,0.5262858666537739,motorway,steer,seat,windscreen,intercity,commute,driver,driver
+engine,0.7509081227141842,passenger,0.5740418324241314,driver,0.5941999355034179,driver,motorway,windscreen,steer,commute,passenger,seat,seat
+steer,0.7712755501586172,open-top,0.5423552040781854,,,fuel,driver,steer,engine,open-top,motorway,passenger,open-top
+garage,0.6243969518717241,drive,0.4772246677864699,,,engine,seat,fuel,fuel,seat,drive,open-top,drive
+fuel,0.6556729018269561,,,,,wheels,wheels,engine,driver,motorway,seat,commute,passenger
+,,,,,,windscreen,engine,motorway,seat,passenger,intercity,motorway,motorway
+,,,,,,seat,garage,garage,wheels,drive,open-top,intercity,commute

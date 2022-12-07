@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Apple Sequence 1,Apple Sequence 2,Apple Sequence 3,Apple Sequence 4,Orange Sequence 1,Orange Sequence 2,Orange Sequence 3,Orange Sequence 4
+seeds,0.7416072972135789,peel,0.6632220633043848,fructose,0.48737188614651855,fructose,bitter,tree,sweet,colour,peel,fructose,sweet
+tree,0.7293676117726434,colour,0.6143311646149001,skin,0.4953944376217421,eat,pip,sour,eat,peel,fructose,bitter,juice
+sour,0.6526879192538314,flavour,0.5386828469914576,bitter,0.4958375120186558,pip,sweet,candy,bite,sweet,juice,candy,fructose
+bite,0.7250099072671864,juice,0.5196228858931011,candy,0.5518631772883702,bitter,stalk,stalk,pip,fructose,candy,peel,peel
+eat,0.6079097686824713,,,sweet,0.6014527929775186,sour,skin,sweet,fructose,bitter,sweet,flavour,candy
+pip,0.6244758079932344,,,,,tree,bite,pip,stalk,candy,skin,sweet,bitter
+stalk,0.6367992246293979,,,,,skin,eat,skin,tree,skin,colour,colour,skin
+,,,,,,stalk,tree,bitter,sour,juice,flavour,juice,flavour

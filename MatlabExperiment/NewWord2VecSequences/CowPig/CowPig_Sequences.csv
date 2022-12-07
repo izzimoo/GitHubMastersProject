@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Cow Sequence 1,Cow Sequence 2,Cow Sequence 3,Cow Sequence 4,Pig Sequence 1,Pig Sequence 2,Pig Sequence 3,Pig Sequence 4
+barn,0.5358155968237276,smell,0.5690488302084982,farm,0.5095402164683884,breed,farm,barn,farm,smell,manure,manure,tail
+flies,0.6273937595041625,meat,0.5350890685036012,livestock,0.4876512728060934,tail,breed,breed,manure,manure,breed,livestock,manure
+mud,0.5946769810063613,vetinary,0.6383746030189699,tail,0.515569829144522,barnyard,manure,livestock,tail,trotters,tail,smell,livestock
+produce,0.5899752204775272,trotters,0.6434071245840163,breed,0.47847251321078066,mud,barnyard,mud,barn,meat,farm,farm,farm
+,,heavy,0.6317135253539352,manure,0.47580228777311956,produce,tail,flies,breed,breed,barnyard,breed,smell
+,,,,barnyard,0.4717103846373017,livestock,produce,barnyard,flies,barnyard,trotters,meat,breed
+,,,,,,farm,flies,produce,livestock,heavy,vetinary,vetinary,meat
+,,,,,,manure,barn,tail,produce,livestock,smell,barnyard,heavy

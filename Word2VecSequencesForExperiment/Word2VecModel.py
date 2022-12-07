@@ -43,25 +43,25 @@ vectors = trainedModel.vectors
 
 # Smaller the angle - bigger the cosine similarity - more similar the word
 
-meaning1 = 'bee'
-meaning2 = 'wasp'
+meaning1 = 'car'
+meaning2 = 'bus' 
 candidateWords = []
 candidateWords = trainedModel.most_similar(positive=[meaning1, meaning2], topn=150)
 #print(candidateWords)
 
 # Work
-# CarBus:chosenWords = ['engine', 'steer', 'drive', 'seat', 'wheels', 'commute', 'passenger', 'driver', 'motorway', 'taxi','intercity', 'open-top', 'window', 'roof', 'garage']
+# CarBus:
+chosenWords = ['engine', 'steer', 'drive', 'seat', 'wheels', 'commute', 'passenger', 'driver', 'fuel', 'motorway','intercity', 'open-top', 'windscreen', 'garage']
 # HouseApartment: chosenWords = ['kitchen', 'bedroom', 'bathroom', 'doors', 'hall', 'floor', 'balcony', 'neighbourhood', 'rent', 'storey', 'landlord', 'neighbour', 'carpark', 'staircase', 'roof', 'garage']
 # AppleOrange: chosenWords = ['juice', 'skin', 'fructose', 'pip', 'seeds', 'flavour', 'tree', 'sweet', 'sour', 'candy', 'colour', 'peel', 'eat', 'bite', 'stalk', 'bitter']
 # BedCouch: chosenWords = ['sleep', 'comfortable', 'nap', 'sofabed', 'laydown', 'snooze', 'pajamas', 'support', 'lounge', 'cushion', 'television', 'futon', 'sit', 'snuggle', 'doze', 'reclined', 'pillow']
 # CowPig: chosenWords = ['farm', 'smell', 'meat', 'livestock', 'tail', 'vetinary', 'breed', 'trotters', 'heavy', 'barn', 'flies', 'mud', 'manure', 'produce', 'barnyard']
 # FootballRugby: chosenWords = ['match', 'ball', 'defence', 'stadium', 'club', 'coach', 'league', 'wing', 'cup', 'tackle', 'points', 'goal', 'score', 'positions', 'dropkick', 'nations', 'tournament', 'offside']
-# GoldSilver: chosenWords = ['ring', 'necklace', 'plated', 'medal', 'ingot', 'minted', 'mine', 'precious', 'enameled', 'antique', 'candelabra', 'element', 'expensive', 'cutlery', 'platter', 'coin', 'trophy', 'shiny', 'gilded']
+# GoldSilver: chosenWords = ['ring', 'necklace', 'plated', 'medal', 'ingot', 'minted', 'mine', 'precious', 'enameled', 'antique', 'candelabra', 'element', 'expensive', 'platter', 'coin', 'trophy', 'shiny', 'gilded']
 # ChickenPork: chosenWords = ['farm', 'animal', 'pulled', 'escalope', 'taco', 'minced', 'marinated', 'barbeque', 'char-grilled', 'sausage', 'roast', 'fillet', 'cutlet', 'fried', 'braised', 'crown', 'dumpling']
 # MovieBook: chosenWords = ['story', 'biographical', 'characters', 'sequel', 'narrator', 'writer', 'long', 'genre', 'review', 'fiction', 'plot', 'trilogy', 'cliff-hanger', 'adaptation', 'fantasy', 'award', 'collection']
 # WaterMilk: chosenWords = ['liquid', 'thirst', 'cereal', 'thin', 'potable', 'nonfat', 'hydrating', 'minerals', 'unsweetened', 'bake', 'odourless', 'bottle', 'coconut', 'coffee', 'tea']
-# BeeWasp: 
-chosenWords = ['fly', 'wing', 'black', 'yellow', 'pest', 'queen', 'buzz', 'flower', 'protect', 'sting', 'worker', 'hive', 'pollinate', 'larva', 'swarm', 'allergy']
+# BeeWasp: chosenWords = ['fly', 'wing', 'black', 'yellow', 'pest', 'queen', 'buzz', 'flower', 'protect', 'sting', 'worker', 'hive', 'pollinate', 'larva', 'swarm', 'allergy']
 # TShirtShirt: chosenWords = ['button', 'sleeve', 'collar', 'armholes', 'pajamas', 'outfit', 'pullover', 'cotton', 'linen', 'uniform', 'undergarment', 'causal', 'comfortable', 'v-neck']
 # FlowerGrass: chosenWords = ['garden', 'grow', 'weed', 'sprout', 'stem', 'ground', 'roots', 'die', 'meadow', 'stem', 'aphid', 'seeds', 'pollen', 'leaves', 'dirt', 'water', 'foliage', 'spring']
 # BusTrain: chosenWords = ['intercity', 'coach', 'countrylink', 'commute', 'wheels', 'driver', 'seat', 'passenger', 'ticket', 'double-decker', 'single-decker', 'route', 'transit', 'fare', 'station', 'stop', 'terminus']

@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Movie Sequence 1,Movie Sequence 2,Movie Sequence 3,Movie Sequence 4,Book Sequence 1,Book Sequence 2,Book Sequence 3,Book Sequence 4
+characters,0.7196228060085322,biographical,0.6337014321179036,story,0.4859201878419449,writer,cliff-hanger,narrator,genre,biographical,fiction,long,long
+sequel,0.5961154903384596,review,0.6646803592931114,narrator,0.5258436537485833,plot,story,cliff-hanger,trilogy,long,award,award,story
+genre,0.6505466231482199,fiction,0.5529684757217027,writer,0.4614767382938021,award,sequel,sequel,characters,fantasy,narrator,collection,review
+plot,0.6582395241671948,collection,0.8272001210895632,long,0.45023004354865526,adaptation,adaptation,fantasy,award,writer,biographical,review,narrator
+cliff-hanger,0.580975404548295,,,trilogy,0.5181278529277489,characters,characters,award,plot,fiction,long,writer,collection
+adaptation,0.5991155814853957,,,fantasy,0.49100368447506815,fantasy,long,long,fantasy,trilogy,trilogy,trilogy,biographical
+,,,,award,0.4891489829346686,cliff-hanger,fantasy,story,sequel,award,story,story,award
+,,,,,,sequel,plot,adaptation,writer,story,fantasy,biographical,trilogy

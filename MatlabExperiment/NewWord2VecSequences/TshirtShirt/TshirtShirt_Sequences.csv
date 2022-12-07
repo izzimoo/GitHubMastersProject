@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Tshirt Sequence 1,Tshirt Sequence 2,Tshirt Sequence 3,Tshirt Sequence 4,Shirt Sequence 1,Shirt Sequence 2,Shirt Sequence 3,Shirt Sequence 4
+pajamas,0.5889011567052441,outfit,0.5592218145612488,cotton,0.5304292545967055,causal,causal,cotton,causal,undergarment,outfit,linen,pullover
+comfortable,0.5894960633735913,collar,0.5445573209946455,undergarment,0.5371251946566183,armholes,undergarment,button,armholes,linen,linen,outfit,sleeve
+button,0.6214714577156559,sleeve,0.5370710219787345,,,pajamas,pajamas,undergarment,cotton,collar,sleeve,pullover,undergarment
+causal,1.6774683010928402,uniform,0.5268388349223421,,,comfortable,button,armholes,pajamas,sleeve,pullover,uniform,outfit
+armholes,0.5424899588310603,linen,0.4833654370744773,,,v-neck,armholes,causal,undergarment,pullover,cotton,cotton,collar
+v-neck,0.5482016461391465,pullover,0.4773374902848363,,,undergarment,comfortable,comfortable,comfortable,cotton,uniform,collar,cotton
+,,,,,,cotton,cotton,pajamas,v-neck,uniform,collar,sleeve,uniform
+,,,,,,button,v-neck,v-neck,button,outfit,undergarment,undergarment,linen

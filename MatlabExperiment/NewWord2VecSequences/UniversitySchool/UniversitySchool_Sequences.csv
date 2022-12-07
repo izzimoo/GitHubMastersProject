@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,University Sequence 1,University Sequence 2,University Sequence 3,University Sequence 4,School Sequence 1,School Sequence 2,School Sequence 3,School Sequence 4
+faculty,0.5769966792249788,mixed,0.8653155387194829,tuition,0.3680357238584547,societies,societies,assignment,assignment,homework,pupil,mixed,homework
+study,0.6074554015770869,homework,0.7396318650902193,senior,0.4683926485310489,assignment,extracurriculars,faculty,tuition,pupil,exam,teacher,pupil
+societies,0.6504215003589824,pupil,0.7351270791912663,extracurriculars,0.4853023144584861,graduate,study,extracurriculars,senior,teacher,tuition,extracurriculars,mixed
+subject,0.678529948580083,junior,0.7315703027274498,,,faculty,subject,study,extracurriculars,junior,senior,senior,senior
+assignment,0.4956650968238735,exam,0.694354867905913,,,study,faculty,subject,societies,senior,homework,tuition,extracurriculars
+graduate,0.5727828201731097,teacher,0.6641615663060016,,,subject,tuition,tuition,subject,exam,mixed,junior,tuition
+,,,,,,extracurriculars,senior,graduate,faculty,extracurriculars,teacher,homework,teacher
+,,,,,,senior,graduate,senior,graduate,tuition,extracurriculars,exam,exam
