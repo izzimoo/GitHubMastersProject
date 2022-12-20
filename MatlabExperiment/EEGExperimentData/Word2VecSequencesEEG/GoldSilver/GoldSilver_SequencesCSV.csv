@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Gold Sequence 1,Gold Sequence 2,Gold Sequence 3,Gold Sequence 4,Gold Sequence 5,Gold Sequence 6,Gold Sequence 7,Gold Sequence 8,Silver Sequence 1,Silver Sequence 2,Silver Sequence 3,Silver Sequence 4,Silver Sequence 5,Silver Sequence 6,Silver Sequence 7,Silver Sequence 8
+ring,0.5329763579393504,antique,0.5489953626958901,necklace,0.48129421646470616,ingot,ingot,ring,necklace,precious,necklace,ingot,necklace,expensive,enameled,shiny,minted,antique,necklace,necklace,gilded
+medal,0.5049023656092341,trophy,0.5737445645174661,plated,0.47461928900093564,medal,mine,element,expensive,minted,expensive,expensive,coin,shiny,shiny,necklace,antique,necklace,enameled,expensive,minted
+ingot,0.4918658582484744,shiny,0.5594075060316077,minted,0.47836338170348397,mine,element,medal,minted,necklace,medal,necklace,mine,antique,expensive,antique,gilded,minted,trophy,shiny,enameled
+mine,0.5812157290833262,gilded,0.5614109905361597,enameled,0.4656121879366633,coin,expensive,expensive,mine,coin,ring,minted,minted,necklace,trophy,enameled,plated,trophy,plated,trophy,antique
+precious,0.5198817904772255,,,expensive,0.45111230944568886,expensive,medal,enameled,ingot,medal,plated,precious,ingot,trophy,minted,trophy,shiny,plated,expensive,enameled,trophy
+element,2.1249046502324043,,,,,precious,precious,necklace,ring,enameled,enameled,mine,ring,minted,gilded,gilded,trophy,enameled,antique,gilded,expensive
+coin,0.5066155502279062,,,,,element,enameled,precious,plated,ring,coin,plated,plated,plated,plated,expensive,expensive,gilded,gilded,minted,shiny
+,,,,,,ring,coin,plated,precious,expensive,precious,coin,expensive,gilded,antique,plated,necklace,shiny,shiny,antique,plated

@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Bee Sequence 1,Bee Sequence 2,Bee Sequence 3,Bee Sequence 4,Bee Sequence 5,Bee Sequence 6,Bee Sequence 7,Bee Sequence 8,Wasp Sequence 1,Wasp Sequence 2,Wasp Sequence 3,Wasp Sequence 4,Wasp Sequence 5,Wasp Sequence 6,Wasp Sequence 7,Wasp Sequence 8
+hive,0.579890244962445,fly,0.620145349812383,swarm,0.4768759166320626,queen,swarm,yellow,hive,yellow,hive,allergy,sting,buzz,swarm,black,larva,black,wing,buzz,pest
+allergy,0.5854917606929191,wing,0.6196070240633447,sting,0.5200490069723734,hive,allergy,allergy,yellow,hive,yellow,flower,pollinate,black,black,sting,sting,buzz,swarm,fly,larva
+yellow,0.6235346572622075,larva,0.5705592153508054,buzz,0.5379115264543999,allergy,buzz,sting,allergy,allergy,pollinate,swarm,queen,fly,pest,pest,pest,fly,pest,larva,swarm
+flower,0.6500017954572694,pest,0.5510652306329937,,,sting,hive,flower,buzz,flower,sting,hive,flower,larva,fly,wing,black,wing,black,wing,wing
+pollinate,0.5700517881633423,black,0.4848648898409147,,,swarm,sting,buzz,pollinate,swarm,allergy,yellow,buzz,swarm,sting,buzz,fly,pest,larva,sting,black
+queen,0.5726454982301555,,,,,flower,pollinate,hive,queen,sting,queen,sting,yellow,sting,buzz,larva,wing,swarm,fly,swarm,fly
+,,,,,,yellow,flower,pollinate,sting,queen,buzz,pollinate,hive,wing,wing,swarm,buzz,sting,sting,pest,buzz
+,,,,,,buzz,queen,swarm,swarm,pollinate,flower,buzz,allergy,pest,larva,fly,swarm,larva,buzz,black,sting

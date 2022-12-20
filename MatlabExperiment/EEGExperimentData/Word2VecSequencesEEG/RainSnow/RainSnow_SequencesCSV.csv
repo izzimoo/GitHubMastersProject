@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Rain Sequence 1,Rain Sequence 2,Rain Sequence 3,Rain Sequence 4,Rain Sequence 5,Rain Sequence 6,Rain Sequence 7,Rain Sequence 8,Snow Sequence 1,Snow Sequence 2,Snow Sequence 3,Snow Sequence 4,Snow Sequence 5,Snow Sequence 6,Snow Sequence 7,Snow Sequence 8
+wet,0.6140856606633479,sleet,0.48565858059865397,cloud,0.5321556216619928,precipitation,overcast,cold,water,wet,fall,water,cold,winter,cloud,sleet,slip,cold,winter,cloud,fog
+fall,0.5670444019645129,fog,0.47608613903757413,cold,0.5308370687057569,overcast,storm,storm,wet,cold,water,overcast,moisture,moisture,fog,winter,moisture,winter,fog,fog,precipitation
+storm,0.6410794150530853,winter,0.6494635154051525,precipitation,0.5654582968677839,cold,moisture,cloud,precipitation,precipitation,precipitation,fall,precipitation,cold,winter,slip,fog,fog,cold,slip,winter
+water,0.5885619355609251,slip,0.5275164522959888,moisture,0.5628959160858756,storm,fall,moisture,fall,moisture,cloud,moisture,overcast,slip,cold,fog,precipitation,cloud,slip,precipitation,moisture
+overcast,0.6219220372150888,,,,,moisture,wet,wet,moisture,cloud,moisture,storm,fall,cloud,sleet,cold,sleet,precipitation,sleet,sleet,slip
+,,,,,,cloud,water,fall,cold,water,cold,wet,wet,precipitation,precipitation,precipitation,winter,slip,precipitation,moisture,cloud
+,,,,,,wet,precipitation,water,cloud,overcast,overcast,precipitation,cloud,sleet,slip,moisture,cloud,moisture,cloud,cold,cold
+,,,,,,fall,cold,overcast,overcast,fall,wet,cloud,water,fog,moisture,cloud,cold,sleet,moisture,winter,sleet

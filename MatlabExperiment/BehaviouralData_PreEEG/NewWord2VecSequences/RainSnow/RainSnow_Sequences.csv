@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Rain Sequence 1,Rain Sequence 2,Rain Sequence 3,Rain Sequence 4,Snow Sequence 1,Snow Sequence 2,Snow Sequence 3,Snow Sequence 4
+wet,0.6140856606633479,sleet,0.48565858059865397,cloud,0.5321556216619928,precipitation,cloud,overcast,frost,frost,frost,sleet,cloud
+fall,0.5670444019645129,fog,0.47608613903757413,cold,0.5308370687057569,moisture,wet,storm,cold,sleet,cold,cloud,sleet
+storm,0.6410794150530853,winter,0.6494635154051525,frost,0.538002717312778,cold,precipitation,frost,moisture,cloud,sleet,frost,cold
+precipitation,0.5654582968677839,slip,0.5275164522959888,moisture,0.5628959160858756,wet,moisture,moisture,storm,slip,slip,cold,moisture
+water,0.5885619355609251,,,,,fall,storm,cold,wet,moisture,moisture,winter,frost
+overcast,0.6219220372150888,,,,,frost,fall,cloud,precipitation,cold,fog,slip,winter
+,,,,,,water,frost,wet,fall,fog,cloud,fog,fog
+,,,,,,storm,water,water,water,winter,winter,moisture,slip

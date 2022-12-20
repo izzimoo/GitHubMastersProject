@@ -1,0 +1,408 @@
+case 1
+    meaning1 = 'Apple';
+    meaning2 = 'Orange';
+case 2
+    meaning1 = 'Carrot';
+    meaning2 = 'Potato';
+case 3
+    meaning1 = 'Car';
+    meaning2 = 'Bus';
+case 4
+    meaning1 = 'Apple';
+    meaning2 = 'Orange';
+case 5
+    meaning1 = 'Carrot';
+    meaning2 = 'Potato';
+case 6
+    meaning1 = 'Bus';
+    meaning2 = 'Train';
+case 7
+    meaning1 = 'Football';
+    meaning2 = 'Rugby';
+case 8
+    meaning1 = 'Tshirt';
+    meaning2 = 'Shirt';
+case 9
+    meaning1 = 'Bus';
+    meaning2 = 'Train';
+case 10
+    meaning1 = 'Cat';
+    meaning2 = 'Dog';
+case 11
+    meaning1 = 'House';
+    meaning2 = 'Apartment';
+case 12
+    meaning1 = 'Car';
+    meaning2 = 'Bus';
+case 13
+    meaning1 = 'Car';
+    meaning2 = 'Bus';
+case 14
+    meaning1 = 'Cow';
+    meaning2 = 'Pig';
+case 15
+    meaning1 = 'Football';
+    meaning2 = 'Rugby';
+case 16
+    meaning1 = 'Movie';
+    meaning2 = 'Book';
+case 17
+    meaning1 = 'University';
+    meaning2 = 'School';
+case 18
+    meaning1 = 'Apple';
+    meaning2 = 'Orange';
+case 19
+    meaning1 = 'Bed';
+    meaning2 = 'Couch';
+case 20
+    meaning1 = 'Gold';
+    meaning2 = 'Silver';
+case 21
+    meaning1 = 'University';
+    meaning2 = 'School';
+case 22
+    meaning1 = 'Chicken';
+    meaning2 = 'Pork';
+case 23
+    meaning1 = 'Football';
+    meaning2 = 'Rugby';
+case 24
+    meaning1 = 'Cat';
+    meaning2 = 'Dog';
+case 25
+    meaning1 = 'Car';
+    meaning2 = 'Bus';
+case 26
+    meaning1 = 'Water';
+    meaning2 = 'Milk';
+case 27
+    meaning1 = 'Apple';
+    meaning2 = 'Orange';
+case 28
+    meaning1 = 'Chicken';
+    meaning2 = 'Pork';
+case 29
+    meaning1 = 'Cow';
+    meaning2 = 'Pig';
+case 30
+    meaning1 = 'Football';
+    meaning2 = 'Rugby';
+case 31
+    meaning1 = 'Cow';
+    meaning2 = 'Pig';
+case 32
+    meaning1 = 'Chicken';
+    meaning2 = 'Pork';
+case 33
+    meaning1 = 'Bee';
+    meaning2 = 'Wasp';
+case 34
+    meaning1 = 'House';
+    meaning2 = 'Apartment';
+case 35
+    meaning1 = 'Tshirt';
+    meaning2 = 'Shirt';
+case 36
+    meaning1 = 'Bus';
+    meaning2 = 'Train';
+case 37
+    meaning1 = 'Bee';
+    meaning2 = 'Wasp';
+case 38
+    meaning1 = 'Cow';
+    meaning2 = 'Pig';
+case 39
+    meaning1 = 'Football';
+    meaning2 = 'Rugby';
+case 40
+    meaning1 = 'Cow';
+    meaning2 = 'Pig';
+case 41
+    meaning1 = 'Cat';
+    meaning2 = 'Dog';
+case 42
+    meaning1 = 'Bed';
+    meaning2 = 'Couch';
+case 43
+    meaning1 = 'Flower';
+    meaning2 = 'Grass';
+case 44
+    meaning1 = 'Tshirt';
+    meaning2 = 'Shirt';
+case 45
+    meaning1 = 'Gold';
+    meaning2 = 'Silver';
+case 46
+    meaning1 = 'Cow';
+    meaning2 = 'Pig';
+case 47
+    meaning1 = 'Movie';
+    meaning2 = 'Book';
+case 48
+    meaning1 = 'Chicken';
+    meaning2 = 'Pork';
+case 49
+    meaning1 = 'Chicken';
+    meaning2 = 'Pork';
+case 50
+    meaning1 = 'Football';
+    meaning2 = 'Rugby';
+case 51
+    meaning1 = 'Bed';
+    meaning2 = 'Couch';
+case 52
+    meaning1 = 'House';
+    meaning2 = 'Apartment';
+case 53
+    meaning1 = 'Carrot';
+    meaning2 = 'Potato';
+case 54
+    meaning1 = 'Water';
+    meaning2 = 'Milk';
+case 55
+    meaning1 = 'Bee';
+    meaning2 = 'Wasp';
+case 56
+    meaning1 = 'University';
+    meaning2 = 'School';
+case 57
+    meaning1 = 'Bus';
+    meaning2 = 'Train';
+case 58
+    meaning1 = 'University';
+    meaning2 = 'School';
+case 59
+    meaning1 = 'Chicken';
+    meaning2 = 'Pork';
+case 60
+    meaning1 = 'Apple';
+    meaning2 = 'Orange';
+case 61
+    meaning1 = 'Apple';
+    meaning2 = 'Orange';
+case 62
+    meaning1 = 'Car';
+    meaning2 = 'Bus';
+case 63
+    meaning1 = 'Carrot';
+    meaning2 = 'Potato';
+case 64
+    meaning1 = 'Movie';
+    meaning2 = 'Book';
+case 65
+    meaning1 = 'Bee';
+    meaning2 = 'Wasp';
+case 66
+    meaning1 = 'Bee';
+    meaning2 = 'Wasp';
+case 67
+    meaning1 = 'House';
+    meaning2 = 'Apartment';
+case 68
+    meaning1 = 'Bee';
+    meaning2 = 'Wasp';
+case 69
+    meaning1 = 'Car';
+    meaning2 = 'Bus';
+case 70
+    meaning1 = 'Carrot';
+    meaning2 = 'Potato';
+case 71
+    meaning1 = 'University';
+    meaning2 = 'School';
+case 72
+    meaning1 = 'Movie';
+    meaning2 = 'Book';
+case 73
+    meaning1 = 'Water';
+    meaning2 = 'Milk';
+case 74
+    meaning1 = 'Flower';
+    meaning2 = 'Grass';
+case 75
+    meaning1 = 'Cow';
+    meaning2 = 'Pig';
+case 76
+    meaning1 = 'Movie';
+    meaning2 = 'Book';
+case 77
+    meaning1 = 'Movie';
+    meaning2 = 'Book';
+case 78
+    meaning1 = 'Water';
+    meaning2 = 'Milk';
+case 79
+    meaning1 = 'Bed';
+    meaning2 = 'Couch';
+case 80
+    meaning1 = 'House';
+    meaning2 = 'Apartment';
+case 81
+    meaning1 = 'University';
+    meaning2 = 'School';
+case 82
+    meaning1 = 'Tshirt';
+    meaning2 = 'Shirt';
+case 83
+    meaning1 = 'Carrot';
+    meaning2 = 'Potato';
+case 84
+    meaning1 = 'Car';
+    meaning2 = 'Bus';
+case 85
+    meaning1 = 'House';
+    meaning2 = 'Apartment';
+case 86
+    meaning1 = 'Flower';
+    meaning2 = 'Grass';
+case 87
+    meaning1 = 'Flower';
+    meaning2 = 'Grass';
+case 88
+    meaning1 = 'Bus';
+    meaning2 = 'Train';
+case 89
+    meaning1 = 'Flower';
+    meaning2 = 'Grass';
+case 90
+    meaning1 = 'House';
+    meaning2 = 'Apartment';
+case 91
+    meaning1 = 'Flower';
+    meaning2 = 'Grass';
+case 92
+    meaning1 = 'Bee';
+    meaning2 = 'Wasp';
+case 93
+    meaning1 = 'Football';
+    meaning2 = 'Rugby';
+case 94
+    meaning1 = 'Cat';
+    meaning2 = 'Dog';
+case 95
+    meaning1 = 'Movie';
+    meaning2 = 'Book';
+case 96
+    meaning1 = 'Car';
+    meaning2 = 'Bus';
+case 97
+    meaning1 = 'Flower';
+    meaning2 = 'Grass';
+case 98
+    meaning1 = 'Bus';
+    meaning2 = 'Train';
+case 99
+    meaning1 = 'Tshirt';
+    meaning2 = 'Shirt';
+case 100
+    meaning1 = 'Bus';
+    meaning2 = 'Train';
+case 101
+    meaning1 = 'Bee';
+    meaning2 = 'Wasp';
+case 102
+    meaning1 = 'Apple';
+    meaning2 = 'Orange';
+case 103
+    meaning1 = 'Bed';
+    meaning2 = 'Couch';
+case 104
+    meaning1 = 'Carrot';
+    meaning2 = 'Potato';
+case 105
+    meaning1 = 'University';
+    meaning2 = 'School';
+case 106
+    meaning1 = 'Chicken';
+    meaning2 = 'Pork';
+case 107
+    meaning1 = 'Carrot';
+    meaning2 = 'Potato';
+case 108
+    meaning1 = 'Gold';
+    meaning2 = 'Silver';
+case 109
+    meaning1 = 'Cat';
+    meaning2 = 'Dog';
+case 110
+    meaning1 = 'Movie';
+    meaning2 = 'Book';
+case 111
+    meaning1 = 'Gold';
+    meaning2 = 'Silver';
+case 112
+    meaning1 = 'Football';
+    meaning2 = 'Rugby';
+case 113
+    meaning1 = 'Gold';
+    meaning2 = 'Silver';
+case 114
+    meaning1 = 'Flower';
+    meaning2 = 'Grass';
+case 115
+    meaning1 = 'Gold';
+    meaning2 = 'Silver';
+case 116
+    meaning1 = 'House';
+    meaning2 = 'Apartment';
+case 117
+    meaning1 = 'Water';
+    meaning2 = 'Milk';
+case 118
+    meaning1 = 'Apple';
+    meaning2 = 'Orange';
+case 119
+    meaning1 = 'Water';
+    meaning2 = 'Milk';
+case 120
+    meaning1 = 'Cow';
+    meaning2 = 'Pig';
+case 121
+    meaning1 = 'Bed';
+    meaning2 = 'Couch';
+case 122
+    meaning1 = 'Cat';
+    meaning2 = 'Dog';
+case 123
+    meaning1 = 'Tshirt';
+    meaning2 = 'Shirt';
+case 124
+    meaning1 = 'Tshirt';
+    meaning2 = 'Shirt';
+case 125
+    meaning1 = 'Water';
+    meaning2 = 'Milk';
+case 126
+    meaning1 = 'University';
+    meaning2 = 'School';
+case 127
+    meaning1 = 'Chicken';
+    meaning2 = 'Pork';
+case 128
+    meaning1 = 'Cat';
+    meaning2 = 'Dog';
+case 129
+    meaning1 = 'Cat';
+    meaning2 = 'Dog';
+case 130
+    meaning1 = 'Gold';
+    meaning2 = 'Silver';
+case 131
+    meaning1 = 'Bus';
+    meaning2 = 'Train';
+case 132
+    meaning1 = 'Bed';
+    meaning2 = 'Couch';
+case 133
+    meaning1 = 'Water';
+    meaning2 = 'Milk';
+case 134
+    meaning1 = 'Gold';
+    meaning2 = 'Silver';
+case 135
+    meaning1 = 'Bed';
+    meaning2 = 'Couch';
+case 136
+    meaning1 = 'Tshirt';
+    meaning2 = 'Shirt';

@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Car Sequence 1,Car Sequence 2,Car Sequence 3,Car Sequence 4,Car Sequence 5,Car Sequence 6,Car Sequence 7,Car Sequence 8,Bus Sequence 1,Bus Sequence 2,Bus Sequence 3,Bus Sequence 4,Bus Sequence 5,Bus Sequence 6,Bus Sequence 7,Bus Sequence 8
+engine,0.7509081227141842,commute,0.6408525250157802,drive,0.5227753322135301,engine,steer,seat,windscreen,automatic,engine,seat,automatic,driver,fuel,motorway,commute,drive,intercity,intercity,open-top
+steer,0.7712755501586172,passenger,0.5740418324241314,seat,0.5262858666537739,automatic,automatic,driver,driver,steer,steer,steer,fuel,motorway,driver,drive,fuel,intercity,motorway,passenger,driver
+wheels,0.7368007148286255,intercity,0.7352629418957817,driver,0.5941999355034179,steer,wheels,manual,engine,windscreen,drive,drive,motorway,commute,commute,seat,motorway,passenger,open-top,seat,fuel
+windscreen,0.6614025513458731,open-top,0.5423552040781854,fuel,0.6556729018269561,motorway,motorway,wheels,manual,manual,motorway,driver,wheels,seat,intercity,driver,drive,commute,seat,open-top,intercity
+manual,1.6028009588433054,,,motorway,0.45995374281190227,seat,windscreen,drive,fuel,wheels,driver,windscreen,manual,open-top,passenger,open-top,passenger,driver,passenger,motorway,motorway
+automatic,0.7374901713246194,,,,,wheels,engine,fuel,seat,engine,windscreen,manual,steer,drive,motorway,intercity,seat,open-top,commute,driver,passenger
+,,,,,,driver,manual,automatic,motorway,driver,manual,fuel,seat,intercity,seat,passenger,open-top,motorway,drive,drive,drive
+,,,,,,manual,driver,steer,automatic,seat,seat,wheels,drive,passenger,open-top,commute,intercity,seat,driver,commute,commute

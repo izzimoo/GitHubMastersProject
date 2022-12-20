@@ -1,3 +1,0 @@
-isLeftKeyPress,keyPressTime
-1,2.6588868
-0,2.6597493

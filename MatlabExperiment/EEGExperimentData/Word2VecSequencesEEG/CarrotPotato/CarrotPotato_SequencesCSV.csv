@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Carrot Sequence 1,Carrot Sequence 2,Carrot Sequence 3,Carrot Sequence 4,Carrot Sequence 5,Carrot Sequence 6,Carrot Sequence 7,Carrot Sequence 8,Potato Sequence 1,Potato Sequence 2,Potato Sequence 3,Potato Sequence 4,Potato Sequence 5,Potato Sequence 6,Potato Sequence 7,Potato Sequence 8
+fibre,0.5955806681967784,salad,0.593940943454409,ground,0.4945788090847904,ground,boil,ground,nutritional,chop,chop,roast,fibre,salad,dirt,roast,dirt,soup,sweet,salad,mash
+chop,0.5550656523533458,dirt,0.5776409498554569,roots,0.48728548412893563,fibre,fibre,fibre,firm,roots,firm,sweet,firm,peel,sweet,ground,roots,crop,salad,crop,crop
+boil,0.6824739804548278,soup,0.5699400975608223,roast,0.4901474440934895,roots,firm,peel,peel,boil,fibre,boil,sweet,roast,salad,salad,mash,ground,peel,peel,soup
+firm,0.604444972040927,crop,0.5961442065481704,peel,0.5089130463847674,chop,chop,chop,ground,fibre,sweet,peel,roast,sweet,crop,dirt,peel,salad,dirt,roots,peel
+,,mash,0.5595459505002622,nutritional,0.4664680394775951,boil,ground,sweet,sweet,nutritional,peel,roots,boil,roots,ground,soup,ground,dirt,roots,nutritional,nutritional
+,,,,sweet,0.5092099719734383,firm,sweet,roast,fibre,ground,nutritional,firm,nutritional,dirt,soup,nutritional,soup,roast,crop,soup,dirt
+,,,,,,roast,roots,firm,chop,firm,boil,chop,ground,mash,nutritional,roots,crop,sweet,mash,dirt,ground
+,,,,,,sweet,nutritional,boil,boil,sweet,ground,fibre,chop,soup,roast,crop,sweet,peel,soup,sweet,sweet

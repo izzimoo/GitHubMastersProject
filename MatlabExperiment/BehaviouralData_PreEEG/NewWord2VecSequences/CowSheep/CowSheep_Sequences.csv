@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Cow Sequence 1,Cow Sequence 2,Cow Sequence 3,Cow Sequence 4,Sheep Sequence 1,Sheep Sequence 2,Sheep Sequence 3,Sheep Sequence 4
+smell,0.6409041946925071,livestock,0.6116563406701414,farm,0.47523303554215224,flies,flies,field,smell,produce,hooves,hooves,hooves
+field,0.6082473339131309,vetinary,0.5563760238576008,hooves,0.4534597107255054,hooves,smell,hooves,barnyard,farm,produce,produce,herbivore
+flies,0.5642133427026161,breed,0.5861076736370031,barnyard,0.5380802180317221,produce,meat,barnyard,meat,livestock,breed,herbivore,meat
+manure,0.5698469490562778,herbivore,0.5774950971519818,produce,0.5486527983066206,milk,milk,manure,field,vetinary,barnyard,barnyard,farm
+milk,0.6128309366009717,,,meat,0.4808224502623792,tail,field,farm,flies,barnyard,livestock,breed,breed
+tail,0.5671686957032999,,,,,field,manure,meat,tail,meat,meat,farm,livestock
+,,,,,,smell,hooves,tail,hooves,herbivore,farm,vetinary,produce
+,,,,,,manure,tail,smell,manure,breed,vetinary,meat,vetinary

@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Tshirt Sequence 1,Tshirt Sequence 2,Tshirt Sequence 3,Tshirt Sequence 4,Tshirt Sequence 5,Tshirt Sequence 6,Tshirt Sequence 7,Tshirt Sequence 8,Shirt Sequence 1,Shirt Sequence 2,Shirt Sequence 3,Shirt Sequence 4,Shirt Sequence 5,Shirt Sequence 6,Shirt Sequence 7,Shirt Sequence 8
+pajamas,0.5889011567052441,outfit,0.5592218145612488,polyester,0.5291857910954036,plain,undergarment,v-neck,undergarment,comfortable,comfortable,plain,undergarment,undergarment,polyester,sleeve,pullover,sleeve,outfit,uniform,outfit
+comfortable,0.5894960633735913,collar,0.5445573209946455,cotton,0.5304292545967055,pajamas,comfortable,button,v-neck,button,armholes,pajamas,v-neck,uniform,collar,collar,polyester,uniform,sleeve,undergarment,polyester
+plain,0.5918785978226991,sleeve,0.5370710219787345,undergarment,0.5371251946566183,comfortable,polyester,armholes,pajamas,pajamas,v-neck,cotton,armholes,cotton,logo,polyester,sleeve,logo,uniform,sleeve,sleeve
+button,0.6214714577156559,uniform,0.5268388349223421,,,button,v-neck,polyester,polyester,armholes,button,undergarment,button,collar,outfit,pullover,cotton,outfit,pullover,cotton,cotton
+armholes,0.5424899588310603,logo,0.48215856073175245,,,undergarment,pajamas,pajamas,comfortable,cotton,undergarment,v-neck,cotton,pullover,pullover,logo,collar,collar,polyester,collar,logo
+v-neck,0.5482016461391465,pullover,0.4773374902848363,,,armholes,armholes,comfortable,armholes,polyester,pajamas,comfortable,pajamas,polyester,sleeve,cotton,logo,cotton,collar,outfit,collar
+,,,,,,v-neck,plain,undergarment,button,undergarment,polyester,button,polyester,sleeve,cotton,undergarment,undergarment,undergarment,logo,pullover,uniform
+,,,,,,polyester,cotton,cotton,cotton,v-neck,plain,polyester,comfortable,outfit,uniform,outfit,uniform,polyester,cotton,polyester,undergarment

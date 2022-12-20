@@ -1,0 +1,131 @@
+
+John: Bad seqs: GS, - 4; CB, COP, FR, HA, MB - 3
+
+Charbel: Bad seqs: TSS - 4; BT, BW, COP - 3 
+
+Ciaran: Bad seqs: CHP - 5; CD, FR, TSS - 4; BT, BW, CP = 3; (CHECK RS for frost and WM for potable)
+
+
+
+
+
+Ciaran: 
+
+ ./CompletedRecordings/AllRecordings/AO_M1_2.wav
+ ./CompletedRecordings/AllRecordings/AO_M1_3.wav
+ ./CompletedRecordings/AllRecordings/BC_M1_2.wav
+ ./CompletedRecordings/AllRecordings/BC_M2_3.wav
+ ./CompletedRecordings/AllRecordings/BT_M1_2.wav
+ ./CompletedRecordings/AllRecordings/BT_M2_2.wav
+ ./CompletedRecordings/AllRecordings/BT_M2_4.wav
+ ./CompletedRecordings/AllRecordings/BW_M1_4.wav
+ ./CompletedRecordings/AllRecordings/BW_M2_3.wav
+ ./CompletedRecordings/AllRecordings/BW_M2_4.wav
+ ./CompletedRecordings/AllRecordings/CB_M1_3.wav
+ ./CompletedRecordings/AllRecordings/CB_M2_3.wav
+ ./CompletedRecordings/AllRecordings/CD_M1_1.wav
+ ./CompletedRecordings/AllRecordings/CD_M1_2.wav
+ ./CompletedRecordings/AllRecordings/CD_M1_3.wav
+ ./CompletedRecordings/AllRecordings/CD_M2_4.wav
+ ./CompletedRecordings/AllRecordings/CHP_M1_2.wav
+ ./CompletedRecordings/AllRecordings/CHP_M1_4.wav
+ ./CompletedRecordings/AllRecordings/CHP_M2_1.wav
+ ./CompletedRecordings/AllRecordings/CHP_M2_2.wav
+ ./CompletedRecordings/AllRecordings/CHP_M2_4.wav
+ ./CompletedRecordings/AllRecordings/CP_M1_1.wav
+ ./CompletedRecordings/AllRecordings/CP_M2_2.wav
+ ./CompletedRecordings/AllRecordings/CP_M2_3.wav
+ ./CompletedRecordings/AllRecordings/FR_M1_1.wav
+ ./CompletedRecordings/AllRecordings/FR_M1_2.wav
+ ./CompletedRecordings/AllRecordings/FR_M1_4.wav
+ ./CompletedRecordings/AllRecordings/FR_M2_4.wav
+ ./CompletedRecordings/AllRecordings/GS_M1_4.wav
+ ./CompletedRecordings/AllRecordings/GS_M2_2.wav
+ ./CompletedRecordings/AllRecordings/HA_M1_2.wav
+ ./CompletedRecordings/AllRecordings/HA_M2_3.wav
+ ./CompletedRecordings/AllRecordings/HA_M2_4.wav
+ ./CompletedRecordings/AllRecordings/MB_M1_3.wav
+ ./CompletedRecordings/AllRecordings/MB_M1_4.wav
+ ./CompletedRecordings/AllRecordings/MB_M2_2.wav
+ ./CompletedRecordings/AllRecordings/RS_M1_4.wav
+ ./CompletedRecordings/AllRecordings/TSP_M1_1.wav
+ ./CompletedRecordings/AllRecordings/TSS_M1_3.wav
+ ./CompletedRecordings/AllRecordings/TSS_M2_1.wav
+ ./CompletedRecordings/AllRecordings/TSS_M2_3.wav
+ ./CompletedRecordings/AllRecordings/TSS_M2_4.wav
+ ./CompletedRecordings/AllRecordings/US_M1_3.wav
+ ./CompletedRecordings/AllRecordings/US_M2_2.wav
+ ./CompletedRecordings/AllRecordings/WM_M1_1.wav
+ ./CompletedRecordings/AllRecordings/WM_M2_4.wav
+
+
+Charbel:
+['AO', 'M2', '4']
+['BC', 'M1', '3']
+['BT', 'M1', '4']
+['BT', 'M2', '2']
+['BT', 'M2', '4']
+['BW', 'M2', '4']
+['CB', 'M1', '2']
+['CD', 'M2', '2']
+['CD', 'M2', '4']
+['COP', 'M1', '1']
+['COP', 'M1', '2']
+['COP', 'M2', '1']
+['COP', 'M2', '3']
+['COP', 'M2', '4']
+['CP', 'M1', '1']
+['CP', 'M1', '4']
+['FG', 'M1', '1']
+['FG', 'M1', '3']
+['FG', 'M2', '2']
+['FG', 'M2', '4']
+['FR', 'M2', '2']
+['FR', 'M2', '3']
+['GS', 'M1', '1']
+['GS', 'M2', '2']
+['GS', 'M2', '3']
+['MB', 'M1', '4']
+['TSS', 'M1', '3']
+Counter({'COP': 5, 'FG': 4, 'BT': 3, 'GS': 3, 'FR': 2, 'CP': 2, 'CD': 2, 'CB': 1, 'BC': 1, 'AO': 1, 'BW': 1, 'TSS': 1, 'MB': 1})
+
+
+
+
+John: 
+./CompletedRecordings/AllRecordings/AO_M1_3.wav
+ ./CompletedRecordings/AllRecordings/AO_M2_4.wav
+ ./CompletedRecordings/AllRecordings/BC_M1_1.wav
+ ./CompletedRecordings/AllRecordings/BC_M2_3.wav
+ ./CompletedRecordings/AllRecordings/BT_M2_1.wav
+ ./CompletedRecordings/AllRecordings/BT_M2_2.wav
+ ./CompletedRecordings/AllRecordings/BW_M2_4.wav
+ ./CompletedRecordings/AllRecordings/CB_M2_2.wav
+ ./CompletedRecordings/AllRecordings/CB_M2_3.wav
+ ./CompletedRecordings/AllRecordings/CB_M2_4.wav
+ ./CompletedRecordings/AllRecordings/CD_M1_2.wav
+ ./CompletedRecordings/AllRecordings/CD_M2_2.wav
+ ./CompletedRecordings/AllRecordings/CHP_M1_2.wav
+ ./CompletedRecordings/AllRecordings/CHP_M2_4.wav
+ ./CompletedRecordings/AllRecordings/COP_M1_2.wav
+ ./CompletedRecordings/AllRecordings/COP_M1_3.wav
+ ./CompletedRecordings/AllRecordings/COP_M2_4.wav
+ ./CompletedRecordings/AllRecordings/CP_M2_4.wav
+ ./CompletedRecordings/AllRecordings/FG_M2_1.wav
+ ./CompletedRecordings/AllRecordings/FG_M2_4.wav
+ ./CompletedRecordings/AllRecordings/FR_M1_2.wav
+ ./CompletedRecordings/AllRecordings/FR_M2_1.wav
+ ./CompletedRecordings/AllRecordings/FR_M2_2.wav
+ ./CompletedRecordings/AllRecordings/GS_M1_2.wav
+ ./CompletedRecordings/AllRecordings/GS_M2_1.wav
+ ./CompletedRecordings/AllRecordings/GS_M2_2.wav
+ ./CompletedRecordings/AllRecordings/GS_M2_3.wav
+ ./CompletedRecordings/AllRecordings/HA_M1_2.wav
+ ./CompletedRecordings/AllRecordings/HA_M1_3.wav
+ ./CompletedRecordings/AllRecordings/HA_M2_1.wav
+ ./CompletedRecordings/AllRecordings/MB_M1_1.wav
+ ./CompletedRecordings/AllRecordings/MB_M1_3.wav
+ ./CompletedRecordings/AllRecordings/MB_M2_2.wav
+ ./CompletedRecordings/AllRecordings/TSS_M2_4.wav
+ ./CompletedRecordings/AllRecordings/US_M2_2.wav
+ ./CompletedRecordings/AllRecordings/WM_M1_3.wav

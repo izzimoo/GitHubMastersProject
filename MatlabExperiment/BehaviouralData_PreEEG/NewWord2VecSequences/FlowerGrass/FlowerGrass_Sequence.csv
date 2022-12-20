@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Flower Sequence 1,Flower Sequence 2,Flower Sequence 3,Flower Sequence 4,Grass Sequence 1,Grass Sequence 2,Grass Sequence 3,Grass Sequence 4
+garden,0.6407491782491181,weed,0.5846310241398514,sprout,0.5315353115616479,foliage,die,aphid,grow,ground,weed,weed,ground
+grow,0.5827931390386663,ground,0.822577519908889,die,0.4559748943522622,pollen,stem,seeds,pollen,die,foliage,roots,foliage
+stem,0.6028418833705194,roots,0.6139605564998868,aphid,0.4966727451560615,aphid,sprout,grow,stem,dirt,die,die,meadow
+pollen,0.5881701936150945,meadow,0.6077267552114578,seeds,0.43289479974918055,sprout,grow,foliage,spring,sprout,sprout,seeds,die
+spring,0.6239878119365411,dirt,0.7323605249251719,foliage,0.4410488281340642,garden,spring,garden,aphid,roots,seeds,dirt,sprout
+,,water,0.60881709109642,,,die,pollen,die,sprout,seeds,aphid,water,dirt
+,,,,,,grow,seeds,spring,garden,water,water,aphid,roots
+,,,,,,stem,foliage,stem,die,weed,dirt,sprout,weed

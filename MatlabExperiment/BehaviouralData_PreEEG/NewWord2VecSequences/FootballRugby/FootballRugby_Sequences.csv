@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Football Sequence 1,Football Sequence 2,Football Sequence 3,Football Sequence 4,Rugby Sequence 1,Rugby Sequence 2,Rugby Sequence 3,Rugby Sequence 4
+ball,0.598488161738334,match,0.4912788984018034,club,0.5583909845769199,dropkick,positions,league,cup,nations,club,defence,club
+stadium,0.6135328627341613,defence,0.5049753303997914,cup,0.5259130515980209,tackle,tournament,offside,club,defence,match,match,dropkick
+coach,0.6035828303400427,wing,0.6465322858357477,tackle,0.5682454001729733,league,stadium,tournament,positions,cup,wing,wing,match
+league,0.6248267515226292,nations,0.6632690206235832,dropkick,0.512005937377444,offside,tackle,dropkick,dropkick,dropkick,tackle,club,defence
+positions,0.5877857296742333,,,offside,0.5772693533080139,tournament,ball,tackle,stadium,club,defence,cup,offside
+tournament,0.5884304561364743,,,,,stadium,club,positions,tackle,wing,cup,nations,tackle
+,,,,,,coach,dropkick,cup,league,offside,offside,offside,wing
+,,,,,,ball,coach,stadium,tournament,match,dropkick,dropkick,nations
