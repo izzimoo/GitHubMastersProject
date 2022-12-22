@@ -1,0 +1,117 @@
+
+
+intercity
+driver
+double-decker
+single-decker
+route
+transit
+fare
+
+wheels
+station
+stop
+schedule
+
+
+
+
+
+Add following TTS words:
+TSS: plain, logo, polyester
+US: cirriculum, enroll, ranking
+WM: nourish, nutrient, hydrate, pour
+CB: manual, automatic
+AO: round, nutritious, organic, pulp
+BT: schedule
+
+Look at the following sequences:
+Too hard:
+Mentioned more than once: BT, COP, TSS, FG, HA, MB,  
+Mentioned once: BW, CB, GS, FR, CD 
+
+Too easy:
+Mentioned more than once: TSS, US, WM, CB
+Mentioned once: BC, AO
+
+Check new seqs for hard and easy:
+RS, TSP
+
+
+Too easy sequences: possible words to remove/ add or ensure they are not the first 2 words of a sequence:
+TSS: 
+Remove: linen, casual
+Add: plain, logo, polyester
+Shuffle: undergarment
+
+US: 
+Remove: homework, assignment,
+Add: curriculum, enroll, ranking 
+Shuffle: societies
+
+WM:
+Remove: hydrating, unsweetened, potable, liquid, cereal, 
+Add: nourish, nutrient, hydrate, pour
+Shuffle: non-fat
+
+CB:
+Remove: Garage
+Add: manual, automatic
+Shuffle: Driver, motorway
+
+BC:
+Shuffle: Sleep
+
+AO: 
+Remove: peel, bite, eat. colour
+Add: round, nutritious, organic, pulp
+Shuffle: 
+
+Too hard sequences: possible words to remove or add to help make them less difficult or ambiguous:
+
+COP: Removed - replaced with TSP
+FG: Removed - replaced with RS
+MB: I think this one is okay, 2 participants got 5 of them correct
+
+BT:
+Remove: 
+Add: Schedule
+Shuffle:
+
+BW:
+Remove: Protect, worker
+
+GS:
+Remove: Candelabra, platter
+
+FR: This was fixed earlier, think it is okay now
+
+CD:
+Remove: Playful
+Add:
+Shuffle: Whiskers
+
+New Sequences: RS and TSP
+
+RS:
+Remove: Frost 
+Add:
+Shuffle:
+
+TSP: Fine 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
