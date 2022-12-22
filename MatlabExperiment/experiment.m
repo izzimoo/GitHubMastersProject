@@ -174,7 +174,7 @@ for trial_counter = 1:number_of_trials
         keyIsDown = 0; 
         
 %         Set trigger high for audio start
-        io64(ioObj, port,1)
+%         io64(ioObj, port,1)
         PsychPortAudio('Start', audioBuff); %start audio
         tic
         
