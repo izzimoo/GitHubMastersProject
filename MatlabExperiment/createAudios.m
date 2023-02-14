@@ -283,6 +283,7 @@
 [f12] = audioread('./EEGExperimentData/RawRecordingFiles/WAV/UniversitySchool/universityschool_extracurriculars.wav');
 [f13] = audioread('./EEGExperimentData/RawRecordingFiles/WAV/UniversitySchool/universityschool_curriculum.wav');
 [f14] = audioread('./EEGExperimentData/RawRecordingFiles/WAV/UniversitySchool/universityschool_scholarship.wav');
+disp(length(f6)./fs)
 
 % CarrotPotato raw audios
 % [f0, fs] = audioread('./EEGExperimentData/RawRecordingFiles/WAV/CarrotPotato/carrotpotato_salad.wav');

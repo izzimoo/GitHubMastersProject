@@ -1,3 +1,6 @@
+# File that creates the order ot the stimuli for the experiment and using this order creates the case statement that supply
+# MATLAB with the meanings for each sequence and the correct answer for each sequence. 
+
 import os, random
 import numpy as np
 

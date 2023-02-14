@@ -19,11 +19,12 @@ def indexGivenValue(value, array):
 #resultsBehavioural2 = pd.read_csv('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/DecisionsAndTimings.csv')
 resultsBehavioural3 = pd.read_csv('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/DecisionsAndTimings.csv')
 
-resultsEEG1 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant1Results/DecisionsAndTimings.csv')
-print(len(resultsEEG1))
+# resultsEEG1 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant1Results/DecisionsAndTimings.csv')
+resultsEEG2 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/DecisionsAndTimings.csv')
+print(len(resultsEEG2))
 
-participantButtonClickTiming = resultsEEG1.iloc[:,1] 
-participantLeftButtonClicks = resultsEEG1.iloc[:,0]
+participantButtonClickTiming = resultsEEG2.iloc[:,1] 
+participantLeftButtonClicks = resultsEEG2.iloc[:,0]
 
 # ---------------------------------------------------------------------------- #
 
@@ -45,6 +46,7 @@ ax.set_title("Time of reaction for each trial")
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/ResultsFigures/fig1.png')
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/ResultsFigures/fig1.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig1.png')
+plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig1.png')
 
 # ---------------------------- CODE TO CREATE THE AUDIO ONSET FILES ---------------------------------#
 
@@ -148,8 +150,11 @@ df = pd.DataFrame(array_toDict, index=['Audio1 Onset', 'Audio2 Onset', 'Audio3 O
 # Change file when wanting different participants results
 #file = open("BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
 #file = open("BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
-file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
 
+# Participant 1
+# file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
+#Participant 2
+file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
 
 # Break string from txt file up using comma delimeter
 contents = file.read(); contentsToList = contents.split(","); file.close() 
@@ -276,8 +281,12 @@ lines=[]
 # Choose a file depending on the participant data you are analysing
 #with open('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Stimuli/CorrectAnswersSwitch.txt') as myFile:
 #with open('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
-with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
-  
+
+# Participant 1
+#with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
+# Participant 2 
+with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
+
     for myLine in myFile:
         lines.append(myLine) # Append each line in the txt file to an array called lines
 
@@ -431,6 +440,7 @@ y_axis = countList
 
 fig2, ax2 = plt.subplots()
 
+# Change title of this plot - check academic papers.
 ax2.bar(x_axis, y_axis, color='#3C89AF')
 ax2.set_xlabel("Word")
 ax2.set_ylabel("Number of decision made on word")
@@ -448,6 +458,8 @@ for bar in ax2.patches: # Gets the bars on the chart
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/ResultsFigures/fig2.png')
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/ResultsFigures/fig2.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig2.png')
+plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig2.png')
+
 
 # ------------------------------------------------------------------------------------------------------------------------- #
 
@@ -465,6 +477,7 @@ ax3.pie(percentages, labels=pieLabels, autopct='%1.2f%%')
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/ResultsFigures/fig3.png')
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/ResultsFigures/fig3.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig3.png')
+plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig3.png')
 
 # ---------------------------------------------------------------------------------------------------- #
 
@@ -611,6 +624,7 @@ for bar in ax4.patches: # Gets the bars on the chart (6 - (2 bars x 3 participan
 
 # Choose a saving location depending on the participant
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig4.png')
+plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig4.png')
 
 # ----------------- ANALYSIS TO DETERMINE SEQUENCES THAT WERE GOTTEN CORRECT IN THE FIRST ONE OR TWO WORDS ---------------------- #
 
