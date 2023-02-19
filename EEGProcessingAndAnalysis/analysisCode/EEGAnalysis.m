@@ -75,7 +75,7 @@ disp('End of section one');
 
 disp('Filtering EEG data');
 % Filtering EEG data
-bandpassFilterRange = [1,10];
+bandpassFilterRange = [0.01,10];
 EEG_raw = EEG_raw';
 hd = getLPFilt(fsEEG,bandpassFilterRange(2));
 EEG_raw = filtfilthd(hd,EEG_raw);
@@ -104,16 +104,19 @@ end
 eeg.fs = fsDown;
 
 disp('Saving EEG data');
+
+% Participant one
 % save('./datasets/linguisticDecision/dataStim1.mat','stim')
-save('./datasets/linguisticDecision/dataStim3.mat','stim')
 % % save('./datasets/linguisticDecision/dataSub1_1_8Hz.mat','eeg')
 % save('./datasets/linguisticDecision/dataSub1_1_10Hz.mat','eeg')
 % save('./datasets/linguisticDecision/dataSub1_1_45Hz.mat','eeg')
 % save('./datasets/linguisticDecision/dataSub1_0_10Hz.mat','eeg')
-save('./datasets/linguisticDecision/dataSub3_1_10Hz.mat','eeg')
 
+% save('./datasets/linguisticDecision/dataSub3_1_10Hz.mat','eeg')
 
-
+% Participant three
+% save('./datasets/linguisticDecision/dataStim3.mat','stim')
+% save('./datasets/linguisticDecision/dataSub3_0.01_10Hz.mat','eeg')
 
 % Participant two
 % save('./datasets/linguisticDecision/dataSub2_1_8Hz.mat','eeg')

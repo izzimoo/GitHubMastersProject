@@ -9,15 +9,15 @@ function answer = getAnswer(trial_number)
         case 1
             answer = 2;
         case 2
-            answer = 1;
-        case 3
             answer = 2;
-        case 4
+        case 3
             answer = 1;
+        case 4
+            answer = 2;
         case 5
             answer = 2;
         case 6
-            answer = 1;
+            answer = 2;
         case 7
             answer = 2;
         case 8
@@ -29,11 +29,11 @@ function answer = getAnswer(trial_number)
         case 11
             answer = 2;
         case 12
-            answer = 1;
+            answer = 2;
         case 13
-            answer = 2;
+            answer = 1;
         case 14
-            answer = 2;
+            answer = 1;
         case 15
             answer = 2;
         case 16
@@ -45,25 +45,25 @@ function answer = getAnswer(trial_number)
         case 19
             answer = 1;
         case 20
-            answer = 1;
+            answer = 2;
         case 21
             answer = 2;
         case 22
-            answer = 2;
-        case 23
             answer = 1;
+        case 23
+            answer = 2;
         case 24
             answer = 2;
         case 25
             answer = 1;
         case 26
-            answer = 1;
+            answer = 2;
         case 27
             answer = 1;
         case 28
-            answer = 2;
+            answer = 1;
         case 29
-            answer = 2;
+            answer = 1;
         case 30
             answer = 1;
         case 31
@@ -73,15 +73,15 @@ function answer = getAnswer(trial_number)
         case 33
             answer = 1;
         case 34
-            answer = 2;
+            answer = 1;
         case 35
-            answer = 2;
+            answer = 1;
         case 36
-            answer = 2;
+            answer = 1;
         case 37
-            answer = 2;
+            answer = 1;
         case 38
-            answer = 2;
+            answer = 1;
         case 39
             answer = 1;
         case 40
@@ -93,33 +93,33 @@ function answer = getAnswer(trial_number)
         case 43
             answer = 1;
         case 44
-            answer = 2;
+            answer = 1;
         case 45
-            answer = 1;
+            answer = 2;
         case 46
-            answer = 2;
-        case 47
             answer = 1;
+        case 47
+            answer = 2;
         case 48
-            answer = 2;
+            answer = 1;
         case 49
-            answer = 2;
+            answer = 1;
         case 50
             answer = 1;
         case 51
-            answer = 1;
+            answer = 2;
         case 52
             answer = 1;
         case 53
-            answer = 1;
-        case 54
-            answer = 1;
-        case 55
-            answer = 1;
-        case 56
-            answer = 1;
-        case 57
             answer = 2;
+        case 54
+            answer = 2;
+        case 55
+            answer = 2;
+        case 56
+            answer = 2;
+        case 57
+            answer = 1;
         case 58
             answer = 2;
         case 59
@@ -129,15 +129,15 @@ function answer = getAnswer(trial_number)
         case 61
             answer = 1;
         case 62
-            answer = 1;
-        case 63
             answer = 2;
+        case 63
+            answer = 1;
         case 64
             answer = 2;
         case 65
             answer = 1;
         case 66
-            answer = 1;
+            answer = 2;
         case 67
             answer = 1;
         case 68
@@ -145,7 +145,7 @@ function answer = getAnswer(trial_number)
         case 69
             answer = 1;
         case 70
-            answer = 1;
+            answer = 2;
         case 71
             answer = 1;
         case 72
@@ -153,7 +153,7 @@ function answer = getAnswer(trial_number)
         case 73
             answer = 1;
         case 74
-            answer = 2;
+            answer = 1;
         case 75
             answer = 2;
         case 76
@@ -167,47 +167,47 @@ function answer = getAnswer(trial_number)
         case 80
             answer = 2;
         case 81
-            answer = 1;
+            answer = 2;
         case 82
             answer = 2;
         case 83
             answer = 1;
         case 84
-            answer = 2;
+            answer = 1;
         case 85
-            answer = 2;
+            answer = 1;
         case 86
-            answer = 2;
+            answer = 1;
         case 87
             answer = 2;
         case 88
-            answer = 2;
+            answer = 1;
         case 89
             answer = 1;
         case 90
             answer = 1;
         case 91
-            answer = 2;
+            answer = 1;
         case 92
-            answer = 2;
+            answer = 1;
         case 93
-            answer = 1;
+            answer = 2;
         case 94
-            answer = 1;
+            answer = 2;
         case 95
             answer = 1;
         case 96
             answer = 1;
         case 97
-            answer = 2;
+            answer = 1;
         case 98
-            answer = 1;
+            answer = 2;
         case 99
-            answer = 1;
+            answer = 2;
         case 100
             answer = 1;
         case 101
-            answer = 2;
+            answer = 1;
         case 102
             answer = 1;
         case 103
@@ -215,15 +215,15 @@ function answer = getAnswer(trial_number)
         case 104
             answer = 2;
         case 105
-            answer = 1;
+            answer = 2;
         case 106
             answer = 1;
         case 107
-            answer = 1;
-        case 108
             answer = 2;
-        case 109
+        case 108
             answer = 1;
+        case 109
+            answer = 2;
         case 110
             answer = 1;
         case 111
@@ -233,19 +233,19 @@ function answer = getAnswer(trial_number)
         case 113
             answer = 2;
         case 114
-            answer = 1;
-        case 115
             answer = 2;
+        case 115
+            answer = 1;
         case 116
             answer = 1;
         case 117
-            answer = 1;
-        case 118
             answer = 2;
+        case 118
+            answer = 1;
         case 119
             answer = 2;
         case 120
-            answer = 1;
+            answer = 2;
         case 121
             answer = 2;
         case 122
@@ -257,15 +257,15 @@ function answer = getAnswer(trial_number)
         case 125
             answer = 2;
         case 126
-            answer = 2;
+            answer = 1;
         case 127
-            answer = 2;
+            answer = 1;
         case 128
             answer = 2;
         case 129
             answer = 2;
         case 130
-            answer = 2;
+            answer = 1;
         case 131
             answer = 1;
         case 132
@@ -273,43 +273,43 @@ function answer = getAnswer(trial_number)
         case 133
             answer = 1;
         case 134
-            answer = 2;
+            answer = 1;
         case 135
             answer = 1;
         case 136
-            answer = 2;
+            answer = 1;
         case 137
             answer = 2;
         case 138
-            answer = 1;
+            answer = 2;
         case 139
             answer = 1;
         case 140
-            answer = 2;
-        case 141
             answer = 1;
+        case 141
+            answer = 2;
         case 142
             answer = 2;
         case 143
-            answer = 1;
+            answer = 2;
         case 144
             answer = 1;
         case 145
-            answer = 1;
+            answer = 2;
         case 146
-            answer = 1;
+            answer = 2;
         case 147
-            answer = 1;
+            answer = 2;
         case 148
             answer = 2;
         case 149
-            answer = 1;
+            answer = 2;
         case 150
             answer = 1;
         case 151
             answer = 1;
         case 152
-            answer = 2;
+            answer = 1;
         case 153
             answer = 2;
         case 154
@@ -317,7 +317,7 @@ function answer = getAnswer(trial_number)
         case 155
             answer = 2;
         case 156
-            answer = 1;
+            answer = 2;
         case 157
             answer = 1;
         case 158
@@ -325,51 +325,51 @@ function answer = getAnswer(trial_number)
         case 159
             answer = 2;
         case 160
-            answer = 2;
+            answer = 1;
         case 161
             answer = 1;
         case 162
-            answer = 2;
-        case 163
-            answer = 2;
-        case 164
-            answer = 2;
-        case 165
             answer = 1;
-        case 166
+        case 163
+            answer = 1;
+        case 164
+            answer = 1;
+        case 165
             answer = 2;
+        case 166
+            answer = 1;
         case 167
             answer = 1;
         case 168
             answer = 2;
         case 169
-            answer = 2;
+            answer = 1;
         case 170
-            answer = 1;
+            answer = 2;
         case 171
-            answer = 1;
+            answer = 2;
         case 172
             answer = 1;
         case 173
-            answer = 1;
-        case 174
-            answer = 1;
-        case 175
             answer = 2;
+        case 174
+            answer = 2;
+        case 175
+            answer = 1;
         case 176
             answer = 2;
         case 177
-            answer = 2;
+            answer = 1;
         case 178
-            answer = 2;
+            answer = 1;
         case 179
             answer = 2;
         case 180
             answer = 1;
         case 181
-            answer = 1;
+            answer = 2;
         case 182
-            answer = 1;
+            answer = 2;
         case 183
             answer = 2;
         case 184
@@ -379,21 +379,21 @@ function answer = getAnswer(trial_number)
         case 186
             answer = 2;
         case 187
-            answer = 2;
+            answer = 1;
         case 188
             answer = 1;
         case 189
-            answer = 2;
+            answer = 1;
         case 190
             answer = 1;
         case 191
             answer = 1;
         case 192
-            answer = 2;
+            answer = 1;
         case 193
             answer = 1;
         case 194
-            answer = 1;
+            answer = 2;
         case 195
             answer = 2;
         case 196
@@ -401,29 +401,29 @@ function answer = getAnswer(trial_number)
         case 197
             answer = 1;
         case 198
-            answer = 1;
+            answer = 2;
         case 199
-            answer = 1;
+            answer = 2;
         case 200
-            answer = 1;
+            answer = 2;
         case 201
             answer = 2;
         case 202
             answer = 1;
         case 203
-            answer = 2;
+            answer = 1;
         case 204
             answer = 1;
         case 205
-            answer = 2;
+            answer = 1;
         case 206
             answer = 2;
         case 207
             answer = 1;
         case 208
-            answer = 2;
+            answer = 1;
         case 209
-            answer = 2;
+            answer = 1;
         case 210
             answer = 1;
         case 211
@@ -435,31 +435,31 @@ function answer = getAnswer(trial_number)
         case 214
             answer = 2;
         case 215
-            answer = 1;
+            answer = 2;
         case 216
-            answer = 1;
+            answer = 2;
         case 217
             answer = 1;
         case 218
-            answer = 1;
+            answer = 2;
         case 219
             answer = 2;
         case 220
-            answer = 2;
-        case 221
             answer = 1;
+        case 221
+            answer = 2;
         case 222
             answer = 1;
         case 223
-            answer = 1;
-        case 224
-            answer = 1;
-        case 225
             answer = 2;
+        case 224
+            answer = 2;
+        case 225
+            answer = 1;
         case 226
             answer = 2;
         case 227
-            answer = 1;
+            answer = 2;
         case 228
             answer = 1;
         case 229
@@ -471,7 +471,7 @@ function answer = getAnswer(trial_number)
         case 232
             answer = 2;
         case 233
-            answer = 1;
+            answer = 2;
         case 234
             answer = 1;
         case 235
@@ -481,37 +481,37 @@ function answer = getAnswer(trial_number)
         case 237
             answer = 2;
         case 238
-            answer = 2;
+            answer = 1;
         case 239
-            answer = 2;
+            answer = 1;
         case 240
-            answer = 2;
+            answer = 1;
         case 241
-            answer = 2;
+            answer = 1;
         case 242
             answer = 2;
         case 243
             answer = 1;
         case 244
-            answer = 1;
-        case 245
             answer = 2;
+        case 245
+            answer = 1;
         case 246
             answer = 2;
         case 247
             answer = 1;
         case 248
-            answer = 1;
+            answer = 2;
         case 249
             answer = 1;
         case 250
             answer = 2;
         case 251
-            answer = 1;
+            answer = 2;
         case 252
             answer = 1;
         case 253
-            answer = 2;
+            answer = 1;
         case 254
             answer = 1;
         case 255
@@ -525,7 +525,7 @@ function answer = getAnswer(trial_number)
         case 259
             answer = 2;
         case 260
-            answer = 2;
+            answer = 1;
         case 261
             answer = 2;
         case 262
@@ -533,24 +533,24 @@ function answer = getAnswer(trial_number)
         case 263
             answer = 1;
         case 264
-            answer = 1;
+            answer = 2;
         case 265
-            answer = 1;
+            answer = 2;
         case 266
             answer = 2;
         case 267
-            answer = 1;
+            answer = 2;
         case 268
-            answer = 1;
+            answer = 2;
         case 269
             answer = 1;
         case 270
-            answer = 2;
-        case 271
-            answer = 2;
-        case 272
             answer = 1;
-
+        case 271
+            answer = 1;
+        case 272
+            answer = 2;
+            
     end
 
 end

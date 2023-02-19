@@ -14,13 +14,15 @@ addpath libs/eeglab
 disp('Loading in audio onset files and creating a cell array of tables');
 
 % % EEG PARTICIPANT ONE DATA
-load('./datasets/linguisticDecision/dataStim1.mat','stim')
-% load('./datasets/linguisticDecision/dataSub1_1_10Hz.mat','eeg')
-load('./datasets/linguisticDecision/dataSub1_0_10Hz.mat','eeg')
+load('./datasets/linguisticDecision_old/dataStim1.mat','stim')
+% load('./datasets/linguisticDecision_old/dataSub1_1_10Hz.mat','eeg')
+load('./datasets/linguisticDecision_old/dataSub1_0_10Hz.mat','eeg')
 
 % % EEG PARTICIPANT THREE DATA
-% load('./datasets/linguisticDecision/dataSub3_1_10Hz.mat','eeg')
-% load('./datasets/linguisticDecision/dataStim3.mat','stim')
+% load('./datasets/linguisticDecision_old/dataStim3.mat','stim')
+% load('./datasets/linguisticDecision_old/dataSub3_1_10Hz.mat','eeg')
+% load('./datasets/linguisticDecision_old/dataSub3_0.01_10Hz.mat','eeg')
+
 
 % Add a second column to the stim cell array that contains the same number of zeros as the length of the audio file in samples.
 columns = length(stim.data);
@@ -67,6 +69,7 @@ sequenceNum= cell(1,nTrials);
 
 for audioFileName = 1:nTrials
     
+    
     brokenString = strsplit(sounds{audioFileName},'_'); % Break string on underscores - breaks 3 pieces
     
     upToAcronym = strsplit(brokenString{1}, '/'); % Breaks acronym string from .../AllRecordings/US by the forward slashes
@@ -79,7 +82,6 @@ for audioFileName = 1:nTrials
 end
 
 % Code for obtaining the audio onsets and then storing them in stim.data
-
 
 for onsetAudioNum = 1:numAudiosInSeq
     for stringValue = 1:nTrials
@@ -140,10 +142,10 @@ avgEEGData = mean(sumEEGData, 3);
 
 time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
 
-t1 = tiledlayout(8,2);
-t1.Title.String = 'Word Onset Figures';
-t1.Title.FontWeight = 'bold';
-nexttile([4 2]);
+% t1 = tiledlayout(8,2);
+% t1.Title.String = 'Word Onset Figures';
+% t1.Title.FontWeight = 'bold';
+% nexttile([4 2]);
 
 figure(1);
 plot(time_axis, avgEEGData);
@@ -222,14 +224,14 @@ postStimulus = 0.5 * fsDown;
 sumEEGData_trial = cat(3, eeg.data{:});
 avgEEGData_trial = mean(sumEEGData_trial, 3);
 
-baselineData = avgEEGData_trial(preStimulus:postStimulus, 1:64);
-baselineVoltage = mean(baselineData,1);
-
-baselinedEEGData = avgEEGData_trial - baselineVoltage;
+% baselineData = avgEEGData_trial(preStimulus:postStimulus, 1:64);
+% baselineVoltage = mean(baselineData,1);
+% 
+% baselinedEEGData = avgEEGData_trial - baselineVoltage;
 
 nexttile;
-t_axis = ((1:length(baselinedEEGData))/fsDown)*1000;
-plot(t_axis, baselinedEEGData);
+t_axis = ((1:length(avgEEGData_trial))/fsDown)*1000;
+plot(t_axis, avgEEGData_trial);
 title('ERP of Sentence (avg) - Matrix Reduction');
 xlabel('Time-latency (ms)')
 ylabel('Magnitude (a.u.)')
@@ -415,7 +417,7 @@ disp('FINISHED SECTION 8: Calculated the GFP and displayed areas of interest on 
 
 %% **************************************** 5) RESPONSE LOCKED ERP ANALYSIS *************************************************
 
-%% 5.1) Add a 1 to stim.data{3, trialNumber) at the sample at which there is a button press
+%% 5.1) Run this section once - Add a 1 to stim.data{3, trialNumber) at the sample at which there is a button press and pre-process the data for response locked ERP analysis 
 
 % Fill data.stim{3, x} with button press occurances
 
@@ -426,9 +428,7 @@ for trialNo = 1:nTrials
  
 end
 
-disp('FINISHED SECTION 9: Added button presses to stim.data');
-
-%% 5.2) Response locked ERP analysis - Run this section once - Pre-Processing
+%%
 
 windowOfInterest = [3, 0.1];
 baselineWindow = [3, 0.1];
@@ -459,7 +459,7 @@ for eegDataNo = 1:nTrials
     
 end
 
-disp('FINISHED SECTION 10: Calculated the ERP with the data epoched based on the button press timing instead of stimulus onset');
+disp('FINISHED SECTION 9: Added button presses to stim.data and calculated the ERP with the data epoched based on the button press timing instead of stimulus onset');
 
 %% TOPOGRAPHY AND GFP OF THE RESPONSE LOCKED ERP
 
@@ -517,7 +517,7 @@ title('Topography of response locked ERP from 62ms before response');
 colorbar;
 topoplot(avgEEGData(288,:), chanlocs);
 
-disp ('FINISHED SECTION 11: Calculated the GFP and displayed areas of interest on a topograhy for the response locked ERP');
+disp ('FINISHED SECTION 10: Calculated the GFP and displayed areas of interest on a topograhy for the response locked ERP');
 
 %% ********************************************* 6) Prior word to button press ERP ***********************************************
 
@@ -600,37 +600,277 @@ for trialNum = 1:nTrials
     end
 end
 
-disp ('FINISHED SECTION 12: TBD');
+disp ('FINISHED SECTION 11: TBD');
+
+%% Run this one
+
+firstWordResponse = {};
+
+secondWordResponse = {};
+firstWordResponse_prev = {};
+
+thirdWordResponse = {};
+secondWordResponse_prev = {};
+
+fourthWordResponse = {};
+thirdWordResponse_prev = {};
+
+fifthWordResponse = {};
+fourthWordResponse_prev = {};
+
+sixthWordResponse = {};
+fifthWordResponse_prev = {};
+
+seventhWordResponse = {};
+sixthWordResponse_prev = {};
+
+eighthWordResponse = {};
+seventhWordResponse_prev = {};
+
+for trialNum = 1:nTrials
+               
+    buttonPressOccur = find(stim.data{3, trialNum} > 0);
+    stimOnsetOccur = find(stim.data{2, trialNum} > 0);
+    leaveFlag = 0;
+    
+    for onsetNum = 1:numAudiosInSeq
+      
+        if (buttonPressOccur <= stimOnsetOccur(onsetNum))
+            wordBeforePress = onsetNum - 1;
+            break
+        end
+        
+        if (buttonPressOccur > stimOnsetOccur(8))
+            wordBeforePress = 8;
+            break
+        end
+       
+    end
+
+    if (wordBeforePress == 1)
+        index1 = length(firstWordResponse) + 1;
+        firstWordResponse{index1} = onsetEEGdata_eachWord{trialNum, wordBeforePress};
+    end
+
+    if (wordBeforePress == 2)
+        index2 = length(secondWordResponse) + 1;
+        secondWordResponse{index2} = onsetEEGdata_eachWord{trialNum, wordBeforePress};
+        firstWordResponse_prev{index2} = onsetEEGdata_eachWord{trialNum, wordBeforePress-1};
+    end
+
+    if (wordBeforePress == 3)
+        index3 = length(thirdWordResponse) + 1;
+        thirdWordResponse{index3} = onsetEEGdata_eachWord{trialNum, wordBeforePress};
+        secondWordResponse_prev{index3} = onsetEEGdata_eachWord{trialNum, wordBeforePress-1};
+    end
+
+    if (wordBeforePress == 4)
+        index4 = length(fourthWordResponse) + 1;
+        fourthWordResponse{index4} = onsetEEGdata_eachWord{trialNum, wordBeforePress};
+        thirdWordResponse_prev{index4} = onsetEEGdata_eachWord{trialNum, wordBeforePress-1};
+
+    end
+
+    if (wordBeforePress == 5)
+        index5 = length(fifthWordResponse) + 1;
+        fifthWordResponse{index5} = onsetEEGdata_eachWord{trialNum, wordBeforePress};
+        fourthWordResponse_prev{index5} = onsetEEGdata_eachWord{trialNum, wordBeforePress-1};
+        
+    end
+
+    if (wordBeforePress == 6)
+        index6 = length(sixthWordResponse) + 1;
+        sixthWordResponse{index6} = onsetEEGdata_eachWord{trialNum, wordBeforePress};
+        fifthWordResponse_prev{index6} = onsetEEGdata_eachWord{trialNum, wordBeforePress-1};
+    end
+
+    if (wordBeforePress == 7)
+        index7 = length(seventhWordResponse) + 1;
+        seventhWordResponse{index7} = onsetEEGdata_eachWord{trialNum, wordBeforePress};
+        sixthWordResponse_prev{index7} = onsetEEGdata_eachWord{trialNum, wordBeforePress-1};
+    end
+
+    if (wordBeforePress == 8)
+        index8 = length(eighthWordResponse) + 1;
+        eighthWordResponse{index8} = onsetEEGdata_eachWord{trialNum, wordBeforePress};
+        seventhWordResponse_prev{index8} = onsetEEGdata_eachWord{trialNum, wordBeforePress-1};
+    end
+end
+
+disp ('FINISHED SECTION 11: TBD');
+
 
 %% 6.2) Calculating the ERP based on the above division
 
+time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
+
+% ******************************************* ERP for word N when response occurs on word N ***************************************************** %
+
 figure(1);
-sumEEGData_W1_response = cat(3, fourthWordResponse{:});
-avgEEGData_W1_response = mean(sumEEGData_W1_response, 3);
+t4 = tiledlayout(2,4);
+t4.Title.String = 'Event related potential for word N when response occured on word N';
+t4.Title.FontWeight = 'bold';
 
-% time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
+plotTitles = {'ERP for word 1 when response occurred on word 1', 'ERP for word 2 when response occurred on word 2',... 
+              'ERP for word 3 when response occurred on word 3', 'ERP for word 4 when response occurred on word 4',... 
+              'ERP for word 5 when response occurred on word 5', 'ERP for word 6 when response occurred on word 6',...
+              'ERP for word 7 when response occurred on word 7', 'ERP for word 8 when response occurred on word 8' };
+          
+sumEEGData_WN_response = { cat(3, firstWordResponse{:}), cat(3, secondWordResponse{:}),...
+                           cat(3, thirdWordResponse{:}), cat(3, fourthWordResponse{:}),...
+                           cat(3, fifthWordResponse{:}), cat(3, sixthWordResponse{:}),...
+                           cat(3, seventhWordResponse{:}), cat(3, eighthWordResponse{:}) };
 
-% plot(time_axis, avgEEGData_W1_response);
-plot(avgEEGData_W1_response);
-% xlim([time_axis(1),time_axis(end)]);
-% xline(0);
+% Plot for all words when the response occurred on that word
+for plotNum = 1:numAudiosInSeq
+ 
+    nexttile;
+    avgEEGData_WN_response = mean(sumEEGData_WN_response{plotNum}, 3);
+    plotERP_WordN(time_axis, avgEEGData_WN_response, plotTitles{plotNum});
+    
+end
 
-title('ERP of response locked EEG data (avg)');
-xlabel('Time-latency (ms)')
-ylabel('Magnitude (a.u.)')
+% ******************************************* ERP for word N-1 when response occurs on word N ***************************************************** %
 
 figure(2);
-gfp_responseLocked_W1 = sqrt(mean(avgEEGData_W1_response.^2,2));
-plot(gfp_responseLocked_W1);
-xline(0);
+t5 = tiledlayout(2,4);
+t5.Title.String = 'Event related potential for word N-1 when response occured on word N';
+t5.Title.FontWeight = 'bold';
+
+plotTitles = {'ERP for word 1 when response occurred on word 2', 'ERP for word 2 when response occurred on word 3',...
+              'ERP for word 3 when response occurred on word 4', 'ERP for word 4 when response occurred on word 5',...
+              'ERP for word 5 when response occurred on word 6', 'ERP for word 6 when response occurred on word 7',...
+              'ERP for word 7 when response occurred on word 8' };
+          
+sumEEGData_WNMin1_response = { cat(3, firstWordResponse_prev{:}), cat(3, secondWordResponse_prev{:}),...
+                               cat(3, thirdWordResponse_prev{:}), cat(3, fourthWordResponse_prev{:}),...
+                               cat(3, fifthWordResponse_prev{:}), cat(3, sixthWordResponse_prev{:}),...
+                               cat(3, seventhWordResponse_prev{:}) };
+
+% Plot for all words previous to the response being made
+for plotNum = 1:numAudiosInSeq-1
+ 
+    nexttile;
+    avgEEGData_WNMin1_response = mean(sumEEGData_WNMin1_response{plotNum}, 3);
+    plotERP_WordN(time_axis, avgEEGData_WNMin1_response, plotTitles{plotNum});
+    
+end
+
+%%
+
+figure(4);
+
+time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
+
+t6 = tiledlayout(2,4);
+t6.Title.String = 'ERP, GFP and topographies for word 2 when response occured on word 3';
+t6.Title.FontWeight = 'bold';
+
+nexttile;
+avgERP =  mean(cat(3, fourthWordResponse_prev{:}), 3);
+plot(time_axis, avgERP);
+xlim([time_axis(1),time_axis(end)]);
+xlabel('Time-latency (ms)'); ylabel('Magnitude (a.u.)');
+title('ERP for word 2 when response occured on word 3');
+
+% nexttile;
+% avgERP =  mean(cat(3, secondWordResponse_prev{:}), 3);
+% plot(avgERP);
+% xlabel('Time-latency (ms)'); ylabel('Magnitude (a.u.)');
+% title('ERP for word 2 when response occured on word 3');
+
+nexttile;
+gfpAvg = sqrt(mean(avgERP.^2,2)); 
+plot(gfpAvg);
+% plot(time_axis, gfpAvg);
+% xlim([time_axis(1),time_axis(end)]);
+xlabel('Time-latency (ms)'); ylabel('Global Field Power (μV)');
+title('Global Field Power of the ERP');
+
+nexttile;
+title('Topography at 312ms');
+colorbar; 
+topoplot(avgERP(54,:), chanlocs);
+
+nexttile;
+title('Topography at 328ms');
+colorbar; 
+topoplot(avgERP(55,:), chanlocs);
+
+nexttile;
+title('Topography at 343ms');
+colorbar; 
+topoplot(avgERP(56,:), chanlocs);
+
+nexttile;
+title('Topography at 367ms');
+colorbar; 
+topoplot(avgERP(57,:), chanlocs);
+
+nexttile;
+title('Topography at 390ms');
+colorbar; 
+topoplot(avgERP(64,:), chanlocs);
+
+nexttile;
+title('Topography at 280ms-390ms');
+colorbar; 
+topoplot(mean(avgERP(64:70,:)), chanlocs);
+
+% topoplot(mean(avgERP(49:68,:)), chanlocs);
+
+%%
+
+figure(5);
+
+time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
+
+t7 = tiledlayout(2,4);
+t7.Title.String = 'ERP, GFP and topographies for word 3 when response occured on word 3';
+t7.Title.FontWeight = 'bold';
+
+nexttile;
+avgERP2 =  mean(cat(3, thirdWordResponse_prev{:}), 3);
+plot(avgERP2);
+% plot(time_axis, avgERP2);
+% xlim([time_axis(1),time_axis(end)]);
+xlabel('Time-latency (ms)'); ylabel('Magnitude (a.u.)');
+title('ERP for word 2 when response occured on word 3');
+
+nexttile;
+title('Topography at 312ms');
+colorbar; 
+topoplot(avgERP2(83,:), chanlocs);
+
+%%
+
+time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
+
+figure(3);
+t6 = tiledlayout(2,2);
+t6.Title.String = 'Topography - word 1 - at ';
+t6.Title.FontWeight = 'bold';
+
+nexttile;
+gfp_W8_response = sqrt(mean(avgEEGData_W1_response.^2,2));
+plot(gfp_W8_response);
+plot(time_axis, gfp_W8_response);
 xlabel('Time (samples)');
 ylabel('Global Field Power (μV)');
 title('Global Field Power of response locked ERP');
 
-figure(3);
-title('Topography of response locked ERP at 740ms before response');
+
+nexttile
+title('Single topography');
 colorbar;
-topoplot(avgEEGData_W1_response(307,:), chanlocs);
+topoplot(avgEEGData_W1_response(56,:), chanlocs);
+
+nexttile
+title('Single topography');
+colorbar;
+topoplot(avgEEGData_W1_response(56,:), chanlocs);
+
+disp ('FINISHED SECTION 12: TBD2');
 
 
 % if you know where the stimulus onset is then you need to take a window of
