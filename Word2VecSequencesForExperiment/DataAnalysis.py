@@ -19,15 +19,19 @@ def indexGivenValue(value, array):
 #resultsBehavioural2 = pd.read_csv('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/DecisionsAndTimings.csv')
 resultsBehavioural3 = pd.read_csv('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/DecisionsAndTimings.csv')
 
-# resultsEEG1 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant1Results/DecisionsAndTimings.csv')
+#resultsEEG1 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant1Results/DecisionsAndTimings.csv')
 #resultsEEG2 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/DecisionsAndTimings.csv')
 #resultsEEG3 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/DecisionsAndTimings.csv')
-resultsEEG4 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/DecisionsAndTimings.csv')
+#resultsEEG4 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/DecisionsAndTimings.csv')
+#resultsEEG5 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/DecisionsAndTimings.csv')
+resultsEEG6 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/DecisionsAndTimings.csv')
 
-print(len(resultsEEG4))
+participantNum = 6
 
-participantButtonClickTiming = resultsEEG4.iloc[:,1] 
-participantLeftButtonClicks = resultsEEG4.iloc[:,0]
+print(len(resultsEEG6))
+
+participantButtonClickTiming = resultsEEG6.iloc[:,1] 
+participantLeftButtonClicks = resultsEEG6.iloc[:,0]
 
 # ---------------------------------------------------------------------------- #
 
@@ -51,8 +55,9 @@ ax.set_title("Time of reaction for each trial")
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig1.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/ResultsFigures/fig1.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig1.png')
-plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig1.png')
-
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig1.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig1.png')
+plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig1.png')
 
 # ---------------------------- CODE TO CREATE THE AUDIO ONSET FILES ---------------------------------#
 
@@ -164,7 +169,11 @@ df = pd.DataFrame(array_toDict, index=['Audio1 Onset', 'Audio2 Onset', 'Audio3 O
 # Participant 3
 #file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
 # Participant 4
-file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
+#file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
+# Participant 5
+#file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
+# Participant 6
+file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
 
 # Break string from txt file up using comma delimeter
 contents = file.read(); contentsToList = contents.split(","); file.close() 
@@ -299,7 +308,12 @@ lines=[]
 # Participant 3
 #with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
 # Participant 4
-with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
+#with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
+# Participant 5
+#with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
+# Participant 6
+with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
+
 
     for myLine in myFile:
         lines.append(myLine) # Append each line in the txt file to an array called lines
@@ -474,7 +488,9 @@ for bar in ax2.patches: # Gets the bars on the chart
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig2.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/ResultsFigures/fig2.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig2.png')
-plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig2.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig2.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig2.png')
+plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig2.png')
 
 # ------------------------------------------------------------------------------------------------------------------------- #
 
@@ -494,8 +510,9 @@ ax3.pie(percentages, labels=pieLabels, autopct='%1.2f%%')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig3.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/ResultsFigures/fig3.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig3.png')
-plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig3.png')
-
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig3.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig3.png')
+plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig3.png')
 
 # ---------------------------------------------------------------------------------------------------- #
 
@@ -620,32 +637,33 @@ for bar in ax4.patches: # Gets the bars on the chart (6 - (2 bars x 3 participan
 accuracies = [accuracyValueForBarChart] # Accuracies taken from the print statements
 inaccuracies = [round((100-accuracyValueForBarChart),2)] # Inaccuracies gotten by 100-accuracies
 
-labels = ['EEG Participant 1'] # Labels for X axis bar chart
+labels = ['Participant ' + str(participantNum)]
 
 xAxis = np.arange(len(labels)) # Enumerate x axis label values 
-fig4, ax4 = plt.subplots()
+fig5, ax5 = plt.subplots()
 
 # Format the bar chart so that there are two bars for each participant - one showing the accuracy percentage and one showing the inaccuracy percentage
-ax4.bar(xAxis - 0.2, accuracies, width=0.3, label = 'Percentage Correct', color='#2D9C4F') 
-ax4.bar(xAxis + 0.2, inaccuracies, width=0.3, label = 'Percentage Incorrect', color='#F85F45')
+ax5.bar(xAxis - 0.2, accuracies, width=0.3, label = 'Percentage Correct', color='#2D9C4F') 
+ax5.bar(xAxis + 0.2, inaccuracies, width=0.3, label = 'Percentage Incorrect', color='#F85F45')
 
 plt.xticks(xAxis, labels)
 
-ax4.set_xlabel("EEG Participant")
-ax4.set_ylabel("Accuracy (percent %)")
-ax4.set_title("Accuracy of participant", x=0.47)
-ax4.legend(bbox_to_anchor=[1.13, 1.14])
+ax5.set_ylabel("Accuracy (percent %)")
+ax5.set_title("Accuracy of participant " + str(participantNum), x=0.47)
+ax5.legend(bbox_to_anchor=[1.13, 1.14])
 
-for bar in ax4.patches: # Gets the bars on the chart (6 - (2 bars x 3 participants))
+for bar in ax5.patches: # Gets the bars on the chart (2 bars x 1 participant))
     width = bar.get_width(); height = bar.get_height() # Get height and width of bars
     x, y = bar.get_xy() # Gets values for the bars - participant and their accuracy and inaccuracy values
-    ax4.annotate(f'{height}', (x + width/2, y + height*1.01), ha='center') # Annotates the accuracy and inaccuracy values on top of the bars in the chart
+    ax5.annotate(f'{height}', (x + width/2, y + height*1.01), ha='center') # Annotates the accuracy and inaccuracy values on top of the bars in the chart
 
 # Choose a saving location depending on the participant
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig4.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/ResultsFigures/fig4.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig4.png')
-plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig4.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig4.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig4.png')
+plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig4.png')
 
 # ----------------- ANALYSIS TO DETERMINE SEQUENCES THAT WERE GOTTEN CORRECT IN THE FIRST ONE OR TWO WORDS ---------------------- #
 
