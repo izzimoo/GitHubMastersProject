@@ -1,43 +1,48 @@
-% Steps:
-% 1) Get EEG data and filter it into beta and gamma regions: 12-36Hz (Beta), 64-100Hz (Gamma)
-% 2) Get the response locked ERP (64 electrodes) for all trials with left decision
-% 3) Get the stimulus locked ERP (64 electrdoes) for all trials with right deicison
-% 4) Plot these on a topoplot and pick out the electrodes for motor movement as shown in the paper
-% 5) Average the ERP on these 6 electrodes - now have left beta and right beta 
-% 6) For left movement subtract the right beta from the left beta
-% 7) For the right movement subtract the left beta from the left beta
 
 % ********************* STIMULI AND EEG DATA ***************************
 disp('Loading in audio onset files and creating a cell array of tables');
 
 % Participant one
-load('./datasets/linguisticDecision/dataStim1.mat','stimP1')
-load('./datasets/linguisticDecision/dataSub1_12_36Hz.mat','eegP1')
+load('./datasets/linguisticDecision/Subject1/dataStim1.mat','stimP1');
+load('./datasets/linguisticDecision/Subject1/dataSub1_12_36Hz.mat', 'BetaP1');
+load('./datasets/linguisticDecision/Subject1/dataSub1_64_100Hz.mat', 'GammaP1');
+disp('P1 Loaded');
 
 % Participant two
-load('./datasets/linguisticDecision/dataStim2.mat','stimP2')
-load('./datasets/linguisticDecision/dataSub2_12_36Hz.mat','eegP2')
+load('./datasets/linguisticDecision/Subject2/dataStim2.mat','stimP2')
+load('./datasets/linguisticDecision/Subject2/dataSub2_12_36Hz.mat', 'BetaP2');
+load('./datasets/linguisticDecision/Subject2/dataSub2_64_100Hz.mat', 'GammaP2');
+disp('P2 Loaded');
 
 % Participant three
-load('./datasets/linguisticDecision/dataStim3.mat','stimP3')
-load('./datasets/linguisticDecision/dataSub3_12_36Hz.mat','eegP3')
+load('./datasets/linguisticDecision/Subject3/dataStim3.mat','stimP3')
+load('./datasets/linguisticDecision/Subject3/dataSub3_12_36Hz.mat', 'BetaP3');
+load('./datasets/linguisticDecision/Subject3/dataSub3_64_100Hz.mat', 'GammaP3');
+disp('P3 Loaded');
 
 % Participant four
-load('./datasets/linguisticDecision/dataStim4.mat','stimP4')
-load('./datasets/linguisticDecision/dataSub4_12_36Hz.mat','eegP4')
+load('./datasets/linguisticDecision/Subject4/dataStim4.mat','stimP4')
+load('./datasets/linguisticDecision/Subject4/dataSub4_12_36Hz.mat', 'BetaP4');
+load('./datasets/linguisticDecision/Subject4/dataSub4_64_100Hz.mat', 'GammaP4');
+disp('P4 Loaded');
 
 % Participant five
-load('./datasets/linguisticDecision/dataStim5.mat','stimP5')
-load('./datasets/linguisticDecision/dataSub5_12_36Hz.mat','eegP5')
+load('./datasets/linguisticDecision/Subject5/dataStim5.mat','stimP5')
+load('./datasets/linguisticDecision/Subject5/dataSub5_12_36Hz.mat', 'BetaP5');
+load('./datasets/linguisticDecision/Subject5/dataSub5_64_100Hz.mat', 'GammaP5');
+disp('P5 Loaded');
 
 % Participant six
-load('./datasets/linguisticDecision/dataStim6.mat','stimP6')
-load('./datasets/linguisticDecision/dataSub6_12_36Hz.mat','eegP6')
+load('./datasets/linguisticDecision/Subject6/dataStim6.mat','stimP6')
+load('./datasets/linguisticDecision/Subject6/dataSub6_12_36Hz.mat', 'BetaP6');
+load('./datasets/linguisticDecision/Subject6/dataSub6_64_100Hz.mat', 'GammaP6');
+disp('P6 Loaded');
 
 % ************************************************************************8
 
 stimulusEachParticipant = {stimP1, stimP2, stimP3, stimP4, stimP5, stimP6};
-EEGDataPreEnvelope = {eegP1, eegP2, eegP3, eegP4, eegP5, eegP6};
+EEGDataPreEnvelope = {BetaP1, BetaP2, BetaP3, BetaP4, BetaP5, BetaP6};
+% EEGDataPreEnvelope = {GammaP1, GammaP2, GammaP3, GammaP4, GammaP5, GammaP6};
 
 numParticipants = length(stimulusEachParticipant);
 numAudiosInSeq = 8;
@@ -207,7 +212,77 @@ end
 
 disp('FINISHED SECTION 2: Separated trials into left-button click trials and right-button click trials');
 
-%% *************************************** GET RESPONSE LOCKED ERP OF LEFT AND RIGHT TRIALS *******************************
+%% *********************************************** 2) WORD ONSET ANALYSIS ****************************************************************
+
+%% 2.1) ERP of the word onset 
+
+% Window of interest in samples = [13, 64] : round(0.1*fsDown), round(0.5*fsDown)
+windowOfInterest = [0.1, 0.55];
+preStimBaselineWindow = [0.1, 0.15];
+
+leftAndRightTrials = {trialsLeftButton, trialsRightButton};
+numDecisions = length(leftAndRightTrials);
+
+leftOnsetEEGdata_eachWord_Left = {1, numParticipants}; rightOnsetEEGdata_eachWord_Left = {1, numParticipants};
+leftOnsetEEGdata_eachWord_Right = {1, numParticipants}; rightOnsetEEGdata_eachWord_Right = {1, numParticipants};
+
+
+selectedElectrodes = {[10,12,13,14], [45,46,49,50]};
+
+for decisionType = 1:numDecisions
+    for participantNo = 1:numParticipants
+        
+        newnTrials = length(leftAndRightTrials{decisionType}{participantNo});
+        trialData = leftAndRightTrials{decisionType}{participantNo};
+        
+        onsetEEGdata_eachWord_Left = {1, newnTrials}; onsetEEGdata_eachWord_Right = {1, newnTrials};
+
+        for eegDataNo = 1:newnTrials
+
+            sampleNumOnsets = find(stimulusEachParticipant{participantNo}.data{2, trialData(eegDataNo)} > 0);
+
+            for audioNum = 1:numAudiosInSeq
+
+                preStimulus = round(sampleNumOnsets(audioNum) - (windowOfInterest(1) * fsDown));
+                postStimulus = round(sampleNumOnsets(audioNum) + (windowOfInterest(2) * fsDown));
+
+                % Baseline correction
+                baselineStart = preStimulus;
+                baselineEnd = round(sampleNumOnsets(audioNum) + (preStimBaselineWindow(2) * fsDown));
+
+                baselineData_Left = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(baselineStart:baselineEnd, selectedElectrodes{1});
+                baselineVoltage_Left = mean(baselineData_Left,1);
+
+                onsetEEGdata_eachWord_Left{eegDataNo, audioNum} = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(preStimulus:postStimulus, selectedElectrodes{1}) - baselineVoltage_Left;
+
+                baselineData_Right = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(baselineStart:baselineEnd, selectedElectrodes{2});
+                baselineVoltage_Right = mean(baselineData_Right,1);
+
+                onsetEEGdata_eachWord_Right{eegDataNo, audioNum} = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(preStimulus:postStimulus, selectedElectrodes{2}) - baselineVoltage_Right;
+
+            end
+        end
+        
+    % Left responses
+    if (decisionType == 1)
+        
+        leftOnsetEEGdata_eachWord_Left{participantNo} = onsetEEGdata_eachWord_Left;
+        rightOnsetEEGdata_eachWord_Left{participantNo} = onsetEEGdata_eachWord_Right;
+        
+    elseif (decisionType == 2)
+    
+        leftOnsetEEGdata_eachWord_Right{participantNo} = onsetEEGdata_eachWord_Left;
+        rightOnsetEEGdata_eachWord_Right{participantNo} = onsetEEGdata_eachWord_Right;
+        
+    end
+
+    end
+
+end
+
+disp('FINISHED: Average onset word analysis');
+
+%% ********************** 3) SPLIT DATA INTO DIFFERENT WORDS GROUPS BASED ON WORD NUMBER DECISION WAS MADE ON *********************************
 
 % Fill data.stim{3, x} with button press occurances
 
@@ -219,289 +294,294 @@ for participantNo = 1:numParticipants
     end
 end
 
-leftAndRightTrials = {trialsLeftButton, trialsRightButton};
-numDecisions = length(leftAndRightTrials);
-
 disp('Finished adding one to egg.data{3} wherever there is a button press');
 
-windowOfInterest = [3, 1.0]; % 4 second window
-baseline = 3.5; % pre-stim -> (post_stim - 3.5s) should end around the start of the signal
+% Dividing EEG data into arrays based on the word last hear before a decision was made
 
-reponseEEGData_eachWord_Left = {1, nTrials}; reponseEEGData_eachWord_Right = {1, nTrials};
+disp('Starting division of words');
 
-selectedElectrodes = {[10,12,13,14], [45,46,49,50]};
+allWordOnsetData = {leftOnsetEEGdata_eachWord_Left, rightOnsetEEGdata_eachWord_Left, leftOnsetEEGdata_eachWord_Right, rightOnsetEEGdata_eachWord_Right};
 
-for decisionType = 1:numDecisions
-    
-    for participantNo = 1:numParticipants
+% Word N
+firstWordResponse.P1 = {}; firstWordResponse.P2 = {}; firstWordResponse.P3 = {}; firstWordResponse.P4 = {}; firstWordResponse.P5 = {}; firstWordResponse.P6 = {};
+
+% Word N
+secondWordResponse.P1 = {}; secondWordResponse.P2 = {}; secondWordResponse.P3 = {}; secondWordResponse.P4 = {}; secondWordResponse.P5 = {}; secondWordResponse.P6 = {}; 
+% Word N-1
+secondWordResponse_prev.P1 = {}; secondWordResponse_prev.P2 = {}; secondWordResponse_prev.P3 = {}; secondWordResponse_prev.P4 = {}; secondWordResponse_prev.P5 = {}; 
+secondWordResponse_prev.P6 = {}; 
+
+% Word N
+thirdWordResponse.P1 = {}; thirdWordResponse.P2 = {}; thirdWordResponse.P3 = {}; thirdWordResponse.P4 = {}; thirdWordResponse.P5 = {}; thirdWordResponse.P6 = {};
+% Word N-1
+thirdWordResponse_prev.P1 = {}; thirdWordResponse_prev.P2 = {}; thirdWordResponse_prev.P3 = {}; thirdWordResponse_prev.P4 = {}; thirdWordResponse_prev.P5 = {};
+thirdWordResponse_prev.P6 = {};
+% Word N-2
+thirdWordResponse_TwoPrev.P1 = {}; thirdWordResponse_TwoPrevprev.P2 = {}; thirdWordResponse_TwoPrevprev.P3 = {}; thirdWordResponse_TwoPrevprev.P4 = {}; 
+thirdWordResponse_TwoPrevprev.P5 = {};thirdWordResponse_TwoPrevprev.P6 = {};
+
+% Word N
+fourthWordResponse.P1 = {}; fourthWordResponse.P2 = {}; fourthWordResponse.P3 = {}; fourthWordResponse.P4 = {}; fourthWordResponse.P5 = {}; fourthWordResponse.P6 = {};
+% Word N-1
+fourthWordResponse_prev.P1 = {}; fourthWordResponse_prev.P2 = {}; fourthWordResponse_prev.P3 = {}; fourthWordResponse_prev.P4 = {}; fourthWordResponse_prev.P5 = {};
+fourthWordResponse_prev.P6 = {};
+% Word N-2
+fourthWordResponse_TwoPrev.P1 = {}; fourthWordResponse_TwoPrev.P2 = {}; fourthWordResponse_TwoPrev.P3 = {}; fourthWordResponse_TwoPrev.P4 = {}; 
+fourthWordResponse_TwoPrev.P5 = {};fourthWordResponse_TwoPrev.P6 = {};
+
+% Word N
+fifthWordResponse.P1 = {}; fifthWordResponse.P2 = {}; fifthWordResponse.P3 = {}; fifthWordResponse.P4 = {}; fifthWordResponse.P5 = {}; fifthWordResponse.P6 = {};
+% Word N-1
+fifthWordResponse_prev.P1 = {}; fifthWordResponse_prev.P2 = {}; fifthWordResponse_prev.P3 = {}; fifthWordResponse_prev.P4 = {}; fifthWordResponse_prev.P5 = {};
+fifthWordResponse_prev.P6 = {};
+% Word N-2
+fifthWordResponse_TwoPrev.P1 = {}; fifthWordResponse_TwoPrev.P2 = {}; fifthWordResponse_TwoPrev.P3 = {}; fifthWordResponse_TwoPrev.P4 = {}; 
+fifthWordResponse_TwoPrev.P5 = {}; fifthWordResponse_TwoPrev.P6 = {};
+
+% Word N
+sixthWordResponse.P1 = {}; sixthWordResponse.P2 = {}; sixthWordResponse.P3 = {}; sixthWordResponse.P4 = {}; sixthWordResponse.P5 = {}; sixthWordResponse.P6 = {};
+% Word N-1
+sixthWordResponse_prev.P1 = {}; sixthWordResponse_prev.P2 = {}; sixthWordResponse_prev.P3 = {}; sixthWordResponse_prev.P4 = {}; sixthWordResponse_prev.P5 = {};
+sixthWordResponse_prev.P6 = {};
+% Word N-2
+sixthWordResponse_TwoPrev.P1 = {}; sixthWordResponse_TwoPrev.P2 = {}; sixthWordResponse_TwoPrev.P3 = {}; sixthWordResponse_TwoPrev.P4 = {}; sixthWordResponse_TwoPrev.P5 = {};
+sixthWordResponse_TwoPrev.P6 = {};
+
+% Word N
+seventhWordResponse.P1 = {}; seventhWordResponse.P2 = {}; seventhWordResponse.P3 = {}; seventhWordResponse.P4 = {}; seventhWordResponse.P5 = {}; seventhWordResponse.P6 = {};
+% Word N-1
+seventhWordResponse_prev.P1 = {}; seventhWordResponse_prev.P2 = {}; seventhWordResponse_prev.P3 = {}; seventhWordResponse_prev.P4 = {}; seventhWordResponse_prev.P5 = {};
+seventhWordResponse_prev.P6 = {};
+% Word N-2
+seventhWordResponse_TwoPrev.P1 = {}; seventhWordResponse_TwoPrev.P2 = {}; seventhWordResponse_TwoPrev.P3 = {}; seventhWordResponse_TwoPrev.P4 = {}; 
+seventhWordResponse_TwoPrev.P5 = {}; seventhWordResponse_TwoPrev.P6 = {};
+
+% Word N
+eighthWordResponse.P1 = {}; eighthWordResponse.P2 = {}; eighthWordResponse.P3 = {}; eighthWordResponse.P4 = {}; eighthWordResponse.P5 = {}; eighthWordResponse.P6 = {};
+% Word N-1
+eighthWordResponse_prev.P1 = {}; eighthWordResponse_prev.P2 = {}; eighthWordResponse_prev.P3 = {}; eighthWordResponse_prev.P4 = {}; eighthWordResponse_prev.P5 = {}; 
+eighthWordResponse_prev.P6 = {};
+% Word N-2
+eighthWordResponse_TwoPrev.P1 = {}; eighthWordResponse_TwoPrev.P2 = {}; eighthWordResponse_TwoPrev.P3 = {}; eighthWordResponse_TwoPrev.P4 = {}; 
+eighthWordResponse_TwoPrev.P5 = {}; eighthWordResponse_TwoPrev.P6 = {};
+
+% Place words in structures based on their participant number and the word that the decision was made on.
+testArray={};
+
+leftRightFour = length(allWordOnsetData);
+decisions = [1, 1, 2, 2];
+
+for leftAndRightOnset = 1:leftRightFour
         
-        reponseEEGData_eachWord_Left = {1, nTrials}; reponseEEGData_eachWord_Right = {1, nTrials};
-                
+    decisionType = decisions(leftAndRightOnset);
+
+    for participantNo = 1:numParticipants
+        participantStr = ['P', num2str(participantNo)];
+
+        index1=1; index2=1; index3=1; index4=1; index5=1; index6=1; index7=1; index8=1;
+
         newnTrials = length(leftAndRightTrials{decisionType}{participantNo});
         trialData = leftAndRightTrials{decisionType}{participantNo};
-        
-        for eegDataNo = 1:newnTrials
-            buttonPressSamp = find(stimulusEachParticipant{participantNo}.data{3, trialData(eegDataNo)} > 0);
 
-            preResponse_1 = round(buttonPressSamp - (windowOfInterest(1) * fsDown));
-            preResponse_2 = round(buttonPressSamp + (windowOfInterest(2) * fsDown));
+        for trialNum = 1:newnTrials
 
-            acronymName = seqAcronym{participantNo, trialData(eegDataNo)}; % Acronym e.g. US
+            buttonPressOccur = find(stimulusEachParticipant{participantNo}.data{3, trialData(trialNum)} > 0);
+            stimOnsetOccur = find(stimulusEachParticipant{participantNo}.data{2, trialData(trialNum)} > 0);
+
+            acronymName = seqAcronym{participantNo, trialData(trialNum)}; % Acronym e.g. US
             tableNum = acronymToIndexNumber(acronymName);
-            sequenceNumber = sequenceNum{participantNo, trialData(eegDataNo)}; % Sequence number e.g. 16
+            sequenceNumber = sequenceNum{participantNo, trialData(trialNum)}; % Sequence number e.g. 16
 
             trialLengthSamp = round(table2array(arrayOfTables{tableNum}(9, str2double(sequenceNumber)+1)));
 
-            if (preResponse_2 > trialLengthSamp)
+            for onsetNum = 1:numAudiosInSeq
 
-                sampleDiff = preResponse_2 - length(EEGDataEachParticipant{participantNo}{trialData(eegDataNo)});
-                EEGDataEachParticipant{participantNo}{trialData(eegDataNo)} = padarray(EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}, (sampleDiff), 0,'post');
+                if (buttonPressOccur <= stimOnsetOccur(onsetNum))
+                    wordBeforePress = onsetNum - 1;
+                    break
+                end
+
+                if (buttonPressOccur > stimOnsetOccur(8) &&  (buttonPressOccur < trialLengthSamp))
+                    wordBeforePress = 8;
+                    break
+                end
+
+                if (buttonPressOccur > trialLengthSamp)
+                    wordBeforePress = 9;
+                    break
+                end
+
             end
 
-            if (preResponse_1 < 0) % Pad any trials where the response occurs before the window of interest
-                EEGDataEachParticipant{participantNo}{trialData(eegDataNo)} = padarray(EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}, (preResponse_1*-1), 0,'pre');
-                preResponse_2 = preResponse_2 + (preResponse_1*-1)+1;
-                preResponse_1 = 1;
+            if (wordBeforePress == 1)
+                firstWordResponse.(participantStr){leftAndRightOnset, index1} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress};
+                index1 = index1 + 1;
             end
 
-            baselineStart = preResponse_1;
-            baselineEnd = round(preResponse_2 - baseline*fsDown);
-            
-            baselineData_Left = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(baselineStart:baselineEnd, selectedElectrodes{1});
-            baselineVoltage_Left = mean(baselineData_Left,1);
-           
-            reponseEEGData_eachWord_Left{eegDataNo} = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(preResponse_1:preResponse_2, selectedElectrodes{1}) - baselineVoltage_Left; % Without baseline correction
+             if (wordBeforePress == 2)
+                secondWordResponse.(participantStr){leftAndRightOnset, index2} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress};
+                secondWordResponse_prev.(participantStr){leftAndRightOnset, index2} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-1};
+                index2 = index2 + 1;
+             end
 
-            baselineData_Right = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(baselineStart:baselineEnd, selectedElectrodes{2});
-            baselineVoltage_Right = mean(baselineData_Right,1);
-            
-            reponseEEGData_eachWord_Right{eegDataNo} = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(preResponse_1:preResponse_2, selectedElectrodes{2}) - baselineVoltage_Right; % Without baseline correction
+            if (wordBeforePress == 3)
+                thirdWordResponse.(participantStr){leftAndRightOnset, index3} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress};
+                thirdWordResponse_prev.(participantStr){leftAndRightOnset, index3} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-1};
+                thirdWordResponse_TwoPrev.(participantStr){leftAndRightOnset, index3} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-2};
+                index3 = index3 + 1;
+            end
 
+            if (wordBeforePress == 4)
+                fourthWordResponse.(participantStr){leftAndRightOnset, index4} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress};
+                fourthWordResponse_prev.(participantStr){leftAndRightOnset, index4} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-1};
+                fourthWordResponse_TwoPrev.(participantStr){leftAndRightOnset, index4} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-2};
+                index4 = index4 + 1;
+            end
+
+            if (wordBeforePress == 5)
+                fifthWordResponse.(participantStr){leftAndRightOnset, index5} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress};
+                fifthWordResponse_prev.(participantStr){leftAndRightOnset, index5} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-1};
+                fifthWordResponse_TwoPrev.(participantStr){leftAndRightOnset, index5} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-2};
+                index5 = index5 + 1;
+            end
+
+            if (wordBeforePress == 6)
+                index6 = length(sixthWordResponse.(participantStr)) + 1;
+                sixthWordResponse.(participantStr){leftAndRightOnset, index6} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress};
+                sixthWordResponse_prev.(participantStr){leftAndRightOnset, index6} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-1};
+                sixthWordResponse_TwoPrev.(participantStr){leftAndRightOnset, index6} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-2};
+            end
+
+            if (wordBeforePress == 7)
+                seventhWordResponse.(participantStr){leftAndRightOnset, index7} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress};
+                seventhWordResponse_prev.(participantStr){leftAndRightOnset, index7} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-1};
+                seventhWordResponse_TwoPrev.(participantStr){leftAndRightOnset, index7} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-2};
+                index7 = index7 + 1;
+            end
+
+            if (wordBeforePress == 8)
+                eighthWordResponse.(participantStr){leftAndRightOnset, index8} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress};
+                eighthWordResponse_prev.(participantStr){leftAndRightOnset, index8} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-1};
+                eighthWordResponse_TwoPrev.(participantStr){leftAndRightOnset, index8} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, wordBeforePress-2};
+                index8 = index8 + 1;
+            end
+
+            if (wordBeforePress == 9)
+                disp('Miss trial, not including in data.');
+            end
         end
-
-    % Left responses
-    if (decisionType == 1 && participantNo == 1)
-        leftResponse_eachWordP1_Left = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP1_Left = reponseEEGData_eachWord_Right;
-
-    elseif (decisionType == 1 && participantNo == 2)
-        leftResponse_eachWordP2_Left = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP2_Left = reponseEEGData_eachWord_Right;
-        
-    elseif (decisionType == 1 && participantNo == 3)
-        leftResponse_eachWordP3_Left = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP3_Left = reponseEEGData_eachWord_Right;
-        
-    elseif (decisionType == 1 && participantNo == 4)
-        leftResponse_eachWordP4_Left = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP4_Left = reponseEEGData_eachWord_Right;
-        
-    elseif (decisionType == 1 && participantNo == 5)
-        leftResponse_eachWordP5_Left = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP5_Left = reponseEEGData_eachWord_Right;
-        
-    elseif (decisionType == 1 && participantNo == 6)
-        leftResponse_eachWordP6_Left = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP6_Left = reponseEEGData_eachWord_Right;
     end
-    
-    % Right responses 
-    if (decisionType == 2 && participantNo == 1)
-        leftResponse_eachWordP1_Right = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP1_Right = reponseEEGData_eachWord_Right;
-        
-    elseif (decisionType == 2 && participantNo == 2)
-        leftResponse_eachWordP2_Right = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP2_Right = reponseEEGData_eachWord_Right;
-        
-    elseif (decisionType == 2 && participantNo == 3)
-        leftResponse_eachWordP3_Right = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP3_Right = reponseEEGData_eachWord_Right;
-        
-    elseif (decisionType == 2 && participantNo == 4)
-        leftResponse_eachWordP4_Right = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP4_Right = reponseEEGData_eachWord_Right;
-        
-    elseif (decisionType == 2 && participantNo == 5)
-        leftResponse_eachWordP5_Right = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP5_Right = reponseEEGData_eachWord_Right;
-        
-    elseif (decisionType == 2 && participantNo == 6)
-        leftResponse_eachWordP6_Right = reponseEEGData_eachWord_Left;
-        rightResponse_eachWordP6_Right = reponseEEGData_eachWord_Right;
-        
-    end
-    
-    end
-            
 end
-        
-disp('FINISHED SECTION 3: Obtained EEG data corresponding to each trial for the left and right button clicks');
+disp ('Finished placing words into their respective structures');
 
-%% ************************************* 4) CALCULATE AVERAGE ERP FOR ALL PARTICIPANTS FOR RIGHT AND LEFT DECISIONS *******************************************
+%% ****************************** CALCULATE WEIGHTED AVERAGE ERP OF WORD DECISION WAS MADE ON *****************************************
 
-% ************* LEFT DECISIONS ***********************
-% Left side 
-numTrialsLeft = sum(cellfun(@length, leftAndRightTrials{1}));
+participants = {'P1', 'P2', 'P3', 'P4', 'P5', 'P6'};
 
-leftSumEEGDataP1_Left = cat(3, leftResponse_eachWordP1_Left{:});
-leftAvgEEGDataP1_Left = mean(leftSumEEGDataP1_Left, 3);
+currWordResponse = {firstWordResponse, secondWordResponse, thirdWordResponse, fourthWordResponse, fifthWordResponse...
+    sixthWordResponse, seventhWordResponse, eighthWordResponse};
 
-leftSumEEGDataP2_Left = cat(3, leftResponse_eachWordP2_Left{:});
-leftAvgEEGDataP2_Left = mean(leftSumEEGDataP2_Left, 3);
+prevWordResponses = {secondWordResponse_prev, thirdWordResponse_prev, fourthWordResponse_prev, fifthWordResponse_prev...
+    sixthWordResponse_prev, seventhWordResponse_prev, eighthWordResponse_prev};
 
-leftSumEEGDataP3_Left = cat(3, leftResponse_eachWordP3_Left{:});
-leftAvgEEGDataP3_Left = mean(leftSumEEGDataP3_Left, 3);
+twoPrevWordResponses = {thirdWordResponse_TwoPrev, fourthWordResponse_TwoPrev, fifthWordResponse_TwoPrev...
+    sixthWordResponse_TwoPrev, seventhWordResponse_TwoPrev, eighthWordResponse_TwoPrev};
 
-leftSumEEGDataP4_Left = cat(3, leftResponse_eachWordP4_Left{:});
-leftAvgEEGDataP4_Left = mean(leftSumEEGDataP4_Left, 3);
+wordResponses = {currWordResponse, prevWordResponses, twoPrevWordResponses};
+numResponses = length(prevWordResponses);
 
-leftSumEEGDataP5_Left = cat(3, leftResponse_eachWordP5_Left{:});
-leftAvgEEGDataP5_Left = mean(leftSumEEGDataP5_Left, 3);
+leftRightCombinations = [1, 2, 3, 4];
 
-leftSumEEGDataP6_Left = cat(3, leftResponse_eachWordP6_Left{:});
-leftAvgEEGDataP6_Left = mean(leftSumEEGDataP6_Left, 3);
+finalWeightedERPs={12, numParticipants};
+ERPindex = 1;
 
-leftFinalERPData_Left = (leftAvgEEGDataP1_Left + leftAvgEEGDataP2_Left + leftAvgEEGDataP3_Left + leftAvgEEGDataP4_Left + leftAvgEEGDataP5_Left + leftAvgEEGDataP6_Left)/numTrialsLeft;
-leftAvgElectrodes_Left = mean(leftFinalERPData_Left, 2);
+for responseType = 1:numResponseTypes 
+    fprintf(['HIIIIIIIIIIIIII', num2str(responseType)]);
+    for comboType = 1:length(leftRightCombinations)
+        for participantNo = 1:numParticipants 
 
-% Right side
-rightSumEEGDataP1_Left = cat(3, rightResponse_eachWordP1_Left{:});
-rightAvgEEGDataP1_Left = mean(rightSumEEGDataP1_Left, 3);
+             itr=1; itr2=1; 
 
-rightSumEEGDataP2_Left = cat(3, rightResponse_eachWordP2_Left{:});
-rightAvgEEGDataP2_Left = mean(rightSumEEGDataP2_Left, 3);
+             numResponses = length(wordResponses{responseType});
+             
+             leftAndRightOnset = leftRightCombinations(comboType);
 
-rightSumEEGDataP3_Left = cat(3, rightResponse_eachWordP3_Left{:});
-rightAvgEEGDataP3_Left = mean(rightSumEEGDataP3_Left, 3);
+             fprintf(['ResponseType N, N-1n N-2 ', num2str(responseType), ' combo type LL, RL, LR, RR ', num2str(leftAndRightOnset), '\n']);
+                         
+             numEpochsEachWord={1, numResponses}; ERPEachWord={1, numResponses}; 
 
-rightSumEEGDataP4_Left = cat(3, rightResponse_eachWordP4_Left{:});
-rightAvgEEGDataP4_Left = mean(rightSumEEGDataP4_Left, 3);
+            for wordNum = 1:numResponses
+                
+                nRows = size(wordResponses{responseType}{wordNum}.(participants{participantNo}), 1);
+                validRows = min(max(leftAndRightOnset, 1), nRows);
+                
+                % Find the number of times the participant clicked on word N, N-1 and N-2
+                if ~isempty(wordResponses{responseType}{wordNum}.(participants{participantNo}))
+                    numEpochsEachWord{wordNum} = sum(~cellfun(@isempty, wordResponses{responseType}{wordNum}.(participants{participantNo})(validRows,:)));
+                else
+                    numEpochsEachWord{wordNum} = 0;
+                end
+                
+                % Extract relevant data
+                if isempty(wordResponses{responseType}{wordNum}.(participants{participantNo}))
+                    data = {};
+                else
+                    data = wordResponses{responseType}{wordNum}.(participants{participantNo})(validRows,:);
+                end
 
-rightSumEEGDataP5_Left = cat(3, rightResponse_eachWordP5_Left{:});
-rightAvgEEGDataP5_Left = mean(rightSumEEGDataP5_Left, 3);
+                % Filter out empty cells
+                nonEmptyIdx = ~cellfun(@isempty, data);
+                validResponses = data(nonEmptyIdx);
 
-rightSumEEGDataP6_Left = cat(3, rightResponse_eachWordP6_Left{:});
-rightAvgEEGDataP6_Left = mean(rightSumEEGDataP6_Left, 3);
+                % Compute mean
+                ERPEachWord{wordNum} = mean(cat(3, validResponses{:}), 3);
 
-rightFinalERPData_Left = (rightAvgEEGDataP1_Left + rightAvgEEGDataP2_Left + rightAvgEEGDataP3_Left + rightAvgEEGDataP4_Left + rightAvgEEGDataP5_Left + rightAvgEEGDataP6_Left)/numTrialsLeft;
-rightAvgElectrodes_Left = mean(rightFinalERPData_Left, 2);
+            end 
+            
+            nonZeroResponses = find(cellfun(@(x) ~isequal(x, 0), numEpochsEachWord));  % find indices of non-zero values
 
-% ******************* RIGHT DECISIONS *********************
+            % Calulate the weightedERP before dividing 
+            weightedERP = zeros(size(ERPEachWord{1}));
+            numEpochsTotal = 0;
+            for nonZero = 1:length(nonZeroResponses) % Only use data that contained non-zero values i.e. has > 0 button presses
 
-% Left side
-numTrialsRight = sum(cellfun(@length, leftAndRightTrials{2}));
+                weightedERP = weightedERP + (ERPEachWord{nonZeroResponses(nonZero)} .* numEpochsEachWord{nonZeroResponses(nonZero)});
+                numEpochsTotal =  numEpochsTotal + numEpochsEachWord{nonZeroResponses(nonZero)};
 
-leftSumEEGDataP1_Right = cat(3, leftResponse_eachWordP1_Right{:});
-leftAvgEEGDataP1_Right = mean(leftSumEEGDataP1_Right, 3);
+            end
 
-leftSumEEGDataP2_Right = cat(3, leftResponse_eachWordP2_Right{:});
-leftAvgEEGDataP2_Right = mean(leftSumEEGDataP2_Right, 3);
+            % Divide the weighted ERP by the number of paerticipants to obtain the final weighted ERP
+            beforeAvg = weightedERP/numEpochsTotal;
+            avgElectrodeERP = mean(beforeAvg, 2);
+            finalWeightedERPs{ERPindex, participantNo} = avgElectrodeERP; % 16 x 6 (16 = NLL, NRL, NLR, NRR, N-1_LL etc...)            
+        end
+        ERPindex = ERPindex + 1;
+    end
+end
 
-leftSumEEGDataP3_Right = cat(3, leftResponse_eachWordP3_Right{:});
-leftAvgEEGDataP3_Right = mean(leftSumEEGDataP3_Right, 3);
+% Average the weighted ERPs across participants
+averageWeightedERP = {1, 16};
+for leftRightType = 1:12
 
-leftSumEEGDataP4_Right = cat(3, leftResponse_eachWordP4_Right{:});
-leftAvgEEGDataP4_Right = mean(leftSumEEGDataP4_Right, 3);
+    averageWeightedERP{leftRightType} = (finalWeightedERPs{leftRightType, 1} + finalWeightedERPs{leftRightType, 2} + finalWeightedERPs{leftRightType, 3} + finalWeightedERPs{leftRightType, 4} + finalWeightedERPs{leftRightType, 5} + finalWeightedERPs{leftRightType, 6})/numParticipants;
 
-leftSumEEGDataP5_Right = cat(3, leftResponse_eachWordP5_Right{:});
-leftAvgEEGDataP5_Right = mean(leftSumEEGDataP5_Right, 3);
+end
 
-leftSumEEGDataP6_Right = cat(3, leftResponse_eachWordP6_Right{:});
-leftAvgEEGDataP6_Right = mean(leftSumEEGDataP6_Right, 3);
-
-leftFinalERPData_Right = (leftAvgEEGDataP1_Right + leftAvgEEGDataP2_Right + leftAvgEEGDataP3_Right + leftAvgEEGDataP4_Right + leftAvgEEGDataP5_Right + leftAvgEEGDataP6_Right)/numTrialsRight;
-leftAvgElectrodes_Right = mean(leftFinalERPData_Right, 2);
-
-% Right side
-
-rightSumEEGDataP1_Right = cat(3, rightResponse_eachWordP1_Right{:});
-rightAvgEEGDataP1_Right = mean(rightSumEEGDataP1_Right, 3);
-
-rightSumEEGDataP2_Right = cat(3, rightResponse_eachWordP2_Right{:});
-rightAvgEEGDataP2_Right = mean(rightSumEEGDataP2_Right, 3);
-
-rightSumEEGDataP3_Right = cat(3, rightResponse_eachWordP3_Right{:});
-rightAvgEEGDataP3_Right = mean(rightSumEEGDataP3_Right, 3);
-
-rightSumEEGDataP4_Right = cat(3, rightResponse_eachWordP4_Right{:});
-rightAvgEEGDataP4_Right = mean(rightSumEEGDataP4_Right, 3);
-
-rightSumEEGDataP5_Right = cat(3, rightResponse_eachWordP5_Right{:});
-rightAvgEEGDataP5_Right = mean(rightSumEEGDataP5_Right, 3);
-
-rightSumEEGDataP6_Right = cat(3, rightResponse_eachWordP6_Right{:});
-rightAvgEEGDataP6_Right = mean(rightSumEEGDataP6_Right, 3);
-
-rightFinalERPData_Right = (rightAvgEEGDataP1_Right + rightAvgEEGDataP2_Right + rightAvgEEGDataP3_Right + rightAvgEEGDataP4_Right + rightAvgEEGDataP5_Right + rightAvgEEGDataP6_Right)/numTrialsRight;
-rightAvgElectrodes_Right = mean(rightFinalERPData_Right, 2);
-
-disp('FINISHED SECTION 4: Calculated ERPs for both the left and right handed responses for both the left and right side of the brain');
-
-% Plot the ERP data for left and right button clicks
+%% Plot ERP
 
 time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
 
-% ************** LEFT HANDED DECISIONS *********************
-
-figure(1);
-plot(time_axis, leftAvgElectrodes_Left, 'LineWidth', 1)
-xlim([time_axis(1), time_axis(end)]);
-ylim([-0.12, 0.02]);
-xlabel('Time (ms)')
-ylabel('Magnitude (a.u.)')
-title('Left brain ERP for left hand decisions');
-xline(0); grid on;
-
-figure(2);
-plot(time_axis, rightAvgElectrodes_Left, 'LineWidth', 1);
-xlim([time_axis(1), time_axis(end)]);
-ylim([-0.12, 0.02]);
-xlabel('Time (ms)')
-ylabel('Magnitude (a.u.)')
-title('Right brain ERP for left hand decision');
-xline(0); grid on;
-
 figure(3);
-motorPrepLeftDecision = leftAvgElectrodes_Left - rightAvgElectrodes_Left;
-plot(time_axis, motorPrepLeftDecision, 'LineWidth', 1);
-xlim([time_axis(1), time_axis(end)]);
-ylim([-0.04, 0.1]);
+grid on
+plot(time_axis, averageWeightedERP{9});
+xlim([time_axis(1),time_axis(end)]);
+set(gca,'FontSize', 12)
+set(gcf,'color','white');
+xline(0);
 xlabel('Time (ms)')
 ylabel('Magnitude (a.u.)')
-title('(R_{beta} - L_{beta})Left Decision');
-xline(0); grid on;
 
-% ************** RIGHT HANDED DECISIONS *********************
 
-figure(4);
-plot(time_axis, leftAvgElectrodes_Right, 'LineWidth', 1);
-xlim([time_axis(1), time_axis(end)]);
-ylim([-0.12, 0.02]);
-xlabel('Time (ms)')
-ylabel('Magnitude (a.u.)')
-title('Left brain ERP for right hand decisions');
-xline(0); grid on;
 
-figure(5);
-plot(time_axis, rightAvgElectrodes_Right, 'LineWidth', 1);
-xlim([time_axis(1), time_axis(end)]);
-ylim([-0.12, 0.02]);
-xlabel('Time (ms)')
-ylabel('Magnitude (a.u.)')
-title('Right brain ERP for right hand decisions');
-xline(0); grid on;
-
-figure(6);
-motorPrepRightDecision = leftAvgElectrodes_Right - rightAvgElectrodes_Right;
-plot(time_axis, motorPrepRightDecision, 'LineWidth', 1);
-xlim([time_axis(1), time_axis(end)]);
-ylim([-0.04, 0.1]);
-xlabel('Time (ms)')
-ylabel('Magnitude (a.u.)')
-title('(L_{beta} - R_{beta})Right Decision');
-xline(0); grid on;
-
-disp('FINISHED SECTION 5: Finished pre-motor analysis and plotted the results');
-
+disp('Calculated ERP and GFP for Word N, Word N-1 and Word N-2 relatvie to button press');
 

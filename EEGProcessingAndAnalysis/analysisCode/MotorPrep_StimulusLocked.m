@@ -1,68 +1,55 @@
-%% WHAT DOES THIS CODE DO?
-
-% Create the event related potential signal - ERP
-
-% in stim.data -> 1st is envelope, maybe have second element which has the
-% same length as the envolope, zeros with 1s where the stimulus onsets are
-% do a find of stimulus.data{2,1} (first stimulus) and this will tell you 
-% where there is a one (a word) - do your epoching here 
-
-%% ADD LIBRARIES AND LOAD THE AUDIO ONSET FILES IN A CELL ARRAY FOR USE IN THE NEXT SECTION 
-
-addpath libs/eeglab
-
+% ********************* STIMULI AND EEG DATA ***************************
 disp('Loading in audio onset files and creating a cell array of tables');
 
-% ********************* STIMULI AND EEG DATA ***************************
-
 % Participant one
-load('./datasets/linguisticDecision/Subject1/dataStim1.mat','stimP1')
-% load('./datasets/linguisticDecision/Subject1/dataSub1_1_10Hz.mat','eegP1')
-% load('./datasets/linguisticDecision/Subject1/dataSub1_0.01_10Hz.mat','eegP1')
-load('./datasets/linguisticDecision/Subject1/dataSub1_LowPass10Hz.mat','eegP1')
+load('./datasets/linguisticDecision/Subject1/dataStim1.mat','stimP1');
+load('./datasets/linguisticDecision/Subject1/dataSub1_12_36Hz.mat', 'BetaP1');
+load('./datasets/linguisticDecision/Subject1/dataSub1_64_100Hz.mat', 'GammaP1');
+disp('P1 Loaded');
 
 % Participant two
 load('./datasets/linguisticDecision/Subject2/dataStim2.mat','stimP2')
-% load('./datasets/linguisticDecision/Subject2/dataSub2_1_10Hz.mat','eegP2')
-% load('./datasets/linguisticDecision/Subject2/dataSub2_0.01_10Hz.mat','eegP2')
-load('./datasets/linguisticDecision/Subject2/dataSub2_LowPass10Hz.mat','eegP2')
+load('./datasets/linguisticDecision/Subject2/dataSub2_12_36Hz.mat', 'BetaP2');
+load('./datasets/linguisticDecision/Subject2/dataSub2_64_100Hz.mat', 'GammaP2');
+disp('P2 Loaded');
 
 % Participant three
 load('./datasets/linguisticDecision/Subject3/dataStim3.mat','stimP3')
-% load('./datasets/linguisticDecision/Subject3/dataSub3_1_10Hz.mat','eegP3')
-% load('./datasets/linguisticDecision/Subject3/dataSub3_0.01_10Hz.mat','eegP3')
-load('./datasets/linguisticDecision/Subject3/dataSub3_LowPass10Hz.mat','eegP3')
+load('./datasets/linguisticDecision/Subject3/dataSub3_12_36Hz.mat', 'BetaP3');
+load('./datasets/linguisticDecision/Subject3/dataSub3_64_100Hz.mat', 'GammaP3');
+disp('P3 Loaded');
 
 % Participant four
 load('./datasets/linguisticDecision/Subject4/dataStim4.mat','stimP4')
-% load('./datasets/linguisticDecision/Subject4/dataSub4_1_10Hz.mat','eegP4')
-% load('./datasets/linguisticDecision/Subject4/dataSub4_0.01_10Hz.mat','eegP4')
-load('./datasets/linguisticDecision/Subject4/dataSub4_LowPass10Hz.mat','eegP4')
+load('./datasets/linguisticDecision/Subject4/dataSub4_12_36Hz.mat', 'BetaP4');
+load('./datasets/linguisticDecision/Subject4/dataSub4_64_100Hz.mat', 'GammaP4');
+disp('P4 Loaded');
 
 % Participant five
 load('./datasets/linguisticDecision/Subject5/dataStim5.mat','stimP5')
-% load('./datasets/linguisticDecision/Subject5/dataSub5_1_10Hz.mat','eegP5')
-% load('./datasets/linguisticDecision/Subject5/dataSub5_0.01_10Hz.mat','eegP5')
-load('./datasets/linguisticDecision/Subject5/dataSub5_LowPass10Hz.mat','eegP5')
+load('./datasets/linguisticDecision/Subject5/dataSub5_12_36Hz.mat', 'BetaP5');
+load('./datasets/linguisticDecision/Subject5/dataSub5_64_100Hz.mat', 'GammaP5');
+disp('P5 Loaded');
 
 % Participant six
 load('./datasets/linguisticDecision/Subject6/dataStim6.mat','stimP6')
-% load('./datasets/linguisticDecision/Subject6/dataSub6_1_10Hz.mat','eegP6')
-% load('./datasets/linguisticDecision/Subject6/dataSub6_0.01_10Hz.mat','eegP6')
-load('./datasets/linguisticDecision/Subject6/dataSub6_LowPass10Hz.mat','eegP6')
+load('./datasets/linguisticDecision/Subject6/dataSub6_12_36Hz.mat', 'BetaP6');
+load('./datasets/linguisticDecision/Subject6/dataSub6_64_100Hz.mat', 'GammaP6');
+disp('P6 Loaded');
 
-% ************************************************************************
+% ************************************************************************8
 
 stimulusEachParticipant = {stimP1, stimP2, stimP3, stimP4, stimP5, stimP6};
-EEGDataEachParticipant = {eegP1, eegP2, eegP3, eegP4, eegP5, eegP6};
+EEGDataPreEnvelope = {BetaP1, BetaP2, BetaP3, BetaP4, BetaP5, BetaP6};
+% EEGDataPreEnvelope = {GammaP1, GammaP2, GammaP3, GammaP4, GammaP5, GammaP6};
 
 numParticipants = length(stimulusEachParticipant);
 numAudiosInSeq = 8;
-fsDown = 128; % Sampling frequency: 512Hz -> 128Hz 
+fsDown = 128; % Sampling frequency: 512Hz -> 128Hz
 
 % Participant one stimuli order
 soundsP1 = {'./EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_16.wav'};
-% Participant three stimuli order
+% Participant two stimuli order
 soundsP2 = {'./EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_2.wav'};
 % Participant three stimuli order
 soundsP3 = {'./EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSP_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/RS_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CD_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/WM_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BC_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BT_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/GS_M2_16.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/MB_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/FR_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/HA_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CHP_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/BW_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/AO_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CP_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/CB_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/TSS_M2_9.wav'};
@@ -75,6 +62,37 @@ soundsP6 = {'./EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_16.w
 
 stimuliOrder = {soundsP1, soundsP2, soundsP3, soundsP4, soundsP5, soundsP6};
 nTrials = length(soundsP1); % 272 
+
+% Get the envelope of the EEG data
+EEGEnvelope = {1, nTrials};
+for participantNo = 1:numParticipants
+    
+    EEGEnvelope = {1, nTrials};
+    
+    for trialNo = 1:nTrials
+        
+        hilbert_data = hilbert(EEGDataPreEnvelope{participantNo}.data{trialNo});
+        EEGEnvelope{trialNo} = abs(hilbert_data);
+
+    end
+    
+    if (participantNo == 1)
+        EEGEnvelopeP1 = EEGEnvelope;
+    elseif (participantNo == 2)
+        EEGEnvelopeP2 = EEGEnvelope;
+    elseif (participantNo == 3)
+        EEGEnvelopeP3 = EEGEnvelope;
+    elseif (participantNo == 4)
+        EEGEnvelopeP4 = EEGEnvelope;
+    elseif (participantNo == 5)
+        EEGEnvelopeP5 = EEGEnvelope;
+    elseif (participantNo == 6)
+        EEGEnvelopeP6 = EEGEnvelope; 
+    end
+
+end
+
+EEGDataEachParticipant = {EEGEnvelopeP1, EEGEnvelopeP2, EEGEnvelopeP3, EEGEnvelopeP4, EEGEnvelopeP5, EEGEnvelopeP6};
 
 % Add a second column to the stim cell array that contains the same number of zeros as the length of the audio file in samples.
 columns = length(stimP1.data);
@@ -155,6 +173,44 @@ end
 
 disp('FINSIHED SECTION 1: Sectioned stimuli into meanings, sequence numbers and acroynms');
 
+%% *************************************************** 2) LOAD IN DECISIONS FOR EACH PARTICIPANT AND SEPARATE DATA **************************************
+
+% Separate trials into 'left-button' click trials and 'right-button' click trials
+
+decisionTables = {'./datasets/ExperimentResults/EEGExperiment_Participant1/DecisionsAndTimings.csv', './datasets/ExperimentResults/EEGExperiment_Participant2/DecisionsAndTimings.csv',...
+    './datasets/ExperimentResults/EEGExperiment_Participant3/DecisionsAndTimings.csv', './datasets/ExperimentResults/EEGExperiment_Participant4/DecisionsAndTimings.csv',...
+    './datasets/ExperimentResults/EEGExperiment_Participant5/DecisionsAndTimings.csv', './datasets/ExperimentResults/EEGExperiment_Participant6/DecisionsAndTimings.csv'};
+
+% Read in first column of each CSV file
+decisionsP1 = readtable(decisionTables{1}, 'Range', 'A:A'); decisionsP1 = table2array(decisionsP1);
+decisionsP2 = readtable(decisionTables{2}, 'Range', 'A:A'); decisionsP2 = table2array(decisionsP2);
+decisionsP3 = readtable(decisionTables{3}, 'Range', 'A:A'); decisionsP3 = table2array(decisionsP3);
+decisionsP4 = readtable(decisionTables{4}, 'Range', 'A:A'); decisionsP4 = table2array(decisionsP4);
+decisionsP5 = readtable(decisionTables{5}, 'Range', 'A:A'); decisionsP5 = table2array(decisionsP5);
+decisionsP6 = readtable(decisionTables{6}, 'Range', 'A:A'); decisionsP6 = table2array(decisionsP6);
+
+trialsLeftButton = {1, numParticipants};
+trialsRightButton = {1, numParticipants};
+
+decisionsEachParticipant = {decisionsP1, decisionsP2, decisionsP3, decisionsP4, decisionsP5, decisionsP6};
+
+for participantNo = 1:numParticipants
+    itrLeft = 1; itrRight = 1;
+    for trialNum = 1:nTrials
+        
+        if (decisionsEachParticipant{participantNo}(trialNum) == 1)
+            trialsLeftButton{participantNo}(itrLeft) = trialNum;
+            itrLeft = itrLeft + 1;
+        
+        elseif (decisionsEachParticipant{participantNo}(trialNum) == 0)
+            trialsRightButton{participantNo}(itrRight) = trialNum;
+            itrRight = itrRight + 1;
+        end    
+    end
+end
+
+disp('FINISHED SECTION 2: Separated trials into left-button click trials and right-button click trials');
+
 %% *********************************************** 2) WORD ONSET ANALYSIS ****************************************************************
 
 %% 2.1) ERP of the word onset 
@@ -163,382 +219,66 @@ disp('FINSIHED SECTION 1: Sectioned stimuli into meanings, sequence numbers and 
 windowOfInterest = [0.1, 0.55];
 preStimBaselineWindow = [0.1, 0.15];
 
-onsetEEGdata_eachWord = {nTrials, numAudiosInSeq};
-for participantNo = 1:numParticipants
-    for eegDataNo = 1:nTrials
+leftAndRightTrials = {trialsLeftButton, trialsRightButton};
+numDecisions = length(leftAndRightTrials);
 
-        sampleNumOnsets = find(stimulusEachParticipant{participantNo}.data{2, eegDataNo} > 0);
+leftOnsetEEGdata_eachWord_Left = {1, numParticipants}; rightOnsetEEGdata_eachWord_Left = {1, numParticipants};
+leftOnsetEEGdata_eachWord_Right = {1, numParticipants}; rightOnsetEEGdata_eachWord_Right = {1, numParticipants};
+
+
+selectedElectrodes = {[10,12,13,14], [45,46,49,50]};
+
+for decisionType = 1:numDecisions
+    for participantNo = 1:numParticipants
         
-        for audioNum = 1:numAudiosInSeq
+        newnTrials = length(leftAndRightTrials{decisionType}{participantNo});
+        trialData = leftAndRightTrials{decisionType}{participantNo};
+        
+        onsetEEGdata_eachWord_Left = {1, newnTrials}; onsetEEGdata_eachWord_Right = {1, newnTrials};
 
-            preStimulus = round(sampleNumOnsets(audioNum) - (windowOfInterest(1) * fsDown));
-            postStimulus = round(sampleNumOnsets(audioNum) + (windowOfInterest(2) * fsDown));
+        for eegDataNo = 1:newnTrials
 
-            % Baseline correction
-            baselineStart = preStimulus;
-            baselineEnd = round(sampleNumOnsets(audioNum) + (preStimBaselineWindow(2) * fsDown));
-            
-            baselineData = EEGDataEachParticipant{participantNo}.data{eegDataNo}(baselineStart:baselineEnd, 1:64);
-            baselineVoltage = mean(baselineData,1);
+            sampleNumOnsets = find(stimulusEachParticipant{participantNo}.data{2, trialData(eegDataNo)} > 0);
 
-            onsetEEGdata_eachWord{eegDataNo, audioNum} = EEGDataEachParticipant{participantNo}.data{eegDataNo}(preStimulus:postStimulus, 1:64) - baselineVoltage;
+            for audioNum = 1:numAudiosInSeq
 
+                preStimulus = round(sampleNumOnsets(audioNum) - (windowOfInterest(1) * fsDown));
+                postStimulus = round(sampleNumOnsets(audioNum) + (windowOfInterest(2) * fsDown));
+
+                % Baseline correction
+                baselineStart = preStimulus;
+                baselineEnd = round(sampleNumOnsets(audioNum) + (preStimBaselineWindow(2) * fsDown));
+
+                baselineData_Left = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(baselineStart:baselineEnd, selectedElectrodes{1});
+                baselineVoltage_Left = mean(baselineData_Left,1);
+
+                onsetEEGdata_eachWord_Left{eegDataNo, audioNum} = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(preStimulus:postStimulus, selectedElectrodes{1}) - baselineVoltage_Left;
+
+                baselineData_Right = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(baselineStart:baselineEnd, selectedElectrodes{2});
+                baselineVoltage_Right = mean(baselineData_Right,1);
+
+                onsetEEGdata_eachWord_Right{eegDataNo, audioNum} = EEGDataEachParticipant{participantNo}{trialData(eegDataNo)}(preStimulus:postStimulus, selectedElectrodes{2}) - baselineVoltage_Right;
+
+            end
         end
-    end
+        
+    % Left responses
+    if (decisionType == 1)
+        
+        leftOnsetEEGdata_eachWord_Left{participantNo} = onsetEEGdata_eachWord_Left;
+        rightOnsetEEGdata_eachWord_Left{participantNo} = onsetEEGdata_eachWord_Right;
+        
+    elseif (decisionType == 2)
     
-    if (participantNo == 1)
-        onsetEEGdata_eachWordP1 = onsetEEGdata_eachWord;
-    elseif (participantNo == 2)
-        onsetEEGdata_eachWordP2 = onsetEEGdata_eachWord;
-    elseif (participantNo == 3)
-        onsetEEGdata_eachWordP3 = onsetEEGdata_eachWord;
-    elseif (participantNo == 4)
-        onsetEEGdata_eachWordP4 = onsetEEGdata_eachWord;
-    elseif (participantNo == 5)
-        onsetEEGdata_eachWordP5 = onsetEEGdata_eachWord;
-    elseif (participantNo == 6)
-        onsetEEGdata_eachWordP6 = onsetEEGdata_eachWord;
+        leftOnsetEEGdata_eachWord_Right{participantNo} = onsetEEGdata_eachWord_Left;
+        rightOnsetEEGdata_eachWord_Right{participantNo} = onsetEEGdata_eachWord_Right;
+        
     end
-    
+
+    end
+
 end
 
 disp('FINISHED: Average onset word analysis');
 
-%% ********************** 3) SPLIT DATA INTO DIFFERENT WORDS GROUPS BASED ON WORD NUMBER DECISION WAS MADE ON *********************************
-
-% Fill data.stim{3, x} with button press occurances
-
-for participantNo = 1:numParticipants
-    for trialNo = 1:nTrials
-
-       buttonPressInSamples = EEGDataEachParticipant{participantNo}.buttonpress{trialNo};
-       stimulusEachParticipant{participantNo}.data{3, trialNo}(buttonPressInSamples) = 1;
-    end
-end
-
-disp('Finished adding one to egg.data{3} wherever there is a button press');
-
-% Dividing EEG data into arrays based on the word last hear before a decision was made
-
-disp('Starting division of words');
-
-allWordOnsetData = {onsetEEGdata_eachWordP1, onsetEEGdata_eachWordP2, onsetEEGdata_eachWordP3, onsetEEGdata_eachWordP4, onsetEEGdata_eachWordP5, onsetEEGdata_eachWordP6};
-
-% Word N
-firstWordResponse.P1 = {}; firstWordResponse.P2 = {}; firstWordResponse.P3 = {}; firstWordResponse.P4 = {}; firstWordResponse.P5 = {}; firstWordResponse.P6 = {};
-
-% Word N
-secondWordResponse.P1 = {}; secondWordResponse.P2 = {}; secondWordResponse.P3 = {}; secondWordResponse.P4 = {}; secondWordResponse.P5 = {}; secondWordResponse.P6 = {}; 
-% Word N-1
-secondWordResponse_prev.P1 = {}; secondWordResponse_prev.P2 = {}; secondWordResponse_prev.P3 = {}; secondWordResponse_prev.P4 = {}; secondWordResponse_prev.P5 = {}; 
-secondWordResponse_prev.P6 = {}; 
-
-% Word N
-thirdWordResponse.P1 = {}; thirdWordResponse.P2 = {}; thirdWordResponse.P3 = {}; thirdWordResponse.P4 = {}; thirdWordResponse.P5 = {}; thirdWordResponse.P6 = {};
-% Word N-1
-thirdWordResponse_prev.P1 = {}; thirdWordResponse_prev.P2 = {}; thirdWordResponse_prev.P3 = {}; thirdWordResponse_prev.P4 = {}; thirdWordResponse_prev.P5 = {};
-thirdWordResponse_prev.P6 = {};
-% Word N-2
-thirdWordResponse_TwoPrev.P1 = {}; thirdWordResponse_TwoPrevprev.P2 = {}; thirdWordResponse_TwoPrevprev.P3 = {}; thirdWordResponse_TwoPrevprev.P4 = {}; 
-thirdWordResponse_TwoPrevprev.P5 = {};thirdWordResponse_TwoPrevprev.P6 = {};
-
-% Word N
-fourthWordResponse.P1 = {}; fourthWordResponse.P2 = {}; fourthWordResponse.P3 = {}; fourthWordResponse.P4 = {}; fourthWordResponse.P5 = {}; fourthWordResponse.P6 = {};
-% Word N-1
-fourthWordResponse_prev.P1 = {}; fourthWordResponse_prev.P2 = {}; fourthWordResponse_prev.P3 = {}; fourthWordResponse_prev.P4 = {}; fourthWordResponse_prev.P5 = {};
-fourthWordResponse_prev.P6 = {};
-% Word N-2
-fourthWordResponse_TwoPrev.P1 = {}; fourthWordResponse_TwoPrev.P2 = {}; fourthWordResponse_TwoPrev.P3 = {}; fourthWordResponse_TwoPrev.P4 = {}; 
-fourthWordResponse_TwoPrev.P5 = {};fourthWordResponse_TwoPrev.P6 = {};
-
-% Word N
-fifthWordResponse.P1 = {}; fifthWordResponse.P2 = {}; fifthWordResponse.P3 = {}; fifthWordResponse.P4 = {}; fifthWordResponse.P5 = {}; fifthWordResponse.P6 = {};
-% Word N-1
-fifthWordResponse_prev.P1 = {}; fifthWordResponse_prev.P2 = {}; fifthWordResponse_prev.P3 = {}; fifthWordResponse_prev.P4 = {}; fifthWordResponse_prev.P5 = {};
-fifthWordResponse_prev.P6 = {};
-% Word N-2
-fifthWordResponse_TwoPrev.P1 = {}; fifthWordResponse_TwoPrev.P2 = {}; fifthWordResponse_TwoPrev.P3 = {}; fifthWordResponse_TwoPrev.P4 = {}; 
-fifthWordResponse_TwoPrev.P5 = {}; fifthWordResponse_TwoPrev.P6 = {};
-
-% Word N
-sixthWordResponse.P1 = {}; sixthWordResponse.P2 = {}; sixthWordResponse.P3 = {}; sixthWordResponse.P4 = {}; sixthWordResponse.P5 = {}; sixthWordResponse.P6 = {};
-% Word N-1
-sixthWordResponse_prev.P1 = {}; sixthWordResponse_prev.P2 = {}; sixthWordResponse_prev.P3 = {}; sixthWordResponse_prev.P4 = {}; sixthWordResponse_prev.P5 = {};
-sixthWordResponse_prev.P6 = {};
-% Word N-2
-sixthWordResponse_TwoPrev.P1 = {}; sixthWordResponse_TwoPrev.P2 = {}; sixthWordResponse_TwoPrev.P3 = {}; sixthWordResponse_TwoPrev.P4 = {}; sixthWordResponse_TwoPrev.P5 = {};
-sixthWordResponse_TwoPrev.P6 = {};
-
-% Word N
-seventhWordResponse.P1 = {}; seventhWordResponse.P2 = {}; seventhWordResponse.P3 = {}; seventhWordResponse.P4 = {}; seventhWordResponse.P5 = {}; seventhWordResponse.P6 = {};
-% Word N-1
-seventhWordResponse_prev.P1 = {}; seventhWordResponse_prev.P2 = {}; seventhWordResponse_prev.P3 = {}; seventhWordResponse_prev.P4 = {}; seventhWordResponse_prev.P5 = {};
-seventhWordResponse_prev.P6 = {};
-% Word N-2
-seventhWordResponse_TwoPrev.P1 = {}; seventhWordResponse_TwoPrev.P2 = {}; seventhWordResponse_TwoPrev.P3 = {}; seventhWordResponse_TwoPrev.P4 = {}; 
-seventhWordResponse_TwoPrev.P5 = {}; seventhWordResponse_TwoPrev.P6 = {};
-
-% Word N
-eighthWordResponse.P1 = {}; eighthWordResponse.P2 = {}; eighthWordResponse.P3 = {}; eighthWordResponse.P4 = {}; eighthWordResponse.P5 = {}; eighthWordResponse.P6 = {};
-% Word N-1
-eighthWordResponse_prev.P1 = {}; eighthWordResponse_prev.P2 = {}; eighthWordResponse_prev.P3 = {}; eighthWordResponse_prev.P4 = {}; eighthWordResponse_prev.P5 = {}; 
-eighthWordResponse_prev.P6 = {};
-% Word N-2
-eighthWordResponse_TwoPrev.P1 = {}; eighthWordResponse_TwoPrev.P2 = {}; eighthWordResponse_TwoPrev.P3 = {}; eighthWordResponse_TwoPrev.P4 = {}; 
-eighthWordResponse_TwoPrev.P5 = {}; eighthWordResponse_TwoPrev.P6 = {};
-
-% Place words in structures based on their participant number and the word that the decision was made on.
-testArray={};
-for participantNo = 1:numParticipants
-    participantStr = ['P', num2str(participantNo)];
-   
-    for trialNum = 1:nTrials
-
-        buttonPressOccur = find(stimulusEachParticipant{participantNo}.data{3, trialNum} > 0);
-        stimOnsetOccur = find(stimulusEachParticipant{participantNo}.data{2, trialNum} > 0);
-        
-        acronymName = seqAcronym{participantNo, trialNum}; % Acronym e.g. US
-        tableNum = acronymToIndexNumber(acronymName);
-        sequenceNumber = sequenceNum{participantNo, trialNum}; % Sequence number e.g. 16
-        
-        trialLengthSamp = round(table2array(arrayOfTables{tableNum}(9, str2double(sequenceNumber)+1)));
-
-        for onsetNum = 1:numAudiosInSeq
-
-            if (buttonPressOccur <= stimOnsetOccur(onsetNum))
-                wordBeforePress = onsetNum - 1;
-                break
-            end
-
-            if (buttonPressOccur > stimOnsetOccur(8) &&  (buttonPressOccur < trialLengthSamp))
-                wordBeforePress = 8;
-                break
-            end
-            
-            if (buttonPressOccur > trialLengthSamp)
-                wordBeforePress = 9;
-                break
-            end
-            
-        end
-        
-        if (wordBeforePress == 1)
-            index1 = length(firstWordResponse.(participantStr)) + 1;
-            firstWordResponse.(participantStr){index1} = allWordOnsetData{participantNo}{trialNum, wordBeforePress};
-            if (participantNo == 1)
-                fprintf(['Button press ', num2str(buttonPressOccur), ' 2nd word ', num2str(stimOnsetOccur(2)), '\n']);
-            end
-        end
-        
-         if (wordBeforePress == 2)
-            index2 = length(secondWordResponse.(participantStr)) + 1;
-            secondWordResponse.(participantStr){index2} = allWordOnsetData{participantNo}{trialNum, wordBeforePress};
-            secondWordResponse_prev.(participantStr){index2} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-1};
-        end
-
-        if (wordBeforePress == 3)
-            index3 = length(thirdWordResponse.(participantStr)) + 1;
-            thirdWordResponse.(participantStr){index3} = allWordOnsetData{participantNo}{trialNum, wordBeforePress};
-            thirdWordResponse_prev.(participantStr){index3} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-1};
-            thirdWordResponse_TwoPrev.(participantStr){index3} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-2};
-        end
-
-        if (wordBeforePress == 4)
-            index4 = length(fourthWordResponse.(participantStr)) + 1;
-            fourthWordResponse.(participantStr){index4} = allWordOnsetData{participantNo}{trialNum, wordBeforePress};
-            fourthWordResponse_prev.(participantStr){index4} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-1};
-            fourthWordResponse_TwoPrev.(participantStr){index4} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-2};
-        end
-
-        if (wordBeforePress == 5)
-            index5 = length(fifthWordResponse.(participantStr)) + 1;
-            fifthWordResponse.(participantStr){index5} = allWordOnsetData{participantNo}{trialNum, wordBeforePress};
-            fifthWordResponse_prev.(participantStr){index5} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-1};
-            fifthWordResponse_TwoPrev.(participantStr){index5} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-2};
-        end
-
-        if (wordBeforePress == 6)
-            index6 = length(sixthWordResponse.(participantStr)) + 1;
-            sixthWordResponse.(participantStr){index6} = allWordOnsetData{participantNo}{trialNum, wordBeforePress};
-            sixthWordResponse_prev.(participantStr){index6} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-1};
-            sixthWordResponse_TwoPrev.(participantStr){index6} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-2};
-        end
-
-        if (wordBeforePress == 7)
-            index7 = length(seventhWordResponse.(participantStr)) + 1;
-            seventhWordResponse.(participantStr){index7} = allWordOnsetData{participantNo}{trialNum, wordBeforePress};
-            seventhWordResponse_prev.(participantStr){index7} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-1};
-            seventhWordResponse_TwoPrev.(participantStr){index7} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-2};
-        end
-
-        if (wordBeforePress == 8)
-            index8 = length(eighthWordResponse.(participantStr)) + 1;
-            eighthWordResponse.(participantStr){index8} = allWordOnsetData{participantNo}{trialNum, wordBeforePress};
-            eighthWordResponse_prev.(participantStr){index8} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-1};
-            eighthWordResponse_TwoPrev.(participantStr){index8} = allWordOnsetData{participantNo}{trialNum, wordBeforePress-2};
-        end
-        
-        if (wordBeforePress == 9)
-            disp('Miss trial, not including in data.');
-        end
-    end
-end
-
-disp ('Finished placing words into their respective structures');
-
-%% ****************************** CALCULATE WEIGHTED AVERAGE ERP OF WORD DECISION WAS MADE ON *****************************************
-
-participants = {'P1', 'P2', 'P3', 'P4', 'P5', 'P6'};
-
-currWordResponse = {firstWordResponse, secondWordResponse, thirdWordResponse, fourthWordResponse, fifthWordResponse...
-    sixthWordResponse, seventhWordResponse, eighthWordResponse};
-
-prevWordResponses = {secondWordResponse_prev, thirdWordResponse_prev, fourthWordResponse_prev, fifthWordResponse_prev...
-    sixthWordResponse_prev, seventhWordResponse_prev, eighthWordResponse_prev};
-
-twoPrevWordResponses = {thirdWordResponse_TwoPrev, fourthWordResponse_TwoPrev, fifthWordResponse_TwoPrev...
-    sixthWordResponse_TwoPrev, seventhWordResponse_TwoPrev, eighthWordResponse_TwoPrev};
-
-wordResponses = {currWordResponse, prevWordResponses, twoPrevWordResponses};
-numResponseTypes = length(wordResponses);
-
-% numResponses = length(prevWordResponses);
-finalWeightedERPs={3, numParticipants};
-
-for responseType = 1:numResponseTypes
-    for participantNo = 1:numParticipants
-
-         nonZeroResponses=zeros(); itr=1;
-         numResponses = length(wordResponses{responseType});
-         numEpochsEachWord={1, numResponses}; ERPEachWord={1, numResponses}; 
-         
-        for wordNum = 1:numResponses
-
-            % Find the number of times the participant clicked on word N, N-1 and N-2
-            numEpochsEachWord{wordNum} = length(wordResponses{responseType}{wordNum}.(participants{participantNo})); 
-
-            % Calculate the ERP for word N-1
-            ERPEachWord{wordNum} = mean(cat(3, wordResponses{responseType}{wordNum}.(participants{participantNo}){:}), 3);
-
-            % Check if the response is zero, if it is, it cannot be included in the weighted average
-            if (numEpochsEachWord{wordNum} ~=0)
-                nonZeroResponses(itr) = wordNum;
-                itr = itr + 1;
-            end
-
-        end
-
-        % Calulate the weightedERP before dividing 
-        weightedERP = zeros(size(ERPEachWord{nonZeroResponses(1)}));
-        numEpochsTotal = 0;
-        for nonZero = 1:length(nonZeroResponses) % Only use data that contained non-zero values i.e. has > 0 button presses
-
-            weightedERP = weightedERP + (ERPEachWord{nonZeroResponses(nonZero)} .* numEpochsEachWord{nonZeroResponses(nonZero)});
-            numEpochsTotal =  numEpochsTotal + numEpochsEachWord{nonZeroResponses(nonZero)};
-
-        end
-
-        % Divide the weighted ERP by the number of paerticipants to obtain the final weighted ERP
-        finalWeightedERPs{responseType, participantNo} = weightedERP/numEpochsTotal;
-
-    end
-end
-
-% Average the weighted ERPs across participants
-
-averageWeightedERP = {1, numResponseTypes};
-gfp_WordResponses = {1, numResponseTypes};
-for responseType = 1:numResponseTypes
-
-    averageWeightedERP{responseType} = (finalWeightedERPs{responseType, 1} + finalWeightedERPs{responseType, 2} + finalWeightedERPs{responseType, 3} + finalWeightedERPs{responseType, 4} + finalWeightedERPs{responseType, 5} + finalWeightedERPs{responseType, 6})/numParticipants;
-    gfp_WordResponses{responseType} = sqrt(mean(averageWeightedERP{responseType}.^2,2));
-
-end
-
-disp('Calculated ERP and GFP for Word N, Word N-1 and Word N-2 relatvie to button press');
-
-%% ***************************************************** PLOT ERP GFP AND TOPOGRAPHIES ********************************
-
-time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
-
-plotNames1 = {'WordN_ERP_1-10Hz', 'WordN-1_ERP_1-10Hz', 'WordN-2_ERP_1-10Hz'};
-plotNames2 = {'WordN_ERP_0.01-10Hz', 'WordN-1_ERP_0.01-10Hz', 'WordN-2_ERP_0.01-10Hz'};
-plotNames3 = {'WordN_ERP_10Hz', 'WordN-1_ERP_10Hz', 'WordN-2_ERP_10Hz'};
-
-for responseType = 1:numResponseTypes
-    
-    figure(responseType);
-    plot(time_axis, averageWeightedERP{responseType});
-    xlim([time_axis(1),time_axis(end)]);
-    xline(0);
-    xlabel('Time-latency (ms)'); ylabel('Magnitude (a.u.)');
-    set(gca,'FontSize', 12)
-    set(gcf,'color','white');
-    
-    % Generate a filename based on the current iteration of the loop and the corresponding plot name from the cell array
-    filename = sprintf('./Figures/ResponseWords/%s.png', plotNames3{responseType});
-    
-    % Save the plot with the generated filename
-    saveas(gcf, filename)
-
-end
-
-figure(4);
-blueDark = [0 0 0.4];
-blueMedium = [0 0 0.8];
-blueLight = [0.2 0.6 1];
-
-grid on
-plot(time_axis, gfp_WordResponses{1}, 'LineWidth', 2, 'Color', blueDark, 'DisplayName', 'Word N');
-hold on 
-plot(time_axis, gfp_WordResponses{2}, 'LineWidth', 2, 'Color', blueMedium, 'DisplayName', 'Word N-1');
-hold on
-plot(time_axis, gfp_WordResponses{3}, 'LineWidth', 2, 'Color', blueLight, 'DisplayName', 'Word N-2');
-hold off
-xlim([time_axis(1),time_axis(end)]);
-
-set(legend,'fontsize',10);
-xline(0, 'LineWidth', 0.5, 'HandleVisibility', 'off');
-
-leg = legend('show', 'Location', 'northwest');
-set(leg, 'Position', [0.32 0.77 0.15 0.1]);
-set(gca,'FontSize', 12)
-set(gcf,'color','white');
-xlabel('Time (ms)');
-ylabel('Global Field Power (a.u.)');
-
-% saveas(gcf,'./Figures/ResponseWords/ResponseWordsGFPs_1_10Hz.png')
-% saveas(gcf,'./Figures/ResponseWords/ResponseWordsGFPs_0.01_10Hz.png')
-saveas(gcf,'./Figures/ResponseWords/ResponseWordsGFPs_0_10Hz.png')
-
-% Topographies
-topoplotLocs = [54, 126, 171, 226];
-topoplotLocsSamp = [21, 30, 36, 43];
-
-topoNames1 = {'WordN_Topographies_1-10Hz', 'WordN-1_Topographies_1-10Hz', 'WordN-2_Topographies_1-10Hz'};
-topoNames2 = {'WordN_Topographies_0.01-10Hz', 'WordN-1_Topographies_0.01-10Hz', 'WordN-2_Topographies_0.01-10Hz'};
-topoNames3 = {'WordN_Topographies_10Hz', 'WordN-1_Topographies_10Hz', 'WordN-2_Topographies_10Hz'};
-
-numPlots = length(topoplotLocsSamp);
-for responseType = 1:numResponseTypes
-    
-    figure(4+responseType);
-    disp(responseType);
-    
-    for plotNum = 1:numPlots
-        
-        nexttile;
-        topoplot(averageWeightedERP{responseType}(topoplotLocsSamp(plotNum),:), chanlocs);
-        set(gcf,'color','white');
-        
-    end
-    
-    % Generate a filename based on the current iteration of the loop and the corresponding plot name from the cell array
-    filename = sprintf('./Figures/ResponseWords/%s.png', topoNames3{responseType});
-    
-    % Save the plot with the generated filename
-    set(gcf, 'Units', 'Inches', 'Position', [0, 0, 8, 8], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
-    saveas(gcf, filename)
-end
-
-disp('FINSIHED SCRIPT');
+%%
