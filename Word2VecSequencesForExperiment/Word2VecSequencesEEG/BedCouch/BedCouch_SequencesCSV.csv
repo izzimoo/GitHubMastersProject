@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Bed Sequence 1,Bed Sequence 2,Bed Sequence 3,Bed Sequence 4,Bed Sequence 5,Bed Sequence 6,Bed Sequence 7,Bed Sequence 8,Couch Sequence 1,Couch Sequence 2,Couch Sequence 3,Couch Sequence 4,Couch Sequence 5,Couch Sequence 6,Couch Sequence 7,Couch Sequence 8
+sleep,0.6293845616909053,cushion,0.5197945125626873,comfortable,0.541129341951085,sleep,pillow,pajamas,snuggle,snuggle,support,support,doze,comfortable,cushion,reclined,television,nap,comfortable,television,futon
+laydown,0.7611863280951464,television,0.6768262525525395,nap,0.5197631230406765,snooze,laydown,snooze,pajamas,laydown,pajamas,laydown,lounge,television,reclined,pajamas,reclined,reclined,futon,cushion,cushion
+snooze,0.6017682467776803,futon,0.5307033363745326,pajamas,0.49512799243984223,comfortable,doze,support,doze,doze,pillow,snooze,snooze,reclined,doze,doze,cushion,cushion,cushion,comfortable,television
+support,0.9946358508302148,sit,0.6248906716864037,doze,0.5406560869374823,snuggle,snuggle,laydown,comfortable,nap,reclined,reclined,support,nap,pajamas,comfortable,futon,comfortable,nap,sit,doze
+lounge,0.5789896945895917,,,reclined,0.5194372853790136,nap,comfortable,doze,snooze,snooze,snooze,doze,laydown,doze,sit,futon,comfortable,television,reclined,futon,pajamas
+snuggle,0.5961119235365926,,,,,support,pajamas,nap,reclined,support,lounge,snuggle,comfortable,futon,futon,sit,sit,futon,pajamas,reclined,reclined
+pillow,0.5616773772150354,,,,,lounge,reclined,sleep,lounge,pajamas,nap,comfortable,snuggle,sit,comfortable,cushion,pajamas,pajamas,television,doze,comfortable
+,,,,,,laydown,lounge,snuggle,sleep,lounge,sleep,sleep,pillow,cushion,television,television,doze,sit,sit,nap,sit

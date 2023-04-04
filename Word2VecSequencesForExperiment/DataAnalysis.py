@@ -57,7 +57,7 @@ ax.set_title("Time of reaction for each trial")
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig1.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig1.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig1.png')
-plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig1.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig1.png')
 
 # ---------------------------- CODE TO CREATE THE AUDIO ONSET FILES ---------------------------------#
 
@@ -464,25 +464,31 @@ print('\n')
 # ---------------- MAKE FIGURE FOR NUMBER OF DECISION MADE ON EACH WORD ------------------------- #
 
 x_axis = ['Missed Seq.', '1', '2', '3', '4', '5', '6', '7', '8']
-y_axis = countList
+# All count for behavioural 
+#allParticipantsCount = [37, 62, 92, 67, 38, 43, 34, 24, 11]
+# All count for EEG 
+allParticipantsCount = [29, 211, 376, 369, 291, 182, 95, 54, 25]
+
+y_axis = allParticipantsCount
+#countList
 
 fig2, ax2 = plt.subplots()
 
 # Change title of this plot - check academic papers.
 ax2.bar(x_axis, y_axis, color='#3C89AF')
-ax2.set_xlabel("Word")
-ax2.set_ylabel("Number of decision made on word")
-ax2.set_title("Number of decisions made on each word")
+ax2.set_xlabel("Word", fontsize=16)
+ax2.set_ylabel("Number of decisions", fontsize=16)
+ax2.tick_params(axis='both', which='major', labelsize=12)
+#ax2.set_title("Number of decisions made on each word")
 
 # Get labels on top of bars in the chart representing the data
 for bar in ax2.patches: # Gets the bars on the chart
     width = bar.get_width(); height = bar.get_height() # Gets the width and height of each bar
     x, y = bar.get_xy() # Get the values represented by the bar (word number and decision count for that word number)
-    ax2.annotate(f'{height}', (x + width/2, y + height*1.01), ha='center') # Prints a label on top of the bar displaying the decision number
-
+    ax2.annotate(f'{height}', (x + width/2, y + height*1.01), fontsize=13, ha='center') # Prints a label on top of the bar displaying the decision number
 
 # Choose a saving location depending on the participant
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/ResultsFigures/fig2.png')
+plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/ResultsFigures/fig2.png')
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/ResultsFigures/fig2.png')
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/ResultsFigures/fig2.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig2.png')
@@ -490,7 +496,8 @@ for bar in ax2.patches: # Gets the bars on the chart
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig2.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig2.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig2.png')
-plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig2.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig2.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/AllPsDecisionCount.png')
 
 # ------------------------------------------------------------------------------------------------------------------------- #
 
@@ -498,13 +505,19 @@ plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6
 
 fig3, ax3 = plt.subplots()
 
-percentages = [ (countList[0]/sum(countList))*100,  (100 - ((countList[0]/sum(countList))*100)) ]
+# Number of seqeucnes missed in total during behavioural
+
+#percentages = [ (countList[0]/sum(countList))*100,  (100 - ((countList[0]/sum(countList))*100)) ]
+# EEG 
+percentages = [1.78, 98.22]
+# Behavioural
+#percentages = [9.07, 90.93]
 pieLabels = ['Missed', 'Not Missed']
-ax3.set_title('Percentage of Sequences with Decision vs No Decision')
-ax3.pie(percentages, labels=pieLabels, autopct='%1.2f%%')
+#ax3.set_title('Percentage of Sequences with Decision vs No Decision')
+ax3.pie(percentages, labels=pieLabels, autopct='%1.2f%%', textprops={'fontsize': 18})
 
 # Choose a saving location depending on the participant
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/ResultsFigures/fig3.png')
+plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/ResultsFigures/fig3.png')
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/ResultsFigures/fig3.png')
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/ResultsFigures/fig3.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig3.png')
@@ -512,7 +525,7 @@ ax3.pie(percentages, labels=pieLabels, autopct='%1.2f%%')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig3.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig3.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig3.png')
-plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig3.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig3.png')
 
 # ---------------------------------------------------------------------------------------------------- #
 
@@ -603,35 +616,43 @@ print('\n')
 
 # ---------------------- CREATE BAR CHART FOR ALL PARTICIPANTS ACCURACIES AND INACCURACIES (AFTER MISSED SEQUENCE REMOVAL) ------------------------------- #
 
+## Results Behavioural
 accuracies = [69.42, 75.44, 66.18] # Accuracies taken from the print statements
-inaccuracies = [round((100-69.42),2), round((100-75.44),2), round((100-66.18),2)] # Inaccuracies gotten by 100-accuracies
+#inaccuracies = [round((100-69.42),2), round((100-75.44),2), round((100-66.18),2)] # Inaccuracies gotten by 100-accuracies
 
-labels = ['Participant 1', 'Participant 2', 'Participant 3'] # Labels for X axis bar chart
+## Results EEG
+#accuracies = [74.63, 69.12, 69.47, 72.66, 69.49, 82.53] # Accuracies taken from the print statements 
+#inaccuracies = [round((100-74.63),2), round((100-69.12),2), round((100-69.47),2), round((100-72.66),2), round((100-69.49),2), round((100-82.53),2)] # Inaccuracies gotten by 100-accuracies
+
+#labels = ['1', '2', '3', '4', '5', '6'] # Labels for X axis bar chart
+labels = ['1', '2', '3'] # Labels for X axis bar chart
 
 xAxis = np.arange(len(labels)) # Enumerate x axis label values 
 fig4, ax4 = plt.subplots()
 
 # Format the bar chart so that there are two bars for each participant - one showing the accuracy percentage and one showing the inaccuracy percentage
-ax4.bar(xAxis - 0.2, accuracies, width=0.3, label = 'Percentage Correct', color='#2D9C4F') 
-ax4.bar(xAxis + 0.2, inaccuracies, width=0.3, label = 'Percentage Incorrect', color='#F85F45')
+ax4.bar(xAxis - 0.2, accuracies, width=0.3, label = 'Correct', color='#2D9C4F') 
+#ax4.bar(xAxis + 0.2, inaccuracies, width=0.3, label = 'Incorrect', color='#F85F45')
 
-plt.xticks(xAxis, labels)
+plt.xticks(xAxis, labels, fontsize=15)
+ax4.tick_params(axis='both', which='major', labelsize=16)
 
-ax4.set_xlabel("Participant")
-ax4.set_ylabel("Accuracy (percent %)")
-ax4.set_title("Accuracy of each participant", x=0.47)
-ax4.legend(bbox_to_anchor=[1.13, 1.14])
+ax4.set_xlabel("Participant", fontsize=17)
+ax4.xaxis.labelpad = -3
+ax4.set_ylabel("Accuracy (%)", fontsize= 17)
+#ax4.set_title("Participant Accuracy", fontsize= 15)
+ax4.legend(bbox_to_anchor=[1.13, 1.14], prop={'size': 30}, framealpha=1)
 
 for bar in ax4.patches: # Gets the bars on the chart (6 - (2 bars x 3 participants))
     width = bar.get_width(); height = bar.get_height() # Get height and width of bars
     x, y = bar.get_xy() # Gets values for the bars - participant and their accuracy and inaccuracy values
-    ax4.annotate(f'{height}', (x + width/2, y + height*1.01), ha='center') # Annotates the accuracy and inaccuracy values on top of the bars in the chart
+    ax4.annotate(f'{height}', (x + width/2, y + height*1.01), fontsize = 13.5, ha='center') # Annotates the accuracy and inaccuracy values on top of the bars in the chart
 
+#plt.show()
 # Choose a saving location depending on the participant   
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/ResultsFigures/fig4.png')
+plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/ResultsFigures/fig4.png')
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/ResultsFigures/fig4.png')
 #plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/ResultsFigures/fig4.png')
-
 # ----------------------- BAR CHART FOR ACCURACY OF EEG PARTICIPANTS ---------------------- #
 
 accuracies = [accuracyValueForBarChart] # Accuracies taken from the print statements
@@ -663,7 +684,7 @@ for bar in ax5.patches: # Gets the bars on the chart (2 bars x 1 participant))
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig4.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig4.png')
 #plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig4.png')
-plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig4.png')
+#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig4.png')
 
 # ----------------- ANALYSIS TO DETERMINE SEQUENCES THAT WERE GOTTEN CORRECT IN THE FIRST ONE OR TWO WORDS ---------------------- #
 

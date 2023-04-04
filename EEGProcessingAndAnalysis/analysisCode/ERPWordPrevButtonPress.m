@@ -9,8 +9,10 @@
 
 %% ADD LIBRARIES AND LOAD THE AUDIO ONSET FILES IN A CELL ARRAY FOR USE IN THE NEXT SECTION 
 
+close all; clear;
 addpath libs/eeglab
-
+eeglab
+load('./analysisCode/chanlocs64.mat')
 disp('Loading in audio onset files and creating a cell array of tables');
 
 % ********************* STIMULI AND EEG DATA ***************************
@@ -160,8 +162,12 @@ disp('FINSIHED SECTION 1: Sectioned stimuli into meanings, sequence numbers and 
 %% 2.1) ERP of the word onset 
 
 % Window of interest in samples = [13, 64] : round(0.1*fsDown), round(0.5*fsDown)
-windowOfInterest = [0.1, 0.55];
+windowOfInterest = [0.1, 1];
 preStimBaselineWindow = [0.1, 0.15];
+
+% selectedElectrodes = [19, 20, 31, 32, 56, 57];
+selectedElectrodes = [19, 32, 56];
+count = 0;
 
 onsetEEGdata_eachWord = {nTrials, numAudiosInSeq};
 for participantNo = 1:numParticipants
@@ -173,6 +179,19 @@ for participantNo = 1:numParticipants
 
             preStimulus = round(sampleNumOnsets(audioNum) - (windowOfInterest(1) * fsDown));
             postStimulus = round(sampleNumOnsets(audioNum) + (windowOfInterest(2) * fsDown));
+            
+            acronymName = seqAcronym{participantNo, eegDataNo}; % Acronym e.g. US
+            tableNum = acronymToIndexNumber(acronymName);
+            sequenceNumber = sequenceNum{participantNo, eegDataNo}; % Sequence number e.g. 16
+        
+            trialLengthSamp = round(table2array(arrayOfTables{tableNum}(9, str2double(sequenceNumber)+1)));
+            
+            remainingTrialDuration = trialLengthSamp - sampleNumOnsets(audioNum);
+            if (remainingTrialDuration < windowOfInterest(2) * fsDown)
+                disp('Word length is shorter than the analysis window. Skipping word.');
+                count = count + 1;
+                continue;
+            end
 
             % Baseline correction
             baselineStart = preStimulus;
@@ -287,10 +306,15 @@ eighthWordResponse_prev.P6 = {};
 eighthWordResponse_TwoPrev.P1 = {}; eighthWordResponse_TwoPrev.P2 = {}; eighthWordResponse_TwoPrev.P3 = {}; eighthWordResponse_TwoPrev.P4 = {}; 
 eighthWordResponse_TwoPrev.P5 = {}; eighthWordResponse_TwoPrev.P6 = {};
 
+% Miss trial
+missTrialData.P3 = {}; missTrialData.P4 = {}; missTrialData.P6 = {}; 
+
 % Place words in structures based on their participant number and the word that the decision was made on.
 testArray={};
 for participantNo = 1:numParticipants
+    
     participantStr = ['P', num2str(participantNo)];
+    indexMiss = 1;
    
     for trialNum = 1:nTrials
 
@@ -325,9 +349,9 @@ for participantNo = 1:numParticipants
         if (wordBeforePress == 1)
             index1 = length(firstWordResponse.(participantStr)) + 1;
             firstWordResponse.(participantStr){index1} = allWordOnsetData{participantNo}{trialNum, wordBeforePress};
-            if (participantNo == 1)
-                fprintf(['Button press ', num2str(buttonPressOccur), ' 2nd word ', num2str(stimOnsetOccur(2)), '\n']);
-            end
+%             if (participantNo == 1)
+%                 fprintf(['Button press ', num2str(buttonPressOccur), ' 2nd word ', num2str(stimOnsetOccur(2)), '\n']);
+%             end
         end
         
          if (wordBeforePress == 2)
@@ -380,6 +404,9 @@ for participantNo = 1:numParticipants
         
         if (wordBeforePress == 9)
             disp('Miss trial, not including in data.');
+            missTrialData.(participantStr){indexMiss} = allWordOnsetData{participantNo}{3, 8}; % Get the last word listened to (word 8 for a miss trial)
+            indexMiss = indexMiss + 1;
+%             fprintf(['Participant num: ', num2str(participantNo), ' trial num ', num2str(trialNum), '\n']); 
         end
     end
 end
@@ -439,15 +466,27 @@ for responseType = 1:numResponseTypes
         end
 
         % Divide the weighted ERP by the number of paerticipants to obtain the final weighted ERP
-        finalWeightedERPs{responseType, participantNo} = weightedERP/numEpochsTotal;
+%         finalWeightedERPs{responseType, participantNo} = mean(weightedERP/numEpochsTotal,2);
+        % For 64 electrodes
+        finalWeightedERPs{responseType, participantNo} = (weightedERP/numEpochsTotal);
+
 
     end
 end
 
-% Average the weighted ERPs across participants
+% % Calculate the SEM 
+% SEMresponseType = {1, numResponseTypes}; 
+% for responseType = 1:numResponseTypes
+%     
+%     % % Calculate the SEM for ambig
+%     participantDataMatrix = cell2mat(finalWeightedERPs(responseType,:))'; % Put the ERPs in a matrix of size 6x142 (6 participants = 6 rows, time - 142 sample columns)
+%     SEMresponseType{responseType} = std(participantDataMatrix, 0, 1)/sqrt(numParticipants); % Get the SEM of each column in the matrix - std dev of column / sqrt(num participants)
+%     
+% end
+% 
+% % Average the weighted ERPs across participants
 
-averageWeightedERP = {1, numResponseTypes};
-gfp_WordResponses = {1, numResponseTypes};
+averageWeightedERP = {1, numResponseTypes}; gfp_WordResponses = {1, numResponseTypes}; 
 for responseType = 1:numResponseTypes
 
     averageWeightedERP{responseType} = (finalWeightedERPs{responseType, 1} + finalWeightedERPs{responseType, 2} + finalWeightedERPs{responseType, 3} + finalWeightedERPs{responseType, 4} + finalWeightedERPs{responseType, 5} + finalWeightedERPs{responseType, 6})/numParticipants;
@@ -455,7 +494,86 @@ for responseType = 1:numResponseTypes
 
 end
 
-disp('Calculated ERP and GFP for Word N, Word N-1 and Word N-2 relatvie to button press');
+%% Miss trial analysis 
+
+missTrialP3_ERP = mean(cat(3, missTrialData.P3{:}), 3);
+numMissTrialP3 = length(missTrialData.P3);
+
+missTrialP4_ERP = mean(cat(3, missTrialData.P4{:}), 3);
+numMissTrialP4 = length(missTrialData.P4);
+
+missTrialP6_ERP = mean(cat(3, missTrialData.P6{:}), 3);
+numMissTrialP6 = length(missTrialData.P6);
+
+totalMissTrials = numMissTrialP3 + numMissTrialP4 + numMissTrialP6;
+
+finalMissTrialERP = (missTrialP3_ERP + missTrialP4_ERP + missTrialP6_ERP)/totalMissTrials;
+% finalMissTrialERP = mean(finalMissTrialERP, 2);
+
+figure(4);
+plot(finalMissTrialERP, 'LineWidth', 1.5);
+% xlim([time_axis(1),time_axis(end)]);
+xline(0);
+xlabel('Time (ms)'); ylabel('Magnitude (a.u.)');
+set(gca,'FontSize', 12)
+set(gcf,'color','white');
+
+%%
+
+figure(3);
+topoplot(finalMissTrialERP(42,:),  chanlocs);
+
+%% Plot only the CPz, CP1, CP2 electrodes
+
+time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
+
+blueDark = [0 0 0.4];
+blueMedium = [0 0 0.8];
+blueLight = [0.2 0.6 1];
+
+% Properties of the shaded error regions
+errorLineProps_N = {'color', blueDark, 'linewidth', 1.5}; % 'DisplayName', 'Word N'};
+errorLineProps_N_1 = {'color', blueMedium, 'linewidth', 1.5}; % 'DisplayName', 'Word N-1'}; 
+errorLineProps_N_2 = {'color', blueLight, 'linewidth', 1.5}; %'DisplayName', 'Word N-2'}; 
+
+figure(1);
+
+shadedErrorBar(time_axis, averageWeightedERP{1}, SEMresponseType{1}, 'lineprops', errorLineProps_N, 'patchSaturation', 0.1);
+hold on
+shadedErrorBar(time_axis, averageWeightedERP{2}, SEMresponseType{2}, 'lineprops', errorLineProps_N_1, 'patchSaturation', 0.2);
+hold on
+shadedErrorBar(time_axis, averageWeightedERP{3}, SEMresponseType{3}, 'lineprops', errorLineProps_N_2, 'patchSaturation', 0.1);
+
+xlim([time_axis(1),time_axis(end)]);
+xticks(-100:200:1000);
+yticks(-50:20:50);
+
+xline(0, 'LineWidth', 0.5, 'HandleVisibility', 'off');
+
+% set(legend,'fontsize',10);
+% leg = legend('show', 'Location', 'northwest');
+% set(leg, 'Position', [0.45 0.77 0.15 0.1]);
+% set(leg, 'FontSize', 22);
+% legend boxoff
+set(gca,'FontSize', 18)
+set(gcf,'color','white');
+xlabel('Time (ms)');
+ylabel('Magnitude (a.u.)');
+grid on
+
+set(gcf, 'Units', 'Inches', 'Position', [0, 0, 10, 6], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
+% saveas(gcf,'./Figures/ResponseWords/WordN_CentreElectrodes.png')
+
+
+%%
+
+figure(3);
+topoplot(averageWeightedERP{1}(110,:),  chanlocs);
+set(gcf,'color','white');
+% set(gca,'FontSize', 18);
+% title('Word N');
+
+saveas(gcf,'./Figures/ResponseWords/Topographies/Word_N_750ms.png')
 
 %% ***************************************************** PLOT ERP GFP AND TOPOGRAPHIES ********************************
 
@@ -475,11 +593,11 @@ for responseType = 1:numResponseTypes
     set(gca,'FontSize', 12)
     set(gcf,'color','white');
     
-    % Generate a filename based on the current iteration of the loop and the corresponding plot name from the cell array
-    filename = sprintf('./Figures/ResponseWords/%s.png', plotNames3{responseType});
-    
-    % Save the plot with the generated filename
-    saveas(gcf, filename)
+%     % Generate a filename based on the current iteration of the loop and the corresponding plot name from the cell array
+%     filename = sprintf('./Figures/ResponseWords/%s.png', plotNames3{responseType});
+%     
+%     % Save the plot with the generated filename
+%     saveas(gcf, filename)
 
 end
 
@@ -509,7 +627,7 @@ ylabel('Global Field Power (a.u.)');
 
 % saveas(gcf,'./Figures/ResponseWords/ResponseWordsGFPs_1_10Hz.png')
 % saveas(gcf,'./Figures/ResponseWords/ResponseWordsGFPs_0.01_10Hz.png')
-saveas(gcf,'./Figures/ResponseWords/ResponseWordsGFPs_0_10Hz.png')
+% saveas(gcf,'./Figures/ResponseWords/ResponseWordsGFPs_0_10Hz.png')
 
 % Topographies
 topoplotLocs = [54, 126, 171, 226];
@@ -528,11 +646,11 @@ for responseType = 1:numResponseTypes
     for plotNum = 1:numPlots
         
         nexttile;
-        topoplot(averageWeightedERP{responseType}(topoplotLocsSamp(plotNum),:), chanlocs);
+        topoplot(averageWeightedERP{responseType}(topoplotLocsSamp(plotNum),:),  chanlocs, 'electrodes', 'labels');
         set(gcf,'color','white');
         
     end
-    
+
     % Generate a filename based on the current iteration of the loop and the corresponding plot name from the cell array
     filename = sprintf('./Figures/ResponseWords/%s.png', topoNames3{responseType});
     
@@ -540,5 +658,13 @@ for responseType = 1:numResponseTypes
     set(gcf, 'Units', 'Inches', 'Position', [0, 0, 8, 8], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
     saveas(gcf, filename)
 end
+
+
+figure(15);  
+topoplot(averageWeightedERP{1}(topoplotLocsSamp(1),:),  chanlocs, 'electrodes', 'labels');
+
+figure(16);  
+topoplot(averageWeightedERP{1}(topoplotLocsSamp(1),:),  chanlocs, 'electrodes', 'numbers');
+    
 
 disp('FINSIHED SCRIPT');

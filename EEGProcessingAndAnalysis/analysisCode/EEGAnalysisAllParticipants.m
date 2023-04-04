@@ -125,7 +125,7 @@ for participantNo = 1:numParticpants
     
     disp(participantNo);
 
-    bandpassFilterRange = [64, 100];
+    bandpassFilterRange = [12, 36];
 %     bandpassFilterLow = 10;
     
     EEG_raw_array{participantNo} = EEG_raw_array{participantNo}';
@@ -147,104 +147,115 @@ disp('Finished filtering EEG data');
 
 disp('Started saving EEG data');
 
-GammaP1.data = {};
-GammaP1.buttonpress = {};
-GammaP1.extChan = {};
-GammaP1.extChan{1}.data = {};
+BetaP1.data = {};
+BetaP1.buttonpress = {};
+BetaP1.extChan = {};
+BetaP1.extChan{1}.data = {};
 
-GammaP2.data = {};
-GammaP2.buttonpress = {};
-GammaP2.extChan = {};
-GammaP2.extChan{1}.data = {};
+BetaP2.data = {};
+BetaP2.buttonpress = {};
+BetaP2.extChan = {};
+BetaP2.extChan{1}.data = {};
 
-GammaP3.data = {};
-GammaP3.buttonpress = {};
-GammaP3.extChan = {};
-GammaP3.extChan{1}.data = {};
+BetaP3.data = {};
+BetaP3.buttonpress = {};
+BetaP3.extChan = {};
+BetaP3.extChan{1}.data = {};
 
-GammaP4.data = {};
-GammaP4.buttonpress = {};
-GammaP4.extChan = {};
-GammaP4.extChan{1}.data = {};
+BetaP4.data = {};
+BetaP4.buttonpress = {};
+BetaP4.extChan = {};
+BetaP4.extChan{1}.data = {};
 
-GammaP5.data = {};
-GammaP5.buttonpress = {};
-GammaP5.extChan = {};
-GammaP5.extChan{1}.data = {};
+BetaP5.data = {};
+BetaP5.buttonpress = {};
+BetaP5.extChan = {};
+BetaP5.extChan{1}.data = {};
 
-GammaP6.data = {};
-GammaP6.buttonpress = {};
-GammaP6.extChan = {};
-GammaP6.extChan{1}.data = {};
+BetaP6.data = {};
+BetaP6.buttonpress = {};
+BetaP6.extChan = {};
+BetaP6.extChan{1}.data = {};
 
-EEGdataFields = {'GammaP1', 'GammaP2', 'GammaP3', 'GammaP4', 'GammaP5', 'GammaP6'};
+EEGdataFields = {'BetaP1', 'BetaP2', 'BetaP3', 'BetaP4', 'BetaP5', 'BetaP6'};
+
+disp('done');
+
+%%
 
 for participantNo = 1:numParticpants
     for trialNum = 1:nTrials  
         disp(trialNum);
         % A trial length is defined as the length from when the audio beings (stimulus onset) to the end of the audio (audio length)
         startTrial = stimulusOnsets{participantNo}(trialNum);
-        endTrial = startTrial + round(trialDurSec(participantNo, trialNum) * fsEEG) - 1;
+        
+        if (trialNum == 272)
+            endTrial = startTrial + round(trialDurSec(participantNo, trialNum) * fsEEG) - 1;
+        else 
+            endTrial = stimulusOnsets{participantNo}(trialNum+1);
+        end
+
+        
         
         if (participantNo == 1)
-            GammaP1.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
-            GammaP1.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
-            GammaP1.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
-            GammaP1.extChan{1}.description = 'Mastoids';
+            BetaP1.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
+            BetaP1.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
+            BetaP1.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
+            BetaP1.extChan{1}.description = 'Mastoids';
         end 
         
         if (participantNo == 2)
-            GammaP2.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
-            GammaP2.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
-            GammaP2.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
-            GammaP2.extChan{1}.description = 'Mastoids';
+            BetaP2.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
+            BetaP2.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
+            BetaP2.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
+            BetaP2.extChan{1}.description = 'Mastoids';
         end 
         
         if (participantNo == 3)
-            GammaP3.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
-            GammaP3.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
-            GammaP3.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
-            GammaP3.extChan{1}.description = 'Mastoids';
+            BetaP3.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
+            BetaP3.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
+            BetaP3.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
+            BetaP3.extChan{1}.description = 'Mastoids';
         end 
         
         if (participantNo == 4)
-            GammaP4.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
-            GammaP4.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
-            GammaP4.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
-            GammaP4.extChan{1}.description = 'Mastoids';
+            BetaP4.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
+            BetaP4.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
+            BetaP4.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
+            BetaP4.extChan{1}.description = 'Mastoids';
         end
         
         if (participantNo == 5)
-            GammaP5.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
-            GammaP5.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
-            GammaP5.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
-            GammaP5.extChan{1}.description = 'Mastoids';
+            BetaP5.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
+            BetaP5.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
+            BetaP5.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
+            BetaP5.extChan{1}.description = 'Mastoids';
         end
         
         if (participantNo == 6)
-            GammaP6.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
-            GammaP6.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
-            GammaP6.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
-            GammaP6.extChan{1}.description = 'Mastoids';
+            BetaP6.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,1:64),fsEEG/fsDown);
+            BetaP6.buttonpress{trialNum} = round(buttonPressSamp{participantNo}(trialNum)/(fsEEG/fsDown));
+            BetaP6.extChan{1}.data{end+1} = downsample(EEG_raw_array{participantNo}(startTrial:endTrial,65:66),fsEEG/fsDown);
+            BetaP6.extChan{1}.description = 'Mastoids';
         end
         
     end
 end
-GammaP1.fs = fsDown;
-GammaP2.fs = fsDown;
-GammaP3.fs = fsDown;
-GammaP4.fs = fsDown;
-GammaP5.fs = fsDown;
-GammaP6.fs = fsDown;
+BetaP1.fs = fsDown;
+BetaP2.fs = fsDown;
+BetaP3.fs = fsDown;
+BetaP4.fs = fsDown;
+BetaP5.fs = fsDown;
+BetaP6.fs = fsDown;
 
-reRefType = 'Mastoids'; % Global average referencing
+reRefType = 'Mastoids'; % 'Avg' Global average or 'Mastoids' referencing
 
-GammaP1 = cndReref(GammaP1,reRefType);
-GammaP2 = cndReref(GammaP2,reRefType);
-GammaP3 = cndReref(GammaP3,reRefType);
-GammaP4 = cndReref(GammaP4,reRefType);
-GammaP5 = cndReref(GammaP5,reRefType);
-GammaP6 = cndReref(GammaP6,reRefType); 
+BetaP1 = cndReref(BetaP1,reRefType);
+BetaP2 = cndReref(BetaP2,reRefType);
+BetaP3 = cndReref(BetaP3,reRefType);
+BetaP4 = cndReref(BetaP4,reRefType);
+BetaP5 = cndReref(BetaP5,reRefType);
+BetaP6 = cndReref(BetaP6,reRefType); 
 
 disp('Finished creating EGG structures');
 %%
@@ -258,12 +269,15 @@ disp('Saving EEG and stimulus data');
 % % save('./datasets/linguisticDecision/Subject1/dataSub1_LowPass10Hz.mat','eegP1')
 % % save('./datasets/linguisticDecision/Subject1/dataSub1_12_36Hz.mat','BetaP1')
 
-save('./datasets/linguisticDecision/Subject1/MastoidReRef/dataStim1.mat','stimP1')
+save('./datasets/linguisticDecision/Subject1/MotorPreparation/dataStim1.mat','stimP1')
 % save('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_1_10Hz.mat','eegP1')
 % save('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_0.01_10Hz.mat','eegP1')
-save('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_64_100Hz.mat','GammaP1')
+% save('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_64_100Hz.mat','GammaP1')
 % save('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_LowPass10Hz.mat','eegP1')
 % save('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_12_36Hz.mat','BetaP1')
+% save('./datasets/linguisticDecision/Subject1/MotorPreparation/dataSub1_64_100Hz.mat','GammaP1')
+save('./datasets/linguisticDecision/Subject1/MotorPreparation/dataSub1_12_36Hz.mat','BetaP1')
+
 
 disp('Done P1');
 
@@ -275,12 +289,15 @@ disp('Done P1');
 % % save('./datasets/linguisticDecision/Subject2/dataSub2_LowPass10Hz.mat','eegP2')
 % % save('./datasets/linguisticDecision/Subject2/dataSub2_12_36Hz.mat','BetaP2')
 
-save('./datasets/linguisticDecision/Subject2/MastoidReRef/dataStim2.mat','stimP2')
+save('./datasets/linguisticDecision/Subject2/MotorPreparation/dataStim2.mat','stimP2')
 % % save('./datasets/linguisticDecision/Subject2/MastoidReRef/dataSub2_1_10Hz.mat','eegP2')
 % % save('./datasets/linguisticDecision/Subject2/MastoidReRef/dataSub2_0.01_10Hz.mat','eegP2')
-save('./datasets/linguisticDecision/Subject2/MastoidReRef/dataSub2_64_100Hz.mat','GammaP2')
+% % save('./datasets/linguisticDecision/Subject2/MastoidReRef/dataSub2_64_100Hz.mat','GammaP2')
 % % save('./datasets/linguisticDecision/Subject2/MastoidReRef/dataSub2_LowPass10Hz.mat','eegP2')
 % save('./datasets/linguisticDecision/Subject2/MastoidReRef/dataSub2_12_36Hz.mat','BetaP2')
+% save('./datasets/linguisticDecision/Subject1/MotorPreparation/dataSub2_64_100Hz.mat','GammaP2')
+save('./datasets/linguisticDecision/Subject1/MotorPreparation/dataSub2_12_36Hz.mat','BetaP2')
+
 
 disp('Done P2');
 
@@ -292,12 +309,16 @@ disp('Done P2');
 % % save('./datasets/linguisticDecision/Subject3/dataSub3_LowPass10Hz.mat','eegP3')
 % % save('./datasets/linguisticDecision/Subject3/dataSub3_12_36Hz.mat','BetaP3')
 
-save('./datasets/linguisticDecision/Subject3/MastoidReRef/dataStim3.mat','stimP3')
+save('./datasets/linguisticDecision/Subject3/MotorPreparation/dataStim3.mat','stimP3')
 % % save('./datasets/linguisticDecision/Subject3/MastoidReRef/dataSub3_1_10Hz.mat','eegP3')
 % % save('./datasets/linguisticDecision/Subject3/MastoidReRef/dataSub3_0.01_10Hz.mat','eegP3')
-save('./datasets/linguisticDecision/Subject3/MastoidReRef/dataSub3_64_100Hz.mat','GammaP3')
+% % save('./datasets/linguisticDecision/Subject3/MastoidReRef/dataSub3_64_100Hz.mat','GammaP3')
 % % save('./datasets/linguisticDecision/Subject3/MastoidReRef/dataSub3_LowPass10Hz.mat','eegP3')
 % save('./datasets/linguisticDecision/Subject3/MastoidReRef/dataSub3_12_36Hz.mat','BetaP3')
+% save('./datasets/linguisticDecision/Subject3/MotorPreparation/dataSub3_64_100Hz.mat','GammaP3')
+save('./datasets/linguisticDecision/Subject3/MotorPreparation/dataSub3_12_36Hz.mat','BetaP3')
+
+
 disp('Done P3');
 
 % Participant four
@@ -308,12 +329,15 @@ disp('Done P3');
 % % save('./datasets/linguisticDecision/Subject4/dataSub4_LowPass10Hz.mat','eegP4')
 % % save('./datasets/linguisticDecision/Subject4/dataSub4_12_36Hz.mat','BetaP4')
 
-save('./datasets/linguisticDecision/Subject4/MastoidReRef/dataStim4.mat','stimP4')
+save('./datasets/linguisticDecision/Subject4/MotorPreparation/dataStim4.mat','stimP4')
 % % save('./datasets/linguisticDecision/Subject4/MastoidReRef/dataSub4_1_10Hz.mat','eegP4')
 % % save('./datasets/linguisticDecision/Subject4/MastoidReRef/dataSub4_0.01_10Hz.mat','eegP4')
-save('./datasets/linguisticDecision/Subject4/MastoidReRef/dataSub4_64_100Hz.mat','GammaP4')
+% % save('./datasets/linguisticDecision/Subject4/MastoidReRef/dataSub4_64_100Hz.mat','GammaP4')
 % % save('./datasets/linguisticDecision/Subject4/MastoidReRef/dataSub4_LowPass10Hz.mat','eegP4')
 % save('./datasets/linguisticDecision/Subject4/MastoidReRef/dataSub4_12_36Hz.mat','BetaP4')
+% save('./datasets/linguisticDecision/Subject4/MotorPreparation/dataSub4_64_100Hz.mat','GammaP4')
+save('./datasets/linguisticDecision/Subject4/MotorPreparation/dataSub4_12_36Hz.mat','BetaP4')
+
 disp('Done P4');
 
 % Participant five
@@ -324,12 +348,15 @@ disp('Done P4');
 % % save('./datasets/linguisticDecision/Subject5/dataSub5_64_LowPass10Hz.mat','eegP5')
 % % save('./datasets/linguisticDecision/Subject5/dataSub5_12_36Hz.mat','BetaP5')
 
-save('./datasets/linguisticDecision/Subject5/MastoidReRef/dataStim5.mat','stimP5')
+save('./datasets/linguisticDecision/Subject5/MotorPreparation/dataStim5.mat','stimP5')
 % % save('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_1_10Hz.mat','eegP5')
 % % save('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_0.01_10Hz.mat','eegP5')
-save('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_64_100Hz.mat','GammaP5')
+% % save('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_64_100Hz.mat','GammaP5')
 % % save('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_64_LowPass10Hz.mat','eegP5')
 % save('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_12_36Hz.mat','BetaP5')
+% save('./datasets/linguisticDecision/Subject5/MotorPreparation/dataSub5_64_100Hz.mat','GammaP5')
+save('./datasets/linguisticDecision/Subject5/MotorPreparation/dataSub5_12_36Hz.mat','BetaP5')
+
 disp('Done P5');
 
 % Participant six
@@ -340,12 +367,15 @@ disp('Done P5');
 % % save('./datasets/linguisticDecision/Subject6/dataSub6_LowPass10Hz.mat','eegP6')
 % % save('./datasets/linguisticDecision/Subject6/dataSub6_12_36Hz.mat','BetaP6')
 
-save('./datasets/linguisticDecision/Subject6/MastoidReRef/dataStim6.mat','stimP6')
+save('./datasets/linguisticDecision/Subject6/MotorPreparation/dataStim6.mat','stimP6')
 % % save('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_1_10Hz.mat','eegP6')
 % % save('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_0.01_10Hz.mat','eegP6')
-save('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_64_100Hz.mat','GammaP6')
+% % save('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_64_100Hz.mat','GammaP6')
 % % save('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_LowPass10Hz.mat','eegP6')
 % save('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_12_36Hz.mat','BetaP6')
+% save('./datasets/linguisticDecision/Subject6/MotorPreparation/dataSub6_64_100Hz.mat','GammaP6')
+save('./datasets/linguisticDecision/Subject6/MotorPreparation/dataSub6_12_36Hz.mat','BetaP6')
+
 disp('Done P6');
 
 disp('Finished saving EGG and stimulus data');
@@ -354,38 +384,38 @@ disp('Finished saving EGG and stimulus data');
 
 % % Participant one
 load('./datasets/linguisticDecision/Subject1/MastoidReRef/dataStim1.mat','stimP1')
-% load('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_1_10Hz.mat','eegP1')
-load('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_0.01_10Hz.mat','eegP1')
+load('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_1_10Hz.mat','eegP1')
+% load('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_0.01_10Hz.mat','eegP1')
 disp('Done P1');
 
 % Participant two
 load('./datasets/linguisticDecision/Subject2/MastoidReRef/dataStim2.mat','stimP2')
-% load('./datasets/linguisticDecision/Subject2/MastoidReRef/dataSub2_1_10Hz.mat','eegP2')
-load('./datasets/linguisticDecision/Subject2/MastoidReRef/dataSub2_0.01_10Hz.mat','eegP2')
+load('./datasets/linguisticDecision/Subject2/MastoidReRef/dataSub2_1_10Hz.mat','eegP2')
+% load('./datasets/linguisticDecision/Subject2/MastoidReRef/dataSub2_0.01_10Hz.mat','eegP2')
 disp('Done P2');
 
 % Participant three
 load('./datasets/linguisticDecision/Subject3/MastoidReRef/dataStim3.mat','stimP3')
-% load('./datasets/linguisticDecision/Subject3/MastoidReRef/dataSub3_1_10Hz.mat','eegP3')
-load('./datasets/linguisticDecision/Subject3/MastoidReRef/dataSub3_0.01_10Hz.mat','eegP3')
+load('./datasets/linguisticDecision/Subject3/MastoidReRef/dataSub3_1_10Hz.mat','eegP3')
+% load('./datasets/linguisticDecision/Subject3/MastoidReRef/dataSub3_0.01_10Hz.mat','eegP3')
 disp('Done P3');
 
 % Participant four
 load('./datasets/linguisticDecision/Subject4/MastoidReRef/dataStim4.mat','stimP4')
-% load('./datasets/linguisticDecision/Subject4/MastoidReRef/dataSub4_1_10Hz.mat','eegP4')
-load('./datasets/linguisticDecision/Subject4/MastoidReRef/dataSub4_0.01_10Hz.mat','eegP4')
+load('./datasets/linguisticDecision/Subject4/MastoidReRef/dataSub4_1_10Hz.mat','eegP4')
+% load('./datasets/linguisticDecision/Subject4/MastoidReRef/dataSub4_0.01_10Hz.mat','eegP4')
 disp('Done P4');
 
 % Participant five
 load('./datasets/linguisticDecision/Subject5/MastoidReRef/dataStim5.mat','stimP5')
-% load('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_1_10Hz.mat','eegP5')
-load('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_0.01_10Hz.mat','eegP5')
+load('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_1_10Hz.mat','eegP5')
+% load('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_0.01_10Hz.mat','eegP5')
 disp('Done P5');
 
 % Participant six
 load('./datasets/linguisticDecision/Subject6/MastoidReRef/dataStim6.mat','stimP6')
-% load('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_1_10Hz.mat','eegP6')
-load('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_0.01_10Hz.mat','eegP6')
+load('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_1_10Hz.mat','eegP6')
+% load('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_0.01_10Hz.mat','eegP6')
 disp('Done P6');
 
 % TRF hyperparameters
@@ -429,7 +459,7 @@ stimFeature6 = stimP6;
 stimFeature6.names = stimFeature6.names{stimIdx};
 stimFeature6.data = stimFeature6.data(stimIdx,:); 
 
-% Making sure that stim and neural data have thesame length
+% Making sure that stim and neural data have the same length
 [stimFeature,eegP1] = cndCheckStimNeural(stimFeature,eegP1);
 [stimFeature2,eegP2] = cndCheckStimNeural(stimFeature2,eegP2);
 [stimFeature3,eegP3] = cndCheckStimNeural(stimFeature3,eegP3);

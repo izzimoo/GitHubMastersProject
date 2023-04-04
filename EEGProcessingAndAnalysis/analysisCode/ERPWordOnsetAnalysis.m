@@ -1,7 +1,9 @@
 %% LOAD THE AUDIO ONSET FILES IN A CELL ARRAY FOR USE IN THE NEXT SECTION 
 
-warning('off', 'MATLAB:handle_graphics:Layout:NoPositionSetInTiledChartLayout')
+close all; clear;
 addpath libs/eeglab
+eeglab
+load('./analysisCode/chanlocs64.mat')
 
 disp('Loading in audio onset files and creating a cell array of tables');
 
@@ -146,6 +148,7 @@ preStimBaselineWindow = [0.1, 0.15];
 onsetEEGdata_eachWord = cell(nTrials, numAudiosInSeq);
 for participantNo = 1:numParticipants
     for eegDataNo = 1:nTrials
+        
 
         sampleNumOnsets = find(stimulusEachParticipant{participantNo}.data{2, eegDataNo} > 0);
 
@@ -156,7 +159,7 @@ for participantNo = 1:numParticipants
 
 %             Baseline correction
             baselineStart = preStimulus;
-            baselineEnd = round(sampleNumOnsets(audioNum) + (preStimBaselineWindow(2) * fsDown));
+            baselineEnd = round(preStimulus + (preStimBaselineWindow(2) * fsDown));
             
             baselineData = EEGDataEachParticipant{participantNo}.data{eegDataNo}(baselineStart:baselineEnd, 1:64);
             baselineVoltage = mean(baselineData,1);
@@ -224,10 +227,12 @@ grid on;
 plot(time_axis, avgERPAcrossParticipants);
 xlim([time_axis(1),time_axis(end)]);
 set(gcf,'color','white');
-set(gca,'FontSize', 14);
+set(gca,'FontSize', 17);
 xline(0);
 xlabel('Time (ms)')
+grid on
 ylabel('Magnitude (a.u.)')
+
 saveas(gcf,'./Figures/AuditoryResponse/WordOnsetERP_1_10Hz.png')
 
 % Plot the GFP
@@ -235,10 +240,14 @@ figure(2);
 % plot(gfp_WordOnset, 'LineWidth', 2);
 plot(time_axis, gfp_WordOnset, 'LineWidth', 2);
 set(gcf,'color','white');
+ylim([-40, 80]);
+xline(0);
 xlim([time_axis(1),time_axis(end)]);
-set(gca,'FontSize', 14);
+set(gca,'FontSize', 17);
 xlabel('Time (ms)');
+grid on
 ylabel('Global Field Power (a.u.)');
+
 saveas(gcf,'./Figures/AuditoryResponse/WordOnsetGFP_1_10Hz.png')
 
 % Topgraphies
@@ -253,12 +262,84 @@ for plotNum = 1:numPlots
     
     nexttile;
     topoplot(avgERPAcrossParticipants(topoplotLocsSamp(plotNum),:), chanlocs);
-    colorbar;
-    set(gcf,'color','white');
-    
+    set(gcf,'color','white');    
 end
+% cb = colorbar;
+% set(cb, 'Limits', [-50, 50])
+% set(cb,'position',[.5 .1 .07 .8])
+% set(cb, 'FontSize', 18)
 
 saveas(gcf,'./Figures/AuditoryResponse/WordOnsetTopographies_1_10Hz.png')
+
+%%
+figure(4);
+
+%ERP
+subplot(4,4,[1 2 5 6]);
+plot(time_axis, avgERPAcrossParticipants);
+xlim([time_axis(1),time_axis(end)]);
+ylim([-40,80]);
+
+set(gcf,'color','white');
+set(gca,'FontSize', 14);
+xline(0);
+
+xlabel('Time (ms)')
+ylabel('Magnitude (a.u.)')
+
+pos = get(gca, 'position');
+pos(1) = 0.1; % adjust the x position to center the topoplot
+set(gca, 'position', pos);
+
+%GFP
+subplot(4,4,[3 4 7 8]);
+plot(time_axis, gfp_WordOnset, 'LineWidth', 2);
+ylim([-40, 80]);
+xticks
+xline(0);
+xlim([time_axis(1),time_axis(end)]);
+set(gca,'FontSize', 14);
+xlabel('Time (ms)');
+ylabel('Global Field Power (a.u.)');
+
+%Topography one
+subplot(4,4,[13 14]);
+topoplot(avgERPAcrossParticipants(topoplotLocsSamp(1),:), chanlocs);
+title([num2str(round(time_axis(topoplotLocsSamp(1)))), 'ms']);
+set(gca,'FontSize', 14);
+
+% modify the position and size of the axes
+pos = get(gca, 'position');
+pos(1) = 0.12; % adjust the x position to center the topoplot
+pos(2) = 0.045; % adjust the y position
+pos(4) = 0.35; % adjust the height
+set(gca, 'position', pos);
+
+%Topgraphy two
+subplot(4,4,[15 16]);
+topoplot(avgERPAcrossParticipants(topoplotLocsSamp(2),:), chanlocs);
+title([num2str(round(time_axis(topoplotLocsSamp(2)))), 'ms']);
+set(gca,'FontSize', 14);
+
+% modify the position and size of the axes
+pos = get(gca, 'position');
+pos(1) = 0.55; % adjust the x position to center the topoplot
+pos(2) = 0.045; % adjust the y position
+pos(4) = 0.35; % adjust the height
+set(gca, 'position', pos);
+
+set(gcf,'color','white');
+
+set(gcf, 'Units', 'Inches', 'Position', [0, 0, 12, 8], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
+% % saveas(gcf, './Figures/AuditoryResponse/CombinedAuditoryResponseFigure.fig');
+% % saveas(gcf, './Figures/AuditoryResponse/CombinedAuditoryResponseFigure.png');
+
+% set(gcf, 'Units', 'Inches', 'Position', [0, 0, 12, 8], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
+% saveas(gcf, './Figures/AmbigVsNonAmbig/CombinedMeanAmbig.png');
+
+
+
+
 
 % % Topgraphies with GFP
 % figure(3);
@@ -291,5 +372,3 @@ saveas(gcf,'./Figures/AuditoryResponse/WordOnsetTopographies_1_10Hz.png')
 % end
 
 disp('FINISHED SCRIPT');
-
-

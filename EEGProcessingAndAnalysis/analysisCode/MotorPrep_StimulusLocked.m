@@ -1,3 +1,4 @@
+
 % ********************* STIMULI AND EEG DATA ***************************
 disp('Loading in audio onset files and creating a cell array of tables');
 
@@ -40,8 +41,8 @@ disp('P6 Loaded');
 % ************************************************************************8
 
 stimulusEachParticipant = {stimP1, stimP2, stimP3, stimP4, stimP5, stimP6};
-EEGDataPreEnvelope = {BetaP1, BetaP2, BetaP3, BetaP4, BetaP5, BetaP6};
-% EEGDataPreEnvelope = {GammaP1, GammaP2, GammaP3, GammaP4, GammaP5, GammaP6};
+% EEGDataPreEnvelope = {BetaP1, BetaP2, BetaP3, BetaP4, BetaP5, BetaP6};
+EEGDataPreEnvelope = {GammaP1, GammaP2, GammaP3, GammaP4, GammaP5, GammaP6};
 
 numParticipants = length(stimulusEachParticipant);
 numAudiosInSeq = 8;
@@ -225,7 +226,6 @@ numDecisions = length(leftAndRightTrials);
 leftOnsetEEGdata_eachWord_Left = {1, numParticipants}; rightOnsetEEGdata_eachWord_Left = {1, numParticipants};
 leftOnsetEEGdata_eachWord_Right = {1, numParticipants}; rightOnsetEEGdata_eachWord_Right = {1, numParticipants};
 
-
 selectedElectrodes = {[10,12,13,14], [45,46,49,50]};
 
 for decisionType = 1:numDecisions
@@ -281,4 +281,285 @@ end
 
 disp('FINISHED: Average onset word analysis');
 
-%%
+%% ********************************** Calculate the word ERPs *****************************************
+
+leftRightType = {leftOnsetEEGdata_eachWord_Left, rightOnsetEEGdata_eachWord_Left, leftOnsetEEGdata_eachWord_Right, rightOnsetEEGdata_eachWord_Right};
+numLeftRightType = length(leftRightType);
+
+finalAvgERP = {1, numLeftRightType};
+for comboType = 1:numLeftRightType
+    
+    ERPBeforeAvg = {1, numParticipants}; avgElectrodeERP = {1, numParticipants}; trialLengths = {1, numParticipants};
+    
+    for participantNo = 1:numParticipants
+
+        ERPBeforeAvg{participantNo} = mean(cat(3, leftRightType{comboType}{participantNo}{:}), 3); 
+        avgElectrodeERP{participantNo} = mean(ERPBeforeAvg{participantNo}, 2);
+
+        trialLengths{participantNo} = length(leftRightType{comboType}{participantNo});
+
+    end
+    
+    weightedERP = avgElectrodeERP{1}*trialLengths{1} + avgElectrodeERP{2}*trialLengths{2} + avgElectrodeERP{3}*trialLengths{3} + avgElectrodeERP{4}*trialLengths{4}...
+       + avgElectrodeERP{5}*trialLengths{5} + avgElectrodeERP{6}*trialLengths{6};
+   
+    totalNumTrials = sum(cell2mat(trialLengths));
+     
+    finalAvgERP{comboType} = weightedERP/totalNumTrials;
+    
+end
+
+% Plot the ERPs
+
+time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
+
+plotNames = {'LeftDecision_LeftBrain', 'LeftDecision_RightBrain', 'RightDecision_LeftBrain', 'RightDecision_RightBrain'};
+
+for comboType = 1:numLeftRightType
+    
+    figure(comboType);
+    plot(time_axis, finalAvgERP{comboType}, 'LineWidth', 1.5, 'Color', 'r');
+    xlim([time_axis(1), time_axis(end)]);
+    
+    if (comboType == 1 || comboType == 2)
+        ylim([-1.5, 2]);
+    else
+        ylim([-1, 1.5]);
+    end
+    
+    xlabel('Time (ms)')
+    ylabel('Magnitude (a.u.)')
+%     title(plotNames{comboType});
+    set(gca,'FontSize', 12)
+    set(gcf,'color','white');
+    xline(0);
+    grid on;
+    
+    % Generate a filename based on the current iteration of the loop and the corresponding plot name from the cell array
+    filename = sprintf('./Figures/MotorPreparation/StimulusLockedMotorPrep/Gamma/WordOnset/%s.png', plotNames{comboType});
+    % Save the plot with the generated filename
+    saveas(gcf, filename)
+    
+end
+
+% Left decisions
+figure(5);
+leftDec_LeftBrain = finalAvgERP{1};
+leftDec_RightBrain = finalAvgERP{2};
+
+rightBrain_minus_leftBrain = leftDec_RightBrain - leftDec_LeftBrain;
+
+plot(time_axis, rightBrain_minus_leftBrain, 'LineWidth', 1.5, 'Color', 'r');
+xlim([time_axis(1), time_axis(end)]);
+xlabel('Time (ms)')
+ylabel('Magnitude (a.u.)')
+set(gca,'FontSize', 12)
+xline(0);
+set(gcf,'color','white');
+grid on;
+
+saveas(gcf,'./Figures/MotorPreparation/StimulusLockedMotorPrep/Gamma/WordOnset/LeftDecision_R_minus_L.png')
+
+% Right decisions
+figure(6);
+rightDec_LeftBrain = finalAvgERP{3};
+rightDec_RightBrain = finalAvgERP{4};
+
+leftBrain_minus_rightBrain = rightDec_LeftBrain - rightDec_RightBrain;
+
+plot(time_axis, leftBrain_minus_rightBrain, 'LineWidth', 1.5, 'Color', 'r');
+xlim([time_axis(1), time_axis(end)]);
+xlabel('Time (ms)')
+ylabel('Magnitude (a.u.)')
+set(gca,'FontSize', 12)
+xline(0);
+set(gcf,'color','white');
+grid on;
+
+saveas(gcf,'./Figures/MotorPreparation/StimulusLockedMotorPrep/Gamma/WordOnset/RightDecision_L_minus_R.png')
+
+%% ********************************* ERP SENTENCE ANALYSIS *************************************8
+
+%% PADDING DATA WITH ZEROS FOR TRIALS THAT ARE TOO SHORT (SHORTER THAN LONGEST TRIAL)
+
+desiredDim_Long = cell(1, numParticipants);
+
+for participantNo = 1:numParticipants
+    
+    longestTrialData = EEGDataEachParticipant{participantNo}{1};
+    
+    for trialNo = 2:nTrials
+    
+        longestTrial = length(longestTrialData);
+        nextEEGData = length(EEGDataEachParticipant{participantNo}{trialNo}); 
+
+        if (nextEEGData > longestTrial)
+            longestTrialData = EEGDataEachParticipant{participantNo}{trialNo};
+        end 
+    end
+    
+    desiredDim_Long{participantNo} = size(longestTrialData);
+
+end
+
+% Add zero padding to the matrices so that they are all the same dimensions as the largest 
+for participantNo = 1:numParticipants
+    for trialNo = 1:nTrials
+
+        current_size = size(EEGDataEachParticipant{participantNo}{trialNo});
+
+        % Add zero padding to rows if necessary
+        if current_size(1) < desiredDim_Long{participantNo}(1)
+            EEGDataEachParticipant{participantNo}{trialNo} = padarray(EEGDataEachParticipant{participantNo}{trialNo},...
+            [desiredDim_Long{participantNo}(1)-current_size(1) 0],0,'post');
+        end
+    end
+end
+
+% Select the left and right motor electrodes and average over them
+selectedElectrodes = {[10,12,13,14], [45,46,49,50]};
+
+leftAndRightTrials = {trialsLeftButton, trialsRightButton};
+numDecisions = length(leftAndRightTrials);
+
+leftSentenceEEGdata_Left = {1, numParticipants}; rightSentenceEEGdata_Left = {1, numParticipants};
+leftSentenceEEGdata_Right = {1, numParticipants}; rightSentenceEEGdata_Right = {1, numParticipants};
+
+for decisionType = 1:numDecisions
+    
+     for participantNo = 1:numParticipants
+                  
+         newnTrials = length(leftAndRightTrials{decisionType}{participantNo});
+         trialData = leftAndRightTrials{decisionType}{participantNo};
+         
+         ERPSentenceData_Left = {1, newnTrials}; ERPSentenceData_Right = {1, newnTrials};
+
+         for trialNum = 1:newnTrials
+         
+             ERPSentenceData_Left{trialNum} = EEGDataEachParticipant{participantNo}{trialData(trialNum)}(:, selectedElectrodes{1}); 
+                
+             ERPSentenceData_Right{trialNum} = EEGDataEachParticipant{participantNo}{trialData(trialNum)}(:, selectedElectrodes{2}); 
+
+         end
+
+            if (decisionType == 1)
+        
+                leftSentenceEEGdata_Left{participantNo} = ERPSentenceData_Left;
+                rightSentenceEEGdata_Left{participantNo} = ERPSentenceData_Right;
+
+            elseif (decisionType == 2)
+
+                leftSentenceEEGdata_Right{participantNo} = ERPSentenceData_Left;
+                rightSentenceEEGdata_Right{participantNo} = ERPSentenceData_Right;
+
+            end       
+     end
+end
+
+disp('Finished dividing data into right and left trials and averaging across 4 electrodes');
+
+%% ******************* Calculate the sentence ERPs for right and left decisions **********************
+
+leftRightType = {leftSentenceEEGdata_Left, rightSentenceEEGdata_Left, leftSentenceEEGdata_Right, rightSentenceEEGdata_Right};
+numLeftRightType = length(leftRightType);
+
+finalAvgERPSentence = {1, numLeftRightType};
+for comboType = 1:numLeftRightType
+    
+    ERPBeforeAvg = {1, numParticipants}; avgElectrodeERP = {1, numParticipants}; trialLengths = {1, numParticipants};
+    
+    for participantNo = 1:numParticipants
+
+        ERPBeforeAvg{participantNo} = mean(cat(3, leftRightType{comboType}{participantNo}{:}), 3); 
+        avgElectrodeERP{participantNo} = mean(ERPBeforeAvg{participantNo}, 2);
+
+        trialLengths{participantNo} = length(leftRightType{comboType}{participantNo});
+
+    end
+    
+    weightedERP = avgElectrodeERP{1}*trialLengths{1} + avgElectrodeERP{2}*trialLengths{2} + avgElectrodeERP{3}*trialLengths{3} + avgElectrodeERP{4}*trialLengths{4}...
+       + avgElectrodeERP{5}*trialLengths{5} + avgElectrodeERP{6}*trialLengths{6};
+   
+    totalNumTrials = sum(cell2mat(trialLengths));
+     
+    finalAvgERPSentence{comboType} = weightedERP/totalNumTrials;
+    
+end
+
+disp('Finished calculating ERPs for right and left decisions');
+
+%% ******************* Generate plots of sentence ERP for left and right decisions ***********************
+
+time_axis_long = (0:size(finalAvgERPSentence{1},1)-1)/fsDown*1000;
+
+plotNames = {'LeftDecision_LeftBrain', 'LeftDecision_RightBrain', 'RightDecision_LeftBrain', 'RightDecision_RightBrain'};
+for comboType = 1:numLeftRightType
+    
+    figure(comboType);
+    plot(time_axis_long, finalAvgERPSentence{comboType}, 'LineWidth', 1, 'Color', 'r');
+    xlim([time_axis_long(1), time_axis_long(end)]);
+    ylim([0, 90]);
+    xlabel('Time (ms)')
+    ylabel('Magnitude (a.u.)')
+    title(plotNames{comboType});
+    set(gca,'FontSize', 12)
+    set(gcf,'color','white');
+    xline(0);
+    grid on;
+    
+    % Generate a filename based on the current iteration of the loop and the corresponding plot name from the cell array
+    filename = sprintf('./Figures/MotorPreparation/StimulusLockedMotorPrep/Gamma/Sentence/%s.png', plotNames{comboType});
+    % Save the plot with the generated filename
+    saveas(gcf, filename)
+    
+end
+
+% Left decisions
+figure(5);
+leftDec_LeftBrain = finalAvgERPSentence{1};
+leftDec_RightBrain = finalAvgERPSentence{2};
+
+rightBrain_minus_leftBrain = leftDec_RightBrain - leftDec_LeftBrain;
+
+plot(time_axis_long, rightBrain_minus_leftBrain, 'LineWidth', 1.5, 'Color', 'r');
+xlim([time_axis_long(1), time_axis_long(end)]);
+xlabel('Time (ms)')
+ylabel('Magnitude (a.u.)')
+set(gca,'FontSize', 12)
+xline(0);
+set(gcf,'color','white');
+grid on;
+
+saveas(gcf,'./Figures/MotorPreparation/StimulusLockedMotorPrep/Gamma/Sentence/LeftDecision_R_minus_L.png')
+
+% Right decisions
+figure(6);
+rightDec_LeftBrain = finalAvgERPSentence{3};
+rightDec_RightBrain = finalAvgERPSentence{4};
+
+leftBrain_minus_rightBrain = rightDec_LeftBrain - rightDec_RightBrain;
+
+plot(time_axis_long, leftBrain_minus_rightBrain, 'LineWidth', 1.5, 'Color', 'r');
+xlim([time_axis_long(1), time_axis_long(end)]);
+xlabel('Time (ms)')
+ylabel('Magnitude (a.u.)')
+set(gca,'FontSize', 12)
+xline(0);
+set(gcf,'color','white');
+grid on;
+
+saveas(gcf,'./Figures/MotorPreparation/StimulusLockedMotorPrep/Gamma/Sentence/RightDecision_L_minus_R.png')
+
+
+
+
+
+
+
+
+
+
+
+
+
+

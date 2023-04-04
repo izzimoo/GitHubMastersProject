@@ -33,28 +33,30 @@ def returnAudioOrder(sequence):
 # ----------------------------------------------------------------------- #
 # ---------- TRAIN MODEL AND OBTAIN ALL WORDS AND VECTORS ----------- #
 
-trainedModel = KeyedVectors.load_word2vec_format('./gensim_models/vectors.bin',binary=True,limit=298887) # Word2Vec model used, sent by Amir
-allWords = trainedModel.index_to_key # All words trained in the gensim model
-vectors = trainedModel.vectors # All the words' word embeddings
+trainedModel = KeyedVectors.load_word2vec_format('./gensim_models/vectors.bin',binary=True) # Word2Vec model 
+allWords = trainedModel.index_to_key # All words trained in the model
+vectors = trainedModel.vectors # All word embeddings for the words in the model 
 
 # # ------------------------------------------------------------------------ #
 # # Use Word2Vec similarity function to get candidate words for each ambiguous
 # # word and its two meanings
 
 # Smaller the angle - bigger the cosine similarity - more similar the word
-
-meaning1 = 'house'
-meaning2 = 'apartment' 
 candidateWords = []
+meaning1 = 'car'
+meaning2 = 'bus' 
 candidateWords = trainedModel.most_similar(positive=[meaning1, meaning2], topn=150) # Get the top 150 words that are similar to both meaning 1 and meaning 2
 print(candidateWords)
 
 # ------------------------- BAG OF WORDS FOR ALL OF THE PAIRS OF MEANINGS - YET TO BE CHARACTERISED BY WORD2VEC -------------------------- #
 
-# Work
-# CarBus chosenWords = ['engine', 'steer', 'drive', 'seat', 'wheels', 'commute', 'passenger', 'driver', 'fuel', 'motorway','intercity', 'open-top', 'windscreen', 'manual', 'automatic']
-# HouseApartment: 
-chosenWords = ['kitchen', 'bedroom', 'bathroom', 'doors', 'hall', 'floor', 'neighbourhood', 'rent', 'storey', 'landlord', 'neighbour', 'carpark', 'roof']
+# Ambiguous BOW chosen using Word2Vec and some I added in myself. The correct one should be uncommented depending on the target words
+# used. i.e. for 'CarBus chosenWords =' set meaning1 (above) to be car and meaning2 to be bus and run the code using the chosen words assigned
+# to CarBus
+
+# CarBus 
+chosenWords = ['engine', 'steer', 'drive', 'seat', 'wheels', 'commute', 'passenger', 'driver', 'fuel', 'motorway','intercity', 'open-top', 'windscreen', 'manual', 'automatic']
+# HouseApartment: chosenWords = ['kitchen', 'bedroom', 'bathroom', 'doors', 'hall', 'floor', 'neighbourhood', 'rent', 'storey', 'landlord', 'neighbour', 'carpark', 'roof']
 # AppleOrange: chosenWords = ['juice', 'skin', 'fructose', 'pip', 'seeds', 'flavour', 'tree', 'sweet', 'sour', 'candy', 'stalk', 'bitter', 'round', 'organic', 'pulp', 'nutritious']
 # BedCouch:chosenWords = ['sleep', 'comfortable', 'nap', 'laydown', 'snooze', 'pajamas', 'support', 'lounge', 'cushion', 'television', 'futon', 'sit', 'snuggle', 'doze', 'reclined', 'pillow']
 # CowPig: chosenWords = ['farm', 'smell', 'meat', 'livestock', 'tail', 'vetinary', 'breed', 'trotters', 'heavy', 'barn', 'flies', 'mud', 'manure', 'produce', 'barnyard']

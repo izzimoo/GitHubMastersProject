@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Football Sequence 1,Football Sequence 2,Football Sequence 3,Football Sequence 4,Football Sequence 5,Football Sequence 6,Football Sequence 7,Football Sequence 8,Rugby Sequence 1,Rugby Sequence 2,Rugby Sequence 3,Rugby Sequence 4,Rugby Sequence 5,Rugby Sequence 6,Rugby Sequence 7,Rugby Sequence 8
+ball,0.598488161738334,defence,0.5049753303997914,match,0.5087211015981966,stadium,club,match,tournament,offside,league,tournament,stadium,club,match,cup,tackle,dropkick,nations,cup,defence
+stadium,0.6135328627341613,wing,0.6465322858357477,club,0.5583909845769199,cup,coach,ball,dropkick,club,cup,league,league,nations,offside,offside,defence,nations,offside,nations,match
+coach,0.6035828303400427,tackle,0.5682454001729733,cup,0.5259130515980209,offside,positions,cup,club,coach,coach,coach,match,cup,club,wing,nations,tackle,cup,defence,nations
+league,0.6248267515226292,nations,0.6632690206235832,dropkick,0.512005937377444,club,match,coach,cup,positions,ball,positions,dropkick,match,cup,nations,club,cup,club,wing,club
+positions,0.5877857296742333,,,offside,0.5772693533080139,positions,ball,league,stadium,match,positions,cup,cup,tackle,wing,dropkick,match,match,tackle,match,wing
+tournament,0.5884304561364743,,,,,match,offside,stadium,offside,stadium,tournament,match,coach,wing,tackle,tackle,offside,defence,match,dropkick,cup
+,,,,,,league,tournament,positions,league,league,stadium,stadium,offside,dropkick,nations,match,dropkick,wing,defence,offside,tackle
+,,,,,,coach,cup,club,ball,ball,offside,offside,tournament,defence,defence,defence,wing,offside,wing,tackle,dropkick

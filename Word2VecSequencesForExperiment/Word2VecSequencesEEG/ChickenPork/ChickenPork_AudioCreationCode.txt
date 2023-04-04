@@ -1,0 +1,293 @@
+% Audios for sequences with meaning 1
+% Audio 1
+randNo = randNumber();
+
+
+combined1 = [zeros(round(fs*0.5),size(f1,2));f7;zeros(round(fs*randNo(1)),size(f1,2));
+f4;zeros(round(fs*randNo(2)),size(f1,2));f1;zeros(round(fs*randNo(3)),size(f1,2));
+f10;zeros(round(fs*randNo(4)),size(f1,2));f11;zeros(round(fs*randNo(5)),size(f1,2));
+f0;zeros(round(fs*randNo(6)),size(f1,2));f16;zeros(round(fs*randNo(7)),size(f1,2));
+f8;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f7)./fs, length(f4)./fs, length(f1)./fs, length(f10)./fs, length(f11)./fs, length(f0)./fs, length(f16)./fs, length(f8)./fs];
+
+
+A1 = table(audioLen);
+T1 = table(randNo);
+
+
+% Audio 2
+randNo = randNumber();
+
+
+combined2 = [zeros(round(fs*0.5),size(f1,2));f1;zeros(round(fs*randNo(1)),size(f1,2));
+f10;zeros(round(fs*randNo(2)),size(f1,2));f14;zeros(round(fs*randNo(3)),size(f1,2));
+f8;zeros(round(fs*randNo(4)),size(f1,2));f16;zeros(round(fs*randNo(5)),size(f1,2));
+f7;zeros(round(fs*randNo(6)),size(f1,2));f12;zeros(round(fs*randNo(7)),size(f1,2));
+f11;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f1)./fs, length(f10)./fs, length(f14)./fs, length(f8)./fs, length(f16)./fs, length(f7)./fs, length(f12)./fs, length(f11)./fs];
+
+
+A2 = table(audioLen);
+T2 = table(randNo);
+
+
+% Audio 3
+randNo = randNumber();
+
+
+combined3 = [zeros(round(fs*0.5),size(f1,2));f11;zeros(round(fs*randNo(1)),size(f1,2));
+f13;zeros(round(fs*randNo(2)),size(f1,2));f10;zeros(round(fs*randNo(3)),size(f1,2));
+f7;zeros(round(fs*randNo(4)),size(f1,2));f14;zeros(round(fs*randNo(5)),size(f1,2));
+f3;zeros(round(fs*randNo(6)),size(f1,2));f1;zeros(round(fs*randNo(7)),size(f1,2));
+f8;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f11)./fs, length(f13)./fs, length(f10)./fs, length(f7)./fs, length(f14)./fs, length(f3)./fs, length(f1)./fs, length(f8)./fs];
+
+
+A3 = table(audioLen);
+T3 = table(randNo);
+
+
+% Audio 4
+randNo = randNumber();
+
+
+combined4 = [zeros(round(fs*0.5),size(f1,2));f1;zeros(round(fs*randNo(1)),size(f1,2));
+f7;zeros(round(fs*randNo(2)),size(f1,2));f10;zeros(round(fs*randNo(3)),size(f1,2));
+f8;zeros(round(fs*randNo(4)),size(f1,2));f12;zeros(round(fs*randNo(5)),size(f1,2));
+f4;zeros(round(fs*randNo(6)),size(f1,2));f14;zeros(round(fs*randNo(7)),size(f1,2));
+f6;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f1)./fs, length(f7)./fs, length(f10)./fs, length(f8)./fs, length(f12)./fs, length(f4)./fs, length(f14)./fs, length(f6)./fs];
+
+
+
+A4 = table(audioLen);
+T4 = table(randNo);
+
+
+% Audio 5
+randNo = randNumber();
+
+
+combined5 = [zeros(round(fs*0.5),size(f1,2));f7;zeros(round(fs*randNo(1)),size(f1,2));
+f12;zeros(round(fs*randNo(2)),size(f1,2));f10;zeros(round(fs*randNo(3)),size(f1,2));
+f0;zeros(round(fs*randNo(4)),size(f1,2));f8;zeros(round(fs*randNo(5)),size(f1,2));
+f1;zeros(round(fs*randNo(6)),size(f1,2));f13;zeros(round(fs*randNo(7)),size(f1,2));
+f4;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f7)./fs, length(f12)./fs, length(f10)./fs, length(f0)./fs, length(f8)./fs, length(f1)./fs, length(f13)./fs, length(f4)./fs];
+
+
+
+A5 = table(audioLen);
+T5 = table(randNo);
+
+
+% Audio 6
+randNo = randNumber();
+
+
+combined6 = [zeros(round(fs*0.5),size(f1,2));f8;zeros(round(fs*randNo(1)),size(f1,2));
+f10;zeros(round(fs*randNo(2)),size(f1,2));f14;zeros(round(fs*randNo(3)),size(f1,2));
+f0;zeros(round(fs*randNo(4)),size(f1,2));f4;zeros(round(fs*randNo(5)),size(f1,2));
+f1;zeros(round(fs*randNo(6)),size(f1,2));f6;zeros(round(fs*randNo(7)),size(f1,2));
+f7;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f8)./fs, length(f10)./fs, length(f14)./fs, length(f0)./fs, length(f4)./fs, length(f1)./fs, length(f6)./fs, length(f7)./fs];
+
+
+
+A6 = table(audioLen);
+T6 = table(randNo);
+
+
+% Audio 7
+randNo = randNumber();
+
+
+combined7 = [zeros(round(fs*0.5),size(f1,2));f11;zeros(round(fs*randNo(1)),size(f1,2));
+f1;zeros(round(fs*randNo(2)),size(f1,2));f14;zeros(round(fs*randNo(3)),size(f1,2));
+f7;zeros(round(fs*randNo(4)),size(f1,2));f3;zeros(round(fs*randNo(5)),size(f1,2));
+f10;zeros(round(fs*randNo(6)),size(f1,2));f8;zeros(round(fs*randNo(7)),size(f1,2));
+f13;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f11)./fs, length(f1)./fs, length(f14)./fs, length(f7)./fs, length(f3)./fs, length(f10)./fs, length(f8)./fs, length(f13)./fs];
+
+
+
+A7 = table(audioLen);
+T7 = table(randNo);
+
+
+% Audio 8
+randNo = randNumber();
+
+
+combined8 = [zeros(round(fs*0.5),size(f1,2));f10;zeros(round(fs*randNo(1)),size(f1,2));
+f3;zeros(round(fs*randNo(2)),size(f1,2));f8;zeros(round(fs*randNo(3)),size(f1,2));
+f0;zeros(round(fs*randNo(4)),size(f1,2));f1;zeros(round(fs*randNo(5)),size(f1,2));
+f7;zeros(round(fs*randNo(6)),size(f1,2));f12;zeros(round(fs*randNo(7)),size(f1,2));
+f13;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f10)./fs, length(f3)./fs, length(f8)./fs, length(f0)./fs, length(f1)./fs, length(f10)./fs, length(f12)./fs, length(f13)./fs];
+
+
+
+A8 = table(audioLen);
+T8 = table(randNo);
+
+
+% Audios for sequences with meaning 2
+% Audio 9
+randNo = randNumber();
+
+
+combined9 = [zeros(round(fs*0.5),size(f1,2));f15;zeros(round(fs*randNo(1)),size(f1,2));
+f16;zeros(round(fs*randNo(2)),size(f1,2));f5;zeros(round(fs*randNo(3)),size(f1,2));
+f2;zeros(round(fs*randNo(4)),size(f1,2));f9;zeros(round(fs*randNo(5)),size(f1,2));
+f11;zeros(round(fs*randNo(6)),size(f1,2));f6;zeros(round(fs*randNo(7)),size(f1,2));
+f14;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f15)./fs, length(f16)./fs, length(f5)./fs, length(f2)./fs, length(f9)./fs, length(f11)./fs, length(f6)./fs, length(f14)./fs];
+
+
+A9 = table(audioLen);
+T9 = table(randNo);
+
+
+% Audio 10
+randNo = randNumber();
+
+
+combined10 = [zeros(round(fs*0.5),size(f1,2));f13;zeros(round(fs*randNo(1)),size(f1,2));
+f4;zeros(round(fs*randNo(2)),size(f1,2));f3;zeros(round(fs*randNo(3)),size(f1,2));
+f15;zeros(round(fs*randNo(4)),size(f1,2));f9;zeros(round(fs*randNo(5)),size(f1,2));
+f16;zeros(round(fs*randNo(6)),size(f1,2));f5;zeros(round(fs*randNo(7)),size(f1,2));
+f2;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f13)./fs, length(f4)./fs, length(f3)./fs, length(f15)./fs, length(f9)./fs, length(f16)./fs, length(f5)./fs, length(f2)./fs];
+
+
+A10 = table(audioLen);
+T10 = table(randNo);
+
+
+% Audio 11
+randNo = randNumber();
+
+
+combined11 = [zeros(round(fs*0.5),size(f1,2));f4;zeros(round(fs*randNo(1)),size(f1,2));
+f11;zeros(round(fs*randNo(2)),size(f1,2));f9;zeros(round(fs*randNo(3)),size(f1,2));
+f16;zeros(round(fs*randNo(4)),size(f1,2));f15;zeros(round(fs*randNo(5)),size(f1,2));
+f2;zeros(round(fs*randNo(6)),size(f1,2));f5;zeros(round(fs*randNo(7)),size(f1,2));
+f14;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f4)./fs, length(f11)./fs, length(f9)./fs, length(f16)./fs, length(f15)./fs, length(f2)./fs, length(f5)./fs, length(f14)./fs];
+
+
+A11 = table(audioLen);
+T11 = table(randNo);
+
+
+% Audio 12
+randNo = randNumber();
+
+
+combined12 = [zeros(round(fs*0.5),size(f1,2));f2;zeros(round(fs*randNo(1)),size(f1,2));
+f4;zeros(round(fs*randNo(2)),size(f1,2));f6;zeros(round(fs*randNo(3)),size(f1,2));
+f14;zeros(round(fs*randNo(4)),size(f1,2));f16;zeros(round(fs*randNo(5)),size(f1,2));
+f5;zeros(round(fs*randNo(6)),size(f1,2));f9;zeros(round(fs*randNo(7)),size(f1,2));
+f15;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f2)./fs, length(f4)./fs, length(f6)./fs, length(f14)./fs, length(f16)./fs, length(f5)./fs, length(f9)./fs, length(f15)./fs];
+
+
+A12 = table(audioLen);
+T12 = table(randNo);
+
+
+% Audio 13
+randNo = randNumber();
+
+
+combined13 = [zeros(round(fs*0.5),size(f1,2));f9;zeros(round(fs*randNo(1)),size(f1,2));
+f4;zeros(round(fs*randNo(2)),size(f1,2));f5;zeros(round(fs*randNo(3)),size(f1,2));
+f11;zeros(round(fs*randNo(4)),size(f1,2));f15;zeros(round(fs*randNo(5)),size(f1,2));
+f2;zeros(round(fs*randNo(6)),size(f1,2));f3;zeros(round(fs*randNo(7)),size(f1,2));
+f0;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f9)./fs, length(f4)./fs, length(f5)./fs, length(f11)./fs, length(f15)./fs, length(f2)./fs, length(f3)./fs, length(f0)./fs];
+
+
+A13 = table(audioLen);
+T13 = table(randNo);
+
+
+% Audio 14
+randNo = randNumber();
+
+
+combined14 = [zeros(round(fs*0.5),size(f1,2));f6;zeros(round(fs*randNo(1)),size(f1,2));
+f15;zeros(round(fs*randNo(2)),size(f1,2));f5;zeros(round(fs*randNo(3)),size(f1,2));
+f11;zeros(round(fs*randNo(4)),size(f1,2));f9;zeros(round(fs*randNo(5)),size(f1,2));
+f2;zeros(round(fs*randNo(6)),size(f1,2));f0;zeros(round(fs*randNo(7)),size(f1,2));
+f16;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f6)./fs, length(f15)./fs, length(f5)./fs, length(f11)./fs, length(f9)./fs, length(f2)./fs, length(f0)./fs, length(f16)./fs];
+
+
+A14 = table(audioLen);
+T14 = table(randNo);
+
+
+% Audio 15
+randNo = randNumber();
+
+
+combined15 = [zeros(round(fs*0.5),size(f1,2));f15;zeros(round(fs*randNo(1)),size(f1,2));
+f0;zeros(round(fs*randNo(2)),size(f1,2));f5;zeros(round(fs*randNo(3)),size(f1,2));
+f9;zeros(round(fs*randNo(4)),size(f1,2));f2;zeros(round(fs*randNo(5)),size(f1,2));
+f14;zeros(round(fs*randNo(6)),size(f1,2));f4;zeros(round(fs*randNo(7)),size(f1,2));
+f11;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f15)./fs, length(f0)./fs, length(f5)./fs, length(f9)./fs, length(f2)./fs, length(f14)./fs, length(f4)./fs, length(f11)./fs];
+
+
+A15 = table(audioLen);
+T15 = table(randNo);
+
+
+% Audio 16
+randNo = randNumber();
+
+
+combined16 = [zeros(round(fs*0.5),size(f1,2));f16;zeros(round(fs*randNo(1)),size(f1,2));
+f11;zeros(round(fs*randNo(2)),size(f1,2));f14;zeros(round(fs*randNo(3)),size(f1,2));
+f5;zeros(round(fs*randNo(4)),size(f1,2));f12;zeros(round(fs*randNo(5)),size(f1,2));
+f2;zeros(round(fs*randNo(6)),size(f1,2));f9;zeros(round(fs*randNo(7)),size(f1,2));
+f15;zeros(round(fs*randNo(8)),size(f1,2))];
+
+
+audioLen = [length(f16)./fs, length(f11)./fs, length(f14)./fs, length(f5)./fs, length(f12)./fs, length(f2)./fs, length(f9)./fs, length(f15)./fs];
+
+
+A16 = table(audioLen);
+T16 = table(randNo);

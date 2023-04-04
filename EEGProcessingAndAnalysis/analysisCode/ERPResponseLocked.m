@@ -1,6 +1,9 @@
 %% ADD LIBRARIES AND LOAD THE AUDIO ONSET FILES IN A CELL ARRAY FOR USE IN THE NEXT SECTION 
 
+close all; clear;
 addpath libs/eeglab
+eeglab
+load('./analysisCode/chanlocs64.mat')
 
 disp('Loading in audio onset files and creating a cell array of tables');
 
@@ -8,39 +11,27 @@ disp('Loading in audio onset files and creating a cell array of tables');
 
 % Participant one
 load('./datasets/linguisticDecision/Subject1/dataStim1.mat','stimP1')
-% load('./datasets/linguisticDecision/Subject1/dataSub1_1_10Hz.mat','eegP1')
-% load('./datasets/linguisticDecision/Subject1/dataSub1_0.01_10Hz.mat','eegP1')
-load('./datasets/linguisticDecision/Subject1/dataSub1_LowPass10Hz.mat','eegP1')
+load('./datasets/linguisticDecision/Subject1/dataSub1_1_10Hz.mat','eegP1')
 
 % Participant two
 load('./datasets/linguisticDecision/Subject2/dataStim2.mat','stimP2')
-% load('./datasets/linguisticDecision/Subject2/dataSub2_1_10Hz.mat','eegP2')
-% load('./datasets/linguisticDecision/Subject2/dataSub2_0.01_10Hz.mat','eegP2')
-load('./datasets/linguisticDecision/Subject2/dataSub2_LowPass10Hz.mat','eegP2')
+load('./datasets/linguisticDecision/Subject2/dataSub2_1_10Hz.mat','eegP2')
 
 % Participant three
 load('./datasets/linguisticDecision/Subject3/dataStim3.mat','stimP3')
-% load('./datasets/linguisticDecision/Subject3/dataSub3_1_10Hz.mat','eegP3')
-% load('./datasets/linguisticDecision/Subject3/dataSub3_0.01_10Hz.mat','eegP3')
-load('./datasets/linguisticDecision/Subject3/dataSub3_LowPass10Hz.mat','eegP3')
+load('./datasets/linguisticDecision/Subject3/dataSub3_1_10Hz.mat','eegP3')
 
 % Participant four
 load('./datasets/linguisticDecision/Subject4/dataStim4.mat','stimP4')
-% load('./datasets/linguisticDecision/Subject4/dataSub4_1_10Hz.mat','eegP4')
-% load('./datasets/linguisticDecision/Subject4/dataSub4_0.01_10Hz.mat','eegP4')
-load('./datasets/linguisticDecision/Subject4/dataSub4_LowPass10Hz.mat','eegP4')
+load('./datasets/linguisticDecision/Subject4/dataSub4_1_10Hz.mat','eegP4')
 
 % Participant five
 load('./datasets/linguisticDecision/Subject5/dataStim5.mat','stimP5')
-% load('./datasets/linguisticDecision/Subject5/dataSub5_1_10Hz.mat','eegP5')
-% load('./datasets/linguisticDecision/Subject5/dataSub5_0.01_10Hz.mat','eegP5')
-load('./datasets/linguisticDecision/Subject5/dataSub5_LowPass10Hz.mat','eegP5')
+load('./datasets/linguisticDecision/Subject5/dataSub5_1_10Hz.mat','eegP5')
 
 % Participant six
 load('./datasets/linguisticDecision/Subject6/dataStim6.mat','stimP6')
-% load('./datasets/linguisticDecision/Subject6/dataSub6_1_10Hz.mat','eegP6')
-% load('./datasets/linguisticDecision/Subject6/dataSub6_0.01_10Hz.mat','eegP6')
-load('./datasets/linguisticDecision/Subject6/dataSub6_LowPass10Hz.mat','eegP6')
+load('./datasets/linguisticDecision/Subject6/dataSub6_1_10Hz.mat','eegP6')
 
 % ************************************************************************
 
@@ -160,7 +151,7 @@ end
 
 disp('Finished adding one to egg.data{3} wherever there is a button press');
 
-windowOfInterest = [3, 0.1];
+windowOfInterest = [3, 0.8];
 
 % problem here - participant misses a trial then there button press is
 % longer than trial length. This hasnt occurred in the last two
@@ -168,7 +159,9 @@ windowOfInterest = [3, 0.1];
 % probably need to pad with zeros
 
 reponseEEGData_eachWord = {1, nTrials};
+allReponseEEGData_eachWord = {1, numParticipants};
 
+selectedElectrodes = [19, 32, 56];
 baseline = 2.5; % pre-stim -> (post_stim - 3.5s) should end around the start of the signal
 for participantNo = 1:numParticipants
     for eegDataNo = 1:nTrials
@@ -207,59 +200,72 @@ for participantNo = 1:numParticipants
 
     end
     
-    if (participantNo == 1)
-        reponseEEGData_eachWordP1 = reponseEEGData_eachWord;
-    elseif (participantNo == 2)
-        reponseEEGData_eachWordP2 = reponseEEGData_eachWord;
-    elseif (participantNo == 3)
-        reponseEEGData_eachWordP3 = reponseEEGData_eachWord;
-    elseif (participantNo == 4)
-        reponseEEGData_eachWordP4 = reponseEEGData_eachWord;
-    elseif (participantNo == 5)
-        reponseEEGData_eachWordP5 = reponseEEGData_eachWord;
-    elseif (participantNo == 6)
-        reponseEEGData_eachWordP6 = reponseEEGData_eachWord;
-    end
+    allReponseEEGData_eachWord{participantNo} = reponseEEGData_eachWord;
    
 end
 
+% Calculate ERP
+averageERPs = {1, numParticipants};
+for participantNo = 1:numParticipants 
+    
+    averageERPs{participantNo} = mean(mean(cat(3, allReponseEEGData_eachWord{participantNo}{:}), 3), 2);
+    % For 64 electrodes
+    averageERPs{participantNo} = mean(cat(3, allReponseEEGData_eachWord{participantNo}{:}), 3);
+
+        
+end
+
+participantDataMatrix = cell2mat(averageERPs)'; % Put the ERPs in a matrix of size 6x142 (6 participants = 6 rows, time - 142 sample columns)
+SEMResponseLocked = std(participantDataMatrix, 0, 1)/sqrt(numParticipants); % Get the SEM of each column in the matrix - std dev of column / sqrt(num participants)
+
+finalAvgEEGData = (averageERPs{1} + averageERPs{2} + averageERPs{3} + averageERPs{4} + averageERPs{5} + averageERPs{6})/numParticipants;
+
 disp('FINISHED SECTION 2: Added button presses to stim.data and calculated the ERP with the data epoched based on the button press timing instead of stimulus onset');
 
-%% ************************************* CALCULATE ERP FOR ALL PARTICIPANTS AND AVERAGE AND GFP *******************************************
+%% FOR SELECTED ELECTRODES ONLY 
 
 % ERP
-sumEEGDataP1 = cat(3, reponseEEGData_eachWordP1{:});
-avgEEGDataP1 = mean(sumEEGDataP1, 3);
+time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
+blueMedium = [0 0 0.8];
 
-sumEEGDataP2 = cat(3, reponseEEGData_eachWordP2{:});
-avgEEGDataP2 = mean(sumEEGDataP2, 3);
+figure(5);
 
-sumEEGDataP3 = cat(3, reponseEEGData_eachWordP3{:});
-avgEEGDataP3 = mean(sumEEGDataP3, 3);
+errorLineProps_Response = {'color', blueMedium, 'linewidth', 1.5}; 
+shadedErrorBar(time_axis, finalAvgEEGData, SEMResponseLocked, 'lineprops', errorLineProps_Response, 'patchSaturation', 0.1);
 
-sumEEGDataP4 = cat(3, reponseEEGData_eachWordP4{:});
-avgEEGDataP4 = mean(sumEEGDataP4, 3);
+xlim([time_axis(1), time_axis(end)]);
+xlabel('Time (ms)')
+ylabel('Magnitude (a.u.)')
 
-sumEEGDataP5 = cat(3, reponseEEGData_eachWordP5{:});
-avgEEGDataP5 = mean(sumEEGDataP5, 3);
+set(gca,'FontSize', 17)
+set(gcf,'color','white');
+xticks(-3000:400:1000);
+grid on
+xline(0);
 
-sumEEGDataP6 = cat(3, reponseEEGData_eachWordP6{:});
-avgEEGDataP6 = mean(sumEEGDataP6, 3);
+set(gcf, 'Units', 'Inches', 'Position', [0, 0, 8, 4.5], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
 
-finalAvgEEGData = (avgEEGDataP1 + avgEEGDataP2 + avgEEGDataP3 + avgEEGDataP4 + avgEEGDataP5 + avgEEGDataP6)/numParticipants;
+% saveas(gcf, './Figures/ResponseLockedSequence/ERP_LongWindow_AvgElectrodes.fig');
+% saveas(gcf, './Figures/ResponseLockedSequence/ERP_LongWindow_AvgElectrodes.png');
+
+% saveas(gcf, './Figures/ResponseLockedSequence/ERP_ShortWindow_AvgElectrodes.fig');
+% saveas(gcf, './Figures/ResponseLockedSequence/ERP_ShortWindow_AvgElectrodes.png');
 
 % GFP
 gfp_responseLocked = sqrt(mean(finalAvgEEGData.^2,2));
 
 disp('Finished calculating ERP and GFP');
 
+%% 
+%391 - auditory, 385 - time of decicision, 373 - strong auditory, 358 positivity begins 
+figure(4);
+topoplot(mean(finalAvgEEGData(373:385, :)), chanlocs);  % - interesting behav
+set(gcf,'color','white');
+
 %% ******************************** PLOT THE ERP, GFP AND TOPOGRAPHIES ******************************
 
+% %  OLD CODE: DONT REALLY NEED TO PLOT ERP AND GFP, JUST THE SELECTED ELECTRODES ERP 
 time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
-% figure(1);
-% t1 = tiledlayout(2,4);
-% t1.Title.String = 'Response Locked ERP, GFP and Topographies';
-% t1.Title.FontWeight = 'bold';
 
 % ERP
 figure(1);
@@ -273,9 +279,7 @@ xline(0);
 xlabel('Time (ms)')
 ylabel('Magnitude (a.u.)')
 
-% saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedERP_1_10Hz.png')
-saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedERP_0.01_10Hz.png')
-% saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedERP_10Hz.png')
+% saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedERP_1_10Hz_LargeWindow.png')
 
 % GFP
 figure(2);
@@ -289,29 +293,92 @@ xlabel('Time (ms)');
 ylabel('Global Field Power (a.u.)');
 grid on
 
-% saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedGFP_1_10Hz.png')
-saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedGFP_0.01_10Hz.png')
-% saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedGFP_10Hz.png')
+% saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedGFP_1_10Hz_LargeWindow.png')
+
+%% ****************** IMPORTANT TOPOGRAPHIES ***********************8
 
 % Topographies
-figure(3);
-tiledlayout(1, 3);
+% figure(3);
 
-topoplotLocs = [-141, -86, 55];
-topoplotLocsSamp = [367, 374, 392];
+topoplotLocsSamp = 377; % 362 377 386
+% topoplotLocsSamp = [158, 179, 218, 359, 360, 361, 362, 363, 367, 374, 377, 382, 385, 386, 388];
+% topoplotLocsSamp = [410, 420, 430, 431, 432, 433, 436, 439, 440, 442, 445, 446, 447, 450, 451, 452];
+% topoplotLocsSamp = [450, 451, 452, 453, 454, 454, 456, 457, 458, 460, 461, 462, 463, 465, 466, 467, 470, 471, 497];
 
 numPlots = length(topoplotLocsSamp);
 for plotNum = 1:numPlots
     
-    nexttile;
+    figure(1);
     topoplot(finalAvgEEGData(topoplotLocsSamp(plotNum),:), chanlocs);
     set(gcf,'color','white');
+%     colorbar;
 end
 
-set(gcf, 'Units', 'Inches', 'Position', [0, 0, 8, 3], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
-% saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedTopographies_1_10Hz.png')
-saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedTopographies_0.01_10Hz.png')
-% saveas(gcf,'./Figures/ResponseLockedSequence/ResponseLockedTopographies_10Hz.png')
+% % saveas(gcf,'./Figures/ResponseLockedSequence/Topographies/Minus179ms.png')
+% % saveas(gcf,'./Figures/ResponseLockedSequence/Topographies/Minus179ms.fig')
+
+% % saveas(gcf,'./Figures/ResponseLockedSequence/Topographies/Minus62ms.png')
+% % saveas(gcf,'./Figures/ResponseLockedSequence/Topographies/Minus62ms.fig')
+
+
+% % saveas(gcf,'./Figures/ResponseLockedSequence/Topographies/7ms.png')
+% % saveas(gcf,'./Figures/ResponseLockedSequence/Topographies/7ms.fig')
+
+%%
+
+% Combine plots into one figure
+
+fig(1) = openfig('./Figures/ResponseLockedSequence/ERP_ShortWindow_AvgElectrodes.fig');
+fig(2) = openfig('./Figures/ResponseLockedSequence/Topographies/Minus179ms.fig');
+fig(3) = openfig('./Figures/ResponseLockedSequence/Topographies/Minus62ms.fig');
+fig(4) = openfig('./Figures/ResponseLockedSequence/Topographies/7ms.fig');
+
+new_fig = figure;
+ax_new = gobjects(size(fig));
+titles = {'', '-179ms', '-62ms', '7ms'};
+for i=1:4
+    
+    if (i == 1)
+        ax = subplot(4, 3,[1,2,3,4,5,6]);
+    else 
+        ax = subplot(4,3,i+5);
+    end
+    ax_old = findobj(fig(i), 'type', 'axes');
+    ax_new(i) = copyobj(ax_old, new_fig);
+    ax_new(i).YLimMode = 'manual';
+    ax_new(i).Position = ax.Position;
+    ax_new(i).Position(4) = ax_new(i).Position(4)-0.02;
+    delete(ax);
+    colormap('jet');
+    
+    title(titles{i});
+    
+    if (i ~= 1)
+        set(gca,'FontSize', 18)
+        pos = get(gca, 'position');
+        if (i==2)
+            pos(1) = 0.12; % adjust the x position to center the topoplot
+        elseif (i==3)
+            pos(1) = 0.4;
+        elseif (i==4)
+             pos(1) = 0.7;
+        end
+        pos(2) = 0.002; % adjust the y position
+        pos(4) = 0.4; % adjust the height
+        set(gca, 'position', pos);
+    end
+end
+set(gcf,'color','white');
+
+set(gcf, 'Units', 'Inches', 'Position', [0, 0, 12, 8], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
+saveas(gcf, './Figures/ResponseLockedSequence/CombinedPlot_ERPTopo.fig');
+saveas(gcf, './Figures/ResponseLockedSequence/CombinedPlot_ERPTopo.png');
+
+
+%%
+
+% set(gcf, 'Units', 'Inches', 'Position', [0, 0, 12, 8], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
+% saveas(gcf, './Figures/AmbigVsNonAmbig/CombinedMeanAmbig.png');
 
 % Topographies
 % figure(3);

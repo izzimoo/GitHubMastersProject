@@ -1,6 +1,9 @@
 %% ADD LIBRARIES AND LOAD THE AUDIO ONSET FILES IN A CELL ARRAY FOR USE IN THE NEXT SECTION 
 
+close all; clear;
 addpath libs/eeglab
+eeglab
+load('./analysisCode/chanlocs64.mat')
 
 disp('Loading in audio onset files and creating a cell array of tables');
 
@@ -293,33 +296,41 @@ time_axis_long = (0:size(allParticipant_ERP_LongTrial,1)-1)/fsDown*1000;
 % t2.Title.FontWeight = 'bold';
 
 % ERP
-figure(4);
+figure(1);
 plot(time_axis_long, allParticipant_ERP_LongTrial);
 xlim([time_axis_long(1),time_axis_long(end)]);
 set(gcf,'color','white');
-set(gca,'FontSize', 14);
+set(gca,'FontSize', 15);
 xlabel('Time (ms)')
 ylabel('Magnitude (a.u.)')
+grid on
 
-% saveas(gcf,'./Figures/SentenceERP/SentenceERP_1_10Hz.png')
-saveas(gcf,'./Figures/SentenceERP/SentenceERP_0.01_10Hz.png')
-% saveas(gcf,'./Figures/SentenceERP/SentenceERP_10Hz.png')
+set(gcf, 'Units', 'Inches', 'Position', [0, 0, 7, 3], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
+% saveas(gcf,'./Figures/FullSequence/SentenceERP_1_10Hz.png')
 
 % GFP
 figure(5);
 gfp_longTrials = sqrt(mean(allParticipant_ERP_LongTrial.^2,2)); 
-plot(time_axis_long, gfp_longTrials, 'LineWidth', 1);
+plot(time_axis_long, gfp_longTrials, 'LineWidth', 1.5);
 set(gcf,'color','white');
-set(gca,'FontSize', 14);
+set(gca,'FontSize', 15);
 % plot(gfp_longTrials);
 xlim([time_axis_long(1),time_axis_long(end)]);
 xlabel('Time (ms)');
+grid on
 ylabel('Global Field Power (a.u.)');
 
-% saveas(gcf,'./Figures/SentenceERP/SentenceGFP_1_10Hz.png')
-saveas(gcf,'./Figures/SentenceERP/SentenceGFP_0.01_10Hz.png')
-% saveas(gcf,'./Figures/SentenceERP/SentenceGFP_10Hz.png')
+set(gcf, 'Units', 'Inches', 'Position', [0, 0, 7, 3], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
+% saveas(gcf,'./Figures/FullSequence/SentenceGFP_1_10Hz.png')
 
+%%
+figure(3);
+topoplot(allParticipant_ERP_LongTrial(8,:), chanlocs);
+title(['At ', num2str(time_axis_long(8))]);
+
+saveas(gcf, './Figures/FullSequence/55ms.png')
+
+%%
 
 % % Topographies
 % figure(6);

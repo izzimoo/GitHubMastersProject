@@ -1,5 +1,10 @@
 %% ADD LIBRARIES AND LOAD THE AUDIO ONSET FILES IN A CELL ARRAY FOR USE IN THE NEXT SECTION 
 
+close all; clear;
+addpath libs/eeglab
+eeglab
+load('./analysisCode/chanlocs64.mat')
+
 disp('Loading in audio onset files and creating a cell array of tables');
 
 % ********************* STIMULI AND EEG DATA ***************************
@@ -25,7 +30,6 @@ load('./datasets/linguisticDecision/Subject6/dataStim6.mat','stimP6')
 % ******************************************************************
 
 stimulusEachParticipant = {stimP1, stimP2, stimP3, stimP4, stimP5, stimP6};
-EEGDataEachParticipant = {eegP1, eegP2, eegP3, eegP4, eegP5, eegP6};
 
 numParticipants = length(stimulusEachParticipant);
 numAudiosInSeq = 8;
@@ -159,22 +163,24 @@ standardError = std(sumStimData, 0, 3)./sqrt(length(sumStimData));
 time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
 figure(1);
 
-errorLineProps = {'color', [0.5, 0.5, 0.5], 'linewidth', 1.5, 'DisplayName', 'Standard error'};
+errorLineProps = {'color', [0.5, 0.5, 0.5], 'linewidth', 2.0};
 
 shadedErrorBar(time_axis, ERPStimdata, standardError, 'lineprops', errorLineProps, 'patchSaturation', 0.06);
 hold on; % Add the standard error line to the same plot
 
 xlim([time_axis(1), time_axis(end)]);
-set(gca,'FontSize', 12)
+set(gca,'FontSize', 17)
 set(gcf,'color','white');
 xlabel('Time (ms)')
 ylabel('Magnitude (a.u.)')
+xline(0);
 grid on
 
-legend('show', 'Location', 'northeast');
-set(legend, 'FontSize', 13);
+legend('Standard Error');
+set(legend, 'FontSize', 17);
+legend boxoff 
 
-saveas(gcf,'./Figures/StimulusEnvelope/WordOnsetEnvelope_1_10Hz.png')
+% saveas(gcf,'./Figures/StimulusEnvelope/WordOnsetEnvelope_1_10Hz.png')
 
 disp('FINISHED SECTION 2: Calculated and plotted the ERP of stimulus envelope (ERP of all stim envelopes for 272 trials)');
 
@@ -221,21 +227,23 @@ standardError = std(sumEEGDataLong, 0, 3)./sqrt(length(sumEEGDataLong));
 time_axis_long = (0:size(ERPStimData_Sequence,1)-1)/fsDown*1000;
 
 figure(1);
-errorLineProps = {'color', [0.5, 0.5, 0.5], 'linewidth', 0.8, 'DisplayName', 'Standard error'};
+errorLineProps = {'color', [0.5, 0.5, 0.5], 'linewidth', 1};
 
 shadedErrorBar(time_axis_long, ERPStimData_Sequence, standardError, 'lineprops', errorLineProps, 'patchSaturation', 0.06);
 
 xlim([time_axis_long(1), time_axis_long(end)]);
 xlabel('Time (ms)')
 ylabel('Magnitude (a.u.)')
-set(gca,'FontSize', 12)
+set(gca,'FontSize', 15)
 set(gcf,'color','white');
 grid on
 
-legend('show', 'Location', 'northeast');
-set(legend, 'FontSize', 13);
+legend('Standard Error');
+set(legend, 'FontSize', 16);
+legend boxoff 
 
-saveas(gcf,'./Figures/StimulusEnvelope/SentenceEnvelope_1_10Hz.png')
+set(gcf, 'Units', 'Inches', 'Position', [0, 0, 7, 3], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
+% saveas(gcf,'./Figures/StimulusEnvelope/SentenceEnvelope_1_10Hz.png')
 
 disp('FINISHED SECTION 2: Calculated and plotted the ERP of stimulus envelope for the entire sequence');
 

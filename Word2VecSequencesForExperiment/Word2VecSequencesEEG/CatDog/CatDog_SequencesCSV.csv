@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Cat Sequence 1,Cat Sequence 2,Cat Sequence 3,Cat Sequence 4,Cat Sequence 5,Cat Sequence 6,Cat Sequence 7,Cat Sequence 8,Dog Sequence 1,Dog Sequence 2,Dog Sequence 3,Dog Sequence 4,Dog Sequence 5,Dog Sequence 6,Dog Sequence 7,Dog Sequence 8
+fur,0.5227431801629634,microchipped,0.517847344271509,paw,0.5005662246573288,feed,cosy,neutered,fur,neutered,cosy,cute,feed,neutered,paw,neutered,paw,stray,neutered,breed,feed
+cosy,0.5954711896580549,breed,0.6142461367902604,cute,0.4916904505827387,whiskers,neutered,feed,cute,cute,neutered,feed,paw,paw,train,wild,train,microchipped,paw,feed,stray
+whiskers,0.5582221477298884,stray,0.5306357163871309,neutered,0.48315957548799676,paw,cute,tail,paw,fur,fur,fur,whiskers,breed,wild,microchipped,breed,pet,stray,paw,breed
+cuddle,0.5274397908979391,train,0.8534777471637385,pet,0.49043790587241,tail,fur,cosy,neutered,cosy,cuddle,cuddle,cosy,cute,neutered,stray,microchipped,cute,tail,train,wild
+,,wild,0.5543754851019594,feed,0.49217740153347744,cuddle,paw,cute,cosy,whiskers,pet,paw,tail,train,microchipped,cute,cute,wild,breed,cute,tail
+,,,,tail,0.507160561649626,fur,cuddle,cuddle,cuddle,feed,whiskers,whiskers,cute,wild,stray,feed,pet,train,cute,wild,pet
+,,,,,,cosy,tail,whiskers,whiskers,cuddle,feed,pet,fur,microchipped,tail,train,wild,neutered,microchipped,neutered,train
+,,,,,,neutered,whiskers,fur,pet,paw,paw,cosy,cuddle,pet,feed,breed,stray,paw,wild,stray,paw

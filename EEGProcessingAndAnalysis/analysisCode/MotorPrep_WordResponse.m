@@ -1,41 +1,48 @@
 
+close all; clear;
+addpath libs/eeglab
+eeglab
+load('./analysisCode/chanlocs64.mat')
+
 % ********************* STIMULI AND EEG DATA ***************************
+
 disp('Loading in audio onset files and creating a cell array of tables');
+% MOTOR PREPARATION - DIFFERENT TRIAL LENGTH - STIMULUS ONSET TRIAL N - STIMULUS ONSET TRIAL N+1 
 
 % Participant one
-load('./datasets/linguisticDecision/Subject1/dataStim1.mat','stimP1');
-load('./datasets/linguisticDecision/Subject1/dataSub1_12_36Hz.mat', 'BetaP1');
-load('./datasets/linguisticDecision/Subject1/dataSub1_64_100Hz.mat', 'GammaP1');
+load('./datasets/linguisticDecision/Subject1/MotorPreparation/dataStim1.mat','stimP1')
+load('./datasets/linguisticDecision/Subject1/MotorPreparation/dataSub1_64_100Hz.mat','GammaP1')
+load('./datasets/linguisticDecision/Subject1/MotorPreparation/dataSub1_12_36Hz.mat','BetaP1')
 disp('P1 Loaded');
 
 % Participant two
-load('./datasets/linguisticDecision/Subject2/dataStim2.mat','stimP2')
-load('./datasets/linguisticDecision/Subject2/dataSub2_12_36Hz.mat', 'BetaP2');
-load('./datasets/linguisticDecision/Subject2/dataSub2_64_100Hz.mat', 'GammaP2');
+load('./datasets/linguisticDecision/Subject2/MotorPreparation/dataStim2.mat','stimP2')
+load('./datasets/linguisticDecision/Subject2/MotorPreparation/dataSub2_64_100Hz.mat','GammaP2')
+load('./datasets/linguisticDecision/Subject2/MotorPreparation/dataSub2_12_36Hz.mat','BetaP2')
 disp('P2 Loaded');
 
 % Participant three
-load('./datasets/linguisticDecision/Subject3/dataStim3.mat','stimP3')
-load('./datasets/linguisticDecision/Subject3/dataSub3_12_36Hz.mat', 'BetaP3');
-load('./datasets/linguisticDecision/Subject3/dataSub3_64_100Hz.mat', 'GammaP3');
+load('./datasets/linguisticDecision/Subject3/MotorPreparation/dataStim3.mat','stimP3')
+load('./datasets/linguisticDecision/Subject3/MotorPreparation/dataSub3_64_100Hz.mat','GammaP3')
+load('./datasets/linguisticDecision/Subject3/MotorPreparation/dataSub3_12_36Hz.mat','BetaP3')
 disp('P3 Loaded');
 
 % Participant four
-load('./datasets/linguisticDecision/Subject4/dataStim4.mat','stimP4')
-load('./datasets/linguisticDecision/Subject4/dataSub4_12_36Hz.mat', 'BetaP4');
-load('./datasets/linguisticDecision/Subject4/dataSub4_64_100Hz.mat', 'GammaP4');
+load('./datasets/linguisticDecision/Subject4/MotorPreparation/dataStim4.mat','stimP4')
+load('./datasets/linguisticDecision/Subject4/MotorPreparation/dataSub4_64_100Hz.mat','GammaP4')
+load('./datasets/linguisticDecision/Subject4/MotorPreparation/dataSub4_12_36Hz.mat','BetaP4')
 disp('P4 Loaded');
 
 % Participant five
-load('./datasets/linguisticDecision/Subject5/dataStim5.mat','stimP5')
-load('./datasets/linguisticDecision/Subject5/dataSub5_12_36Hz.mat', 'BetaP5');
-load('./datasets/linguisticDecision/Subject5/dataSub5_64_100Hz.mat', 'GammaP5');
+load('./datasets/linguisticDecision/Subject5/MotorPreparation/dataStim5.mat','stimP5')
+load('./datasets/linguisticDecision/Subject5/MotorPreparation/dataSub5_64_100Hz.mat','GammaP5')
+load('./datasets/linguisticDecision/Subject5/MotorPreparation/dataSub5_12_36Hz.mat','BetaP5')
 disp('P5 Loaded');
 
 % Participant six
-load('./datasets/linguisticDecision/Subject6/dataStim6.mat','stimP6')
-load('./datasets/linguisticDecision/Subject6/dataSub6_12_36Hz.mat', 'BetaP6');
-load('./datasets/linguisticDecision/Subject6/dataSub6_64_100Hz.mat', 'GammaP6');
+load('./datasets/linguisticDecision/Subject6/MotorPreparation/dataStim6.mat','stimP6')
+load('./datasets/linguisticDecision/Subject6/MotorPreparation/dataSub6_64_100Hz.mat','GammaP6')
+load('./datasets/linguisticDecision/Subject6/MotorPreparation/dataSub6_12_36Hz.mat','BetaP6')
 disp('P6 Loaded');
 
 % ************************************************************************8
@@ -226,7 +233,6 @@ numDecisions = length(leftAndRightTrials);
 leftOnsetEEGdata_eachWord_Left = {1, numParticipants}; rightOnsetEEGdata_eachWord_Left = {1, numParticipants};
 leftOnsetEEGdata_eachWord_Right = {1, numParticipants}; rightOnsetEEGdata_eachWord_Right = {1, numParticipants};
 
-
 selectedElectrodes = {[10,12,13,14], [45,46,49,50]};
 
 for decisionType = 1:numDecisions
@@ -268,7 +274,8 @@ for decisionType = 1:numDecisions
         
         leftOnsetEEGdata_eachWord_Left{participantNo} = onsetEEGdata_eachWord_Left;
         rightOnsetEEGdata_eachWord_Left{participantNo} = onsetEEGdata_eachWord_Right;
-        
+    
+    % Right response
     elseif (decisionType == 2)
     
         leftOnsetEEGdata_eachWord_Right{participantNo} = onsetEEGdata_eachWord_Left;
@@ -365,8 +372,8 @@ eighthWordResponse_prev.P6 = {};
 eighthWordResponse_TwoPrev.P1 = {}; eighthWordResponse_TwoPrev.P2 = {}; eighthWordResponse_TwoPrev.P3 = {}; eighthWordResponse_TwoPrev.P4 = {}; 
 eighthWordResponse_TwoPrev.P5 = {}; eighthWordResponse_TwoPrev.P6 = {};
 
-% Place words in structures based on their participant number and the word that the decision was made on.
-testArray={};
+% Miss trial
+missTrialData.P3 = {}; missTrialData.P4 = {}; missTrialData.P6 = {}; 
 
 leftRightFour = length(allWordOnsetData);
 decisions = [1, 1, 2, 2];
@@ -378,7 +385,7 @@ for leftAndRightOnset = 1:leftRightFour
     for participantNo = 1:numParticipants
         participantStr = ['P', num2str(participantNo)];
 
-        index1=1; index2=1; index3=1; index4=1; index5=1; index6=1; index7=1; index8=1;
+        index1=1; index2=1; index3=1; index4=1; index5=1; index6=1; index7=1; index8=1; indexMiss=1;
 
         newnTrials = length(leftAndRightTrials{decisionType}{participantNo});
         trialData = leftAndRightTrials{decisionType}{participantNo};
@@ -468,6 +475,9 @@ for leftAndRightOnset = 1:leftRightFour
 
             if (wordBeforePress == 9)
                 disp('Miss trial, not including in data.');
+                missTrialData.(participantStr){leftAndRightOnset, indexMiss} = allWordOnsetData{leftAndRightOnset}{participantNo}{trialNum, 8};
+                indexMiss = indexMiss + 1;
+%                 fprintf(['Participant num: ', num2str(participantNo), ' trial num ', num2str(trialNum), '\n']); 
             end
         end
     end
@@ -488,15 +498,16 @@ twoPrevWordResponses = {thirdWordResponse_TwoPrev, fourthWordResponse_TwoPrev, f
     sixthWordResponse_TwoPrev, seventhWordResponse_TwoPrev, eighthWordResponse_TwoPrev};
 
 wordResponses = {currWordResponse, prevWordResponses, twoPrevWordResponses};
-numResponses = length(prevWordResponses);
+numResponseTypes = length(wordResponses);
 
-leftRightCombinations = [1, 2, 3, 4];
+% Correspond to: Left Brain Left Decision (LL), Right Brain Left Decision (RL), Left Brain Right Decision (LR), Right Brain Right Decision (RR)
+leftRightCombinations = [1, 2, 3, 4]; 
 
 finalWeightedERPs={12, numParticipants};
 ERPindex = 1;
 
 for responseType = 1:numResponseTypes 
-    fprintf(['HIIIIIIIIIIIIII', num2str(responseType)]);
+%     fprintf(['Response type: ', num2str(responseType)]);
     for comboType = 1:length(leftRightCombinations)
         for participantNo = 1:numParticipants 
 
@@ -506,12 +517,13 @@ for responseType = 1:numResponseTypes
              
              leftAndRightOnset = leftRightCombinations(comboType);
 
-             fprintf(['ResponseType N, N-1n N-2 ', num2str(responseType), ' combo type LL, RL, LR, RR ', num2str(leftAndRightOnset), '\n']);
+%              fprintf(['ResponseType N, N-1n N-2 ', num2str(responseType), ' combo type LL, RL, LR, RR ', num2str(leftAndRightOnset), '\n']);
                          
              numEpochsEachWord={1, numResponses}; ERPEachWord={1, numResponses}; 
 
             for wordNum = 1:numResponses
                 
+                % This ensures code does not index into a row that doesn't exist e.g. a participant didn't make any right handed decisions on word 6
                 nRows = size(wordResponses{responseType}{wordNum}.(participants{participantNo}), 1);
                 validRows = min(max(leftAndRightOnset, 1), nRows);
                 
@@ -522,23 +534,24 @@ for responseType = 1:numResponseTypes
                     numEpochsEachWord{wordNum} = 0;
                 end
                 
-                % Extract relevant data
+                % Extract relevant data if it exists
                 if isempty(wordResponses{responseType}{wordNum}.(participants{participantNo}))
-                    data = {};
+                    EEGResponseData = {};
                 else
-                    data = wordResponses{responseType}{wordNum}.(participants{participantNo})(validRows,:);
+                    EEGResponseData = wordResponses{responseType}{wordNum}.(participants{participantNo})(validRows,:);
                 end
 
                 % Filter out empty cells
-                nonEmptyIdx = ~cellfun(@isempty, data);
-                validResponses = data(nonEmptyIdx);
+                nonEmptyIdx = ~cellfun(@isempty, EEGResponseData);
+                validResponses = EEGResponseData(nonEmptyIdx);
 
                 % Compute mean
                 ERPEachWord{wordNum} = mean(cat(3, validResponses{:}), 3);
 
             end 
             
-            nonZeroResponses = find(cellfun(@(x) ~isequal(x, 0), numEpochsEachWord));  % find indices of non-zero values
+            % Find indices of non-zero values i.e. words where deicisons were made
+            nonZeroResponses = find(cellfun(@(x) ~isequal(x, 0), numEpochsEachWord));  
 
             % Calulate the weightedERP before dividing 
             weightedERP = zeros(size(ERPEachWord{1}));
@@ -559,29 +572,155 @@ for responseType = 1:numResponseTypes
     end
 end
 
+%  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+% |The final output of FinalWeightedERP is a 12x6 array of the following structure: |
+% |      1      2      3      4       5       6   (ParticipantNum)                  |
+% | NLL   ERP    ERP    ERP   etc...               --> Each row averaged to get     |  
+% | NRL                                            get final ERPs for N, N-1, N-2   |
+% | NLR                                                                             |
+% | NRR                                                                             |
+% | N-1_LL                                                                          |
+% | N-1_RL                                                                          |
+% | N-1_LR                                                                          |
+% | N-1_RR                                                                          |
+% | N-2_LL                                                                          |    
+% | N-2_RL                                                                          |
+% | N-2_LR                                                                          |        
+% | N-2_RR                                                                          |
+% | _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |  
+
 % Average the weighted ERPs across participants
-averageWeightedERP = {1, 16};
+averageWeightedERP = {1, 12};
 for leftRightType = 1:12
 
     averageWeightedERP{leftRightType} = (finalWeightedERPs{leftRightType, 1} + finalWeightedERPs{leftRightType, 2} + finalWeightedERPs{leftRightType, 3} + finalWeightedERPs{leftRightType, 4} + finalWeightedERPs{leftRightType, 5} + finalWeightedERPs{leftRightType, 6})/numParticipants;
 
 end
 
+% Final output of averageWeightedERP is (12 x 1): (1-4 = NLL, NRL, NLR, NRR), (5-8 = N-1_LL, N-1_RL, N-1_LR, N-1_RR), (9-12 = N-2_LL, N-2_RL, N-2_LR, N-2_RR)
+
+disp('Calculated ERP for Word N, Word N-1 and Word N-2 relative to button press for different sides of the brain');
+
+%% Calculate ERP for miss trial
+
+% leftRightCombinations = [1, 2, 3, 4]; 
+numCombinations = length(leftRightCombinations);
+missParticipants = {'P3', 'P4', 'P6'}; numMissPs = length(missParticipants);
+avgERPsComboTypes = {1, numCombinations}; finalAverageElectrodeERP = {1, numCombinations}; 
+
+for leftRightCombo = 1:numCombinations
+
+    comboType = leftRightCombinations(leftRightCombo);
+
+    numMissTrials = 0; rowERPs = {1, 3}; 
+
+    for participantNo = 1:numMissPs
+
+        rowERPs{participantNo} = mean(cat(3, missTrialData.(missParticipants{participantNo}){comboType, :}), 3);
+        numMissTrials = numMissTrials + sum(cellfun(@(x) ~isempty(x), missTrialData.(missParticipants{participantNo})(comboType, :)));
+        
+    end
+
+    avgERPsComboTypes{leftRightCombo} = rowERPs{1} + rowERPs{2} + rowERPs{3}/numMissTrials;
+    finalAverageElectrodeERP{leftRightCombo} = mean(avgERPsComboTypes{leftRightCombo}, 2); 
+
+end
+
+%finalAverageElectrodeERP = Word 8 (missed trials), 1 x 4 cell array which corresponds to LL, RL, LR, RR.
+
+
 %% Plot ERP
 
 time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
 
-figure(3);
-grid on
-plot(time_axis, averageWeightedERP{9});
-xlim([time_axis(1),time_axis(end)]);
-set(gca,'FontSize', 12)
-set(gcf,'color','white');
-xline(0);
-xlabel('Time (ms)')
-ylabel('Magnitude (a.u.)')
+% N decisions 
+NLL = averageWeightedERP{1};
+NRL = averageWeightedERP{2};
+
+NLR = averageWeightedERP{3};
+NRR = averageWeightedERP{4};
+
+% N-1 from decision
+N_1LL = averageWeightedERP{5};
+N_1RL = averageWeightedERP{6};
+
+N_1LR = averageWeightedERP{7};
+N_1RR = averageWeightedERP{8};
+
+% N-2 from deicison
+N_2LL = averageWeightedERP{9};
+N_2RL = averageWeightedERP{10};
+
+N_2LR = averageWeightedERP{11};
+N_2RR = averageWeightedERP{12};
+
+allDecisionsERPs = {NLL, NRL, NLR, NRR, N_1LL, N_1RL, N_1LR, N_1RR, N_2LL, N_2RL, N_2LR, N_2RR};
+numDecisionERPs = length(allDecisionsERPs);
+
+% ********* Plot various ERPs *************
+
+betaNames = {'BetaERP_NLL', 'BetaERP_NRL', 'BetaERP_NLR', 'BetaERP_NRR', 'BetaERP_N_1LL', 'BetaERP_N_1RL', 'BetaERP_N_1LR', 'BetaERP_N_1RR', 'BetaERP_N_2LL',...
+    'BetaERP_N_2RL', 'BetaERP_N_2LR', 'BetaERP_N_2RR'};
+
+GammaNames = {'GammaERP_NLL', 'GammaERP_NRL', 'GammaERP_NLR', 'GammaERP_NRR', 'GammaERP_N_1LL', 'GammaERP_N_1RL', 'GammaERP_N_1LR', 'GammaERP_N_1RR', 'GammaERP_N_2LL',...
+    'GammaERP_N_2RL', 'GammaERP_N_2LR', 'GammaERP_N_2RR'};
+
+for erpType = 1:numDecisionERPs
+    
+    figure(erpType);
+    plot(time_axis, allDecisionsERPs{erpType}, 'LineWidth', 1.5, 'Color', 'r');
+    xlim([time_axis(1), time_axis(end)]);
+    xlabel('Time (ms)')
+    ylabel('Magnitude (a.u.)')
+    set(gca,'FontSize', 12)
+    set(gcf,'color','white');
+    grid on;
+    
+%     % Generate a filename based on the current iteration of the loop and the corresponding plot name from the cell array
+%     filename = sprintf('./Figures/MotorPreparation/MotorPrepWordBasis/Gamma/%s.png', GammaNames{erpType});
+%     
+%     % Save the plot with the generated filename
+%     saveas(gcf, filename)
+   
+end
+
+combinedN_Left = NRL - NLL; % Left decision: right brain - left brain
+combinedN_Right = NLR - NRR; % Right decision: left brain - right brain
+
+combinedN_1_Left = N_1RL - N_1LL; % Left decision: right brain - left brain
+combinedN_1_Right = N_1LR - N_1RR; % Right decision: left brain - right brain
+
+combinedN_2_Left = N_2RL - N_2LL; % Left decision: right brain - left brain
+combinedN_2_Right = N_2LR - N_2RR; % Right decision: left brain - right brain
+
+combinedERPs = {combinedN_Left, combinedN_Right, combinedN_1_Left, combinedN_1_Right, combinedN_2_Left, combinedN_2_Right};
+numCombinedERPs = length(combinedERPs);
+
+betaComboPlotNames = {'N_LeftDec_LeftBrain', 'N_LeftDec_RightBrain', 'N_1_LeftDec_LeftBrain', 'N_1_LeftDec_RightBrain', 'N_2_LeftDec_LeftBrain', 'N_2_LeftDec_RightBrain'};
+
+gammaComboPlotNames = {'GammaN_LeftDec_LeftBrain', 'GammaN_LeftDec_RightBrain', 'GammaN_1_LeftDec_LeftBrain', 'GammaN_1_LeftDec_RightBrain', 'GammaN_2_LeftDec_LeftBrain',... 
+    'GammaN_2_LeftDec_RightBrain'};
+
+for comboNum = 1:numCombinedERPs
+    
+    figure(12+comboNum);
+    
+    plot(time_axis, combinedERPs{comboNum}, 'LineWidth', 1.5, 'Color', 'r');
+    xlim([time_axis(1), time_axis(end)]);
+    xlabel('Time (ms)')
+    ylabel('Magnitude (a.u.)')
+    set(gca,'FontSize', 12)
+    set(gcf,'color','white');
+    grid on;
+    
+%     % Generate a filename based on the current iteration of the loop and the corresponding plot name from the cell array
+%     filename = sprintf('./Figures/MotorPreparation/MotorPrepWordBasis/Gamma/%s.png', gammaComboPlotNames{comboNum});
+%     
+%     % Save the plot with the generated filename
+%     saveas(gcf, filename)
+      
+end
 
 
-
-disp('Calculated ERP and GFP for Word N, Word N-1 and Word N-2 relatvie to button press');
+disp('FINISHED SCRIPT');
 

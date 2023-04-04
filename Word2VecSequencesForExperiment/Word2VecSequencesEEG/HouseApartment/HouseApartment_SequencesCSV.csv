@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,House Sequence 1,House Sequence 2,House Sequence 3,House Sequence 4,House Sequence 5,House Sequence 6,House Sequence 7,House Sequence 8,Apartment Sequence 1,Apartment Sequence 2,Apartment Sequence 3,Apartment Sequence 4,Apartment Sequence 5,Apartment Sequence 6,Apartment Sequence 7,Apartment Sequence 8
+doors,0.5704974769944037,kitchen,0.5520440126793426,floor,0.4523738173679886,carpark,landlord,carpark,roof,landlord,storey,storey,storey,carpark,floor,floor,rent,bedroom,storey,carpark,bathroom
+hall,0.6693252789676303,bedroom,0.632116908762985,storey,0.45080434267839475,hall,neighbourhood,doors,hall,doors,hall,neighbourhood,doors,kitchen,rent,bedroom,carpark,storey,bathroom,floor,rent
+neighbourhood,0.511836910935964,bathroom,0.6513109868150372,landlord,0.47852052993912786,doors,storey,storey,doors,neighbour,neighbourhood,carpark,hall,neighbour,bedroom,landlord,floor,neighbour,floor,rent,kitchen
+roof,0.5945115862052264,rent,0.5494247270222393,neighbour,0.47278441251278347,neighbour,roof,hall,neighbourhood,roof,doors,landlord,floor,landlord,storey,rent,storey,landlord,landlord,bedroom,neighbour
+,,,,carpark,0.46455870150581713,neighbourhood,carpark,landlord,carpark,storey,neighbour,roof,neighbour,bathroom,neighbour,bathroom,neighbour,rent,rent,bathroom,bedroom
+,,,,,,storey,hall,roof,storey,hall,roof,hall,neighbourhood,storey,kitchen,neighbour,kitchen,carpark,kitchen,neighbour,carpark
+,,,,,,roof,neighbour,floor,neighbour,neighbourhood,landlord,doors,roof,bedroom,bathroom,kitchen,bedroom,bathroom,neighbour,landlord,floor
+,,,,,,floor,doors,neighbourhood,landlord,carpark,carpark,neighbour,landlord,rent,carpark,carpark,bathroom,kitchen,bedroom,kitchen,storey

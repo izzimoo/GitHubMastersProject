@@ -48,11 +48,15 @@ function mTRF_plotForwardTRF(models)
     xlabel('Time-latency (ms)')
     ylabel('Magnitude (a.u.)')
     xlim([tmin+50,tmax-50])
-    ylim([-4,4])
+    ylim([-2,3])
     run prepExport.m
     grid on
+    set(gca,'FontSize', 14)
+    set(gcf,'color','white');
     
-    saveas(gcf,'./Figures/TRF/AverageTRF_0.01_10Hz.png')
+    set(gcf, 'Units', 'Inches', 'Position', [0, 0, 7, 5], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
+
+    saveas(gcf,'./Figures/TRF/AverageTRF_1_10Hz.png')
 
 %     % Plot GFP
 %     subplot(2,2,4)

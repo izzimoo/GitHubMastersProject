@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Water Sequence 1,Water Sequence 2,Water Sequence 3,Water Sequence 4,Water Sequence 5,Water Sequence 6,Water Sequence 7,Water Sequence 8,Milk Sequence 1,Milk Sequence 2,Milk Sequence 3,Milk Sequence 4,Milk Sequence 5,Milk Sequence 6,Milk Sequence 7,Milk Sequence 8
+thirst,0.5576772592752142,cereal,0.6753882487212133,coconut,0.44873211550117537,nourish,odourless,thirst,hydrate,minerals,thirst,hydrate,bottle,nonfat,odourless,nonfat,coconut,coffee,cereal,coffee,coffee
+nutrient,0.5688881903290092,bake,0.644570153449904,nourish,0.45672013585072485,nutrient,thin,coconut,odourless,thirst,thin,bottle,thirst,cereal,nourish,coffee,cereal,thin,bake,bake,bake
+minerals,0.6170950791496252,coffee,0.6428668113097196,odourless,0.49434387594129026,odourless,coconut,odourless,thirst,odourless,nutrient,nutrient,minerals,thin,cereal,odourless,nonfat,nourish,thin,coconut,nonfat
+hydrate,0.6274261079086703,tea,0.6375270727088593,thin,0.5389096192514187,minerals,bottle,minerals,minerals,nutrient,coconut,odourless,thin,bake,bake,pour,odourless,pour,coconut,cereal,odourless
+bottle,0.4948464536748236,nonfat,0.6358924654554663,,,coconut,nutrient,nourish,thin,hydrate,hydrate,thin,nourish,nourish,nonfat,cereal,bake,tea,pour,tea,thin
+,,pour,0.5765638357379541,,,thin,hydrate,thin,coconut,bottle,minerals,minerals,coconut,coconut,coconut,thin,thin,bake,tea,pour,coconut
+,,,,,,thirst,nourish,bottle,nourish,nourish,nourish,thirst,nutrient,odourless,tea,tea,tea,coconut,nourish,nonfat,pour
+,,,,,,hydrate,thirst,hydrate,bottle,thin,odourless,coconut,hydrate,pour,pour,nourish,nourish,odourless,nonfat,thin,tea

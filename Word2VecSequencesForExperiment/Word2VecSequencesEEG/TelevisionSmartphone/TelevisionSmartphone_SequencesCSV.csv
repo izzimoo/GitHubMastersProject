@@ -1,0 +1,9 @@
+Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Television Sequence 1,Television Sequence 2,Television Sequence 3,Television Sequence 4,Television Sequence 5,Television Sequence 6,Television Sequence 7,Television Sequence 8,Smartphone Sequence 1,Smartphone Sequence 2,Smartphone Sequence 3,Smartphone Sequence 4,Smartphone Sequence 5,Smartphone Sequence 6,Smartphone Sequence 7,Smartphone Sequence 8
+news,0.7135572994159373,apps,0.9406446911492095,screen,0.5880157585401806,sound,media,sound,news,cast,sound,cast,picture,stream,wifi,stream,apps,apps,bluetooth,stream,entertainment
+picture,0.7529336188718665,bluetooth,0.8894699824657113,entertainment,0.637092076309377,picture,sound,cast,cast,picture,news,media,screen,bluetooth,wireless,wireless,brand,bluetooth,brand,wireless,wifi
+sound,0.7679359865881316,wifi,0.7373396619059718,,,media,cast,media,entertainment,entertainment,media,signal,media,apps,bluetooth,screen,wifi,stream,entertainment,brand,wireless
+cast,0.8070235439921722,wireless,0.6000635022141587,,,screen,news,signal,screen,signal,cast,sound,signal,wireless,screen,bluetooth,stream,screen,stream,entertainment,brand
+signal,0.6595284132334319,brand,0.5193530141824843,,,entertainment,screen,picture,signal,sound,signal,screen,news,wifi,brand,apps,wireless,brand,screen,wifi,bluetooth
+media,0.7103628305629535,stream,0.5140240237778633,,,cast,signal,screen,picture,screen,screen,news,sound,entertainment,apps,wifi,bluetooth,wireless,apps,screen,stream
+,,,,,,signal,entertainment,entertainment,media,news,picture,entertainment,entertainment,screen,stream,entertainment,screen,entertainment,wifi,bluetooth,screen
+,,,,,,news,picture,news,sound,media,entertainment,picture,cast,brand,entertainment,brand,entertainment,wifi,wireless,apps,apps
