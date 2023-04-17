@@ -1,12 +1,25 @@
-Instructions on making audios:
+This folder contains the code that presented the paradigm to the participants using MATLAB and the Psychtoolbox library.
 
-1) Change the chosen words and meanings in visual studio
-2) Run the visual studio code
-3) Copy the sequences produced into the sequences folder and name based on the meanings i.e. CowPig_Sequences
-4) Copy the output from the visual studio code into Matlab to create the audios and get the silences/ audio lengths
-5) Use the Text-To-Speech to get the speech versions of the words in the chosen words vector 
-6) Copy the MP3 TTS files into the MP3 folder and then convert them to WAVs and copy the WAVs into the WAV folder
-7) Read in the WAV files to Matlab in the same order as in the chosen words vector
-8) Run the Matlab code 
-9) Listen to some of the sequences and check they match the sequences generated
-10) Copy the length of silences and length of audio files into the correct folders in visual studio
+Scripts:
+
+The 'createAudios.m' script contains code for creating the MATLAB stimuli. It reads in the CSV files created in the Python 'Word2VecModel.py' script and converted the sequences to auditory stimuli by joining the WAV text-to-speech versions of the words in the same order as is contained in the CSVs.
+
+The 'experiment.m' scripts contains the code for the MATLAB experiment. It creates the flow of the various screens during the experiment, playing the audio and recording data throughout the experiment, such as button presses, score updates and decision times.
+
+The 'getAnswer.m' function is a case statement that takes in the current trial and outputs the correct answer for that trial.
+
+The 'getScore.m' function takes in the time a participant's decision and the time they made it at and calculates/ outputs the appropriate change in score and current score of the participant based on whether they got the trial correct and how long their decision time was.
+
+The 'randNumber.m' function generated normally distributed random numbers that are transformed into the time domain and placed between words in the auditory stimuli to create random silences.
+
+The 'returnMeanings.m' function is a case that takes in the current trial and outputs the target word pair for that trial.
+
+Folders:
+
+The 'BehaviouralData_PreEEG' folder contains the stimuli and results of the participants who partook in the behavioural verison of the experiment.
+
+The 'EEGExperimentData' folder contains the audio files and Word2Vec sequences used for the EEG version of the experiment.
+
+The 'EEGExperimentData' folder contains the results of the participants who partook in the EEG verison of the experiment.
+
+
