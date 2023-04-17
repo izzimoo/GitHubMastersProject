@@ -1,10 +1,10 @@
 Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Chicken Sequence 1,Chicken Sequence 2,Chicken Sequence 3,Chicken Sequence 4,Chicken Sequence 5,Chicken Sequence 6,Chicken Sequence 7,Chicken Sequence 8,Pork Sequence 1,Pork Sequence 2,Pork Sequence 3,Pork Sequence 4,Pork Sequence 5,Pork Sequence 6,Pork Sequence 7,Pork Sequence 8
-animal,0.6095157859609021,pulled,0.5460507085891564,farm,0.4706080588588636,barbeque,animal,fillet,animal,barbeque,char-grilled,fillet,roast,crown,fried,taco,pulled,sausage,marinated,crown,dumpling
-barbeque,0.5582316823195754,minced,0.5532593827676346,escalope,0.47892411001693524,taco,roast,fried,barbeque,cutlet,roast,animal,escalope,dumpling,taco,fillet,taco,taco,crown,farm,fillet
-char-grilled,0.5107594277972002,sausage,0.5553433896354671,taco,0.4604319903053003,animal,braised,roast,roast,roast,braised,braised,char-grilled,minced,escalope,sausage,marinated,minced,minced,minced,braised
-roast,0.4913252229371897,crown,0.7291578458386659,marinated,0.4821393310243082,roast,char-grilled,barbeque,char-grilled,farm,farm,barbeque,farm,pulled,crown,dumpling,braised,fillet,fillet,sausage,minced
-,,,,fillet,0.4618468007252298,fillet,dumpling,braised,cutlet,char-grilled,taco,escalope,animal,sausage,sausage,crown,dumpling,crown,sausage,pulled,cutlet
-,,,,cutlet,0.4791563896554904,farm,barbeque,escalope,taco,animal,animal,roast,barbeque,fillet,dumpling,pulled,minced,pulled,pulled,braised,pulled
-,,,,fried,0.47676954447010306,dumpling,cutlet,animal,braised,fried,marinated,char-grilled,cutlet,marinated,minced,minced,sausage,escalope,farm,taco,sausage
-,,,,braised,0.4594280805311797,char-grilled,fillet,char-grilled,marinated,taco,barbeque,fried,fried,braised,pulled,braised,crown,farm,dumpling,fillet,crown
-,,,,dumpling,0.47751413271294846,,,,,,,,,,,,,,,,
+animal,0.609515786,pulled,0.546050709,farm,0.470608059,barbeque,animal,fillet,animal,barbeque,chargrilled,fillet,roast,crown,fried,taco,pulled,sausage,marinated,crown,dumpling
+barbeque,0.558231682,minced,0.553259383,escalope,0.47892411,taco,roast,fried,barbeque,cutlet,roast,animal,escalope,dumpling,taco,fillet,taco,taco,crown,farm,fillet
+chargrilled,0.510759428,sausage,0.55534339,taco,0.46043199,animal,braised,roast,roast,roast,braised,braised,chargrilled,minced,escalope,sausage,marinated,minced,minced,minced,braised
+roast,0.491325223,crown,0.729157846,marinated,0.482139331,roast,chargrilled,barbeque,chargrilled,farm,farm,barbeque,farm,pulled,crown,dumpling,braised,fillet,fillet,sausage,minced
+,,,,fillet,0.461846801,fillet,dumpling,braised,cutlet,chargrilled,taco,escalope,animal,sausage,sausage,crown,dumpling,crown,sausage,pulled,cutlet
+,,,,cutlet,0.47915639,farm,barbeque,escalope,taco,animal,animal,roast,barbeque,fillet,dumpling,pulled,minced,pulled,pulled,braised,pulled
+,,,,fried,0.476769544,dumpling,cutlet,animal,braised,fried,marinated,chargrilled,cutlet,marinated,minced,minced,sausage,escalope,farm,taco,sausage
+,,,,braised,0.459428081,chargrilled,fillet,chargrilled,marinated,taco,barbeque,fried,fried,braised,pulled,braised,crown,farm,dumpling,fillet,crown
+,,,,dumpling,0.477514133,,,,,,,,,,,,,,,,

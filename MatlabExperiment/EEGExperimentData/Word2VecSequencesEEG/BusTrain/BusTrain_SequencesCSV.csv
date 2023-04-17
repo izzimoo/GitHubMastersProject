@@ -1,9 +1,9 @@
 Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Bus Sequence 1,Bus Sequence 2,Bus Sequence 3,Bus Sequence 4,Bus Sequence 5,Bus Sequence 6,Bus Sequence 7,Bus Sequence 8,Train Sequence 1,Train Sequence 2,Train Sequence 3,Train Sequence 4,Train Sequence 5,Train Sequence 6,Train Sequence 7,Train Sequence 8
-intercity,0.5239131579989806,wheels,0.6482335054709171,coach,0.4869183018769646,passenger,driver,countrylink,commute,route,route,coach,driver,station,commute,schedule,countrylink,seat,seat,passenger,seat
-driver,0.575957003213954,station,0.5562416838903899,countrylink,0.49434427869504455,double-decker,coach,double-decker,route,passenger,transit,intercity,commute,seat,seat,stop,seat,schedule,schedule,stop,wheels
-double-decker,0.6251334976432845,stop,0.5221705810357218,commute,0.4866504855541856,transit,passenger,route,double-decker,ticket,single-decker,single-decker,passenger,wheels,terminus,coach,coach,stop,ticket,schedule,countrylink
-single-decker,0.623344878608833,schedule,0.5555490230607146,seat,0.5146162884575973,fare,terminus,commute,ticket,transit,passenger,seat,transit,stop,station,passenger,station,terminus,station,wheels,station
-route,0.5623975411009804,,,passenger,0.4852597353826537,commute,fare,transit,seat,coach,terminus,fare,double-decker,ticket,ticket,commute,stop,station,wheels,coach,stop
-transit,0.6120578389660216,,,ticket,0.49789438876506653,single-decker,commute,seat,transit,intercity,commute,transit,fare,schedule,schedule,ticket,schedule,wheels,passenger,commute,schedule
-fare,0.5892282320532473,,,terminus,0.4848171722868452,coach,double-decker,terminus,passenger,fare,countrylink,route,terminus,terminus,stop,wheels,wheels,commute,commute,countrylink,commute
+intercity,0.523913158,wheels,0.648233505,coach,0.486918302,passenger,driver,countrylink,commute,route,route,coach,driver,station,commute,schedule,countrylink,seat,seat,passenger,seat
+driver,0.575957003,station,0.556241684,countrylink,0.494344279,doubledecker,coach,doubledecker,route,passenger,transit,intercity,commute,seat,seat,stop,seat,schedule,schedule,stop,wheels
+doubledecker,0.625133498,stop,0.522170581,commute,0.486650486,transit,passenger,route,doubledecker,ticket,singledecker,singledecker,passenger,wheels,terminus,coach,coach,stop,ticket,schedule,countrylink
+singledecker,0.623344879,schedule,0.555549023,seat,0.514616288,fare,terminus,commute,ticket,transit,passenger,seat,transit,stop,station,passenger,station,terminus,station,wheels,station
+route,0.562397541,,,passenger,0.485259735,commute,fare,transit,seat,coach,terminus,fare,doubledecker,ticket,ticket,commute,stop,station,wheels,coach,stop
+transit,0.612057839,,,ticket,0.497894389,singledecker,commute,seat,transit,intercity,commute,transit,fare,schedule,schedule,ticket,schedule,wheels,passenger,commute,schedule
+fare,0.589228232,,,terminus,0.484817172,coach,doubledecker,terminus,passenger,fare,countrylink,route,terminus,terminus,stop,wheels,wheels,commute,commute,countrylink,commute
 ,,,,,,seat,route,fare,intercity,terminus,intercity,commute,coach,coach,wheels,station,terminus,countrylink,stop,station,passenger

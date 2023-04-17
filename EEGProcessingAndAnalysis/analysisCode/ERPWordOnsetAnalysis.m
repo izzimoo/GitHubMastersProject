@@ -1,4 +1,5 @@
-%% LOAD THE AUDIO ONSET FILES IN A CELL ARRAY FOR USE IN THE NEXT SECTION 
+
+%% Code for the word onset ERP - used to examine the participant response to the stimuli 
 
 close all; clear;
 addpath libs/eeglab
@@ -8,7 +9,6 @@ load('./analysisCode/chanlocs64.mat')
 disp('Loading in audio onset files and creating a cell array of tables');
 
 % ********************* STIMULI AND EEG DATA ***************************
-
 % Participant one
 load('./datasets/linguisticDecision/Subject1/MastoidReRef/dataStim1.mat','stimP1')
 load('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_1_10Hz.mat','eegP1')
@@ -32,9 +32,9 @@ load('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_1_10Hz.mat','
 % Participant six
 load('./datasets/linguisticDecision/Subject6/MastoidReRef/dataStim6.mat','stimP6')
 load('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_1_10Hz.mat','eegP6')
-
 % ***************************************************************************
 
+% Store the EEG and Stimulus data in cell arrays for automation
 stimulusEachParticipant = {stimP1, stimP2, stimP3, stimP4, stimP5, stimP6};
 EEGDataEachParticipant = {eegP1, eegP2, eegP3, eegP4, eegP5, eegP6};
 
@@ -59,8 +59,9 @@ stimuliOrder = {soundsP1, soundsP2, soundsP3, soundsP4, soundsP5, soundsP6};
 nTrials = length(soundsP1); % 272 
 
 % Add a second column to the stim cell array that contains the same number of zeros as the length of the audio file in samples.
+% Later a 1 will be added to .data{2, colNum} at a sample numbers corresponding to the times a word audio occurs in a stimulus
+% Later a 1 will be added to .data{3, colNum} at a sample number corresponding to the time that a decision was made in each trial
 columns = length(stimP1.data);
-
 for participantNo = 1:numParticipants
     for colNum = 1:columns
         stimulusEachParticipant{participantNo}.data{2,colNum} = zeros(size(stimulusEachParticipant{participantNo}.data{1,colNum}));
@@ -68,10 +69,8 @@ for participantNo = 1:numParticipants
     end
 end
 
+% Read in MATLAB generated audio onset files and store them in a large table for access later
 audioOnsetFilepaths = {'./datasets/AudioOnsetTimings_Matlab/AppleOrange_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/BedCouch_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/BeeWasp_AudioOnsetTiming.csv','./datasets/AudioOnsetTimings_Matlab/BusTrain_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/CarBus_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/CarrotPotato_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/CatDog_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/ChickenPork_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/FootballRugby_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/GoldSilver_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/HouseApartment_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/MovieBook_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/TshirtShirt_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/UniversitySchool_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/WaterMilk_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/RainSnow_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/TelevisionSmartphone_audioOnsetTiming.csv'};                                                                                                                                                                                                                                                                                                                                                                                                                                               
-% audioOnsetFilepaths = {'./datasets/AudioOnsetTimings/AppleOrange_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/BedCouch_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/BeeWasp_AudioOnsetTiming.csv','./datasets/AudioOnsetTimings/BusTrain_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/CarBus_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/CarrotPotato_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/CatDog_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/ChickenPork_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/FootballRugby_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/GoldSilver_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/HouseApartment_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/MovieBook_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/TshirtShirt_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/UniversitySchool_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/WaterMilk_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/RainSnow_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/TelevisionSmartphone_audioOnsetTiming.csv'};                                                                                                                                                                                                                                                                                                                                                                                                                                               
-
-% Read in MATLAB audio files  
 numFiles = length(audioOnsetFilepaths);
 arrayOfTables = {1,length(audioOnsetFilepaths)};
 for i = 1:numFiles
@@ -90,7 +89,6 @@ disp('FINISHED SECTION I: Read in clean EEG data and processed audio onset files
 % audio onsets and stores them in the the second section of stim.data.
 
 % Code to split up the sound names into acronym, meaning and sequence number
-
 seqAcronym= cell(numParticipants,nTrials);
 meaningNum= cell(numParticipants,nTrials);
 sequenceNum= cell(numParticipants,nTrials);
@@ -111,7 +109,6 @@ for participantNo = 1:numParticipants
 end
 
 % Code for obtaining the audio onsets and then storing them in stim.data
-
 for participantNo = 1:numParticipants
     for onsetAudioNum = 1:numAudiosInSeq
         for stringValue = 1:nTrials
@@ -120,14 +117,13 @@ for participantNo = 1:numParticipants
             columnNum = str2double(sequenceNum{participantNo, stringValue}) + 1;
 
             onsetInSamples = arrayOfTables{tableNumIndex}{onsetAudioNum, columnNum};
-%             onsetInSamples  = round(onsetInSeconds * fsDown);
 
             stimulusEachParticipant{participantNo}.data{2, stringValue}(onsetInSamples) = 1;
         end
     end
 end
 
-% Check for errors 
+% Check that there was no unintentional extra data added
 for participantNo = 1:numParticipants
     for i = 1:nTrials
         assert(isequal( size(stimulusEachParticipant{participantNo}.data{1, i}), size((stimulusEachParticipant{participantNo}.data{2, i})),...
@@ -141,23 +137,23 @@ disp('FINSIHED SECTION 1: Sectioned stimuli into meanings, sequence numbers and 
 
 %% 2.1) ERP of the word onset 
 
-% Window of interest in samples = [13, 64] : round(0.1*fsDown), round(0.5*fsDown)
 windowOfInterest = [0.1, 0.55];
 preStimBaselineWindow = [0.1, 0.15];
 
-onsetEEGdata_eachWord = cell(nTrials, numAudiosInSeq);
+onsetEEGdata_eachWord = cell(nTrials, numAudiosInSeq); onsetEEGdata_eachWordAllData = {1, numParticipants};
 for participantNo = 1:numParticipants
     for eegDataNo = 1:nTrials
         
-
+        % Extract the word onset times in samples from each trial
         sampleNumOnsets = find(stimulusEachParticipant{participantNo}.data{2, eegDataNo} > 0);
 
         for audioNum = 1:numAudiosInSeq
 
+            % Take a window of data around the button press
             preStimulus = round(sampleNumOnsets(audioNum) - (windowOfInterest(1) * fsDown));
             postStimulus = round(sampleNumOnsets(audioNum) + (windowOfInterest(2) * fsDown));
 
-%             Baseline correction
+            % Baseline correction
             baselineStart = preStimulus;
             baselineEnd = round(preStimulus + (preStimBaselineWindow(2) * fsDown));
             
@@ -175,49 +171,27 @@ for participantNo = 1:numParticipants
         end
     end
     
-    if (participantNo == 1)
-        onsetEEGdata_eachWordP1 = onsetEEGdata_eachWord;
-    elseif (participantNo == 2)
-        onsetEEGdata_eachWordP2 = onsetEEGdata_eachWord;
-    elseif (participantNo == 3)
-        onsetEEGdata_eachWordP3 = onsetEEGdata_eachWord;
-    elseif (participantNo == 4)
-        onsetEEGdata_eachWordP4 = onsetEEGdata_eachWord;
-    elseif (participantNo == 5)
-        onsetEEGdata_eachWordP5 = onsetEEGdata_eachWord;
-    elseif (participantNo == 6)
-        onsetEEGdata_eachWordP6 = onsetEEGdata_eachWord;
-    end
+    onsetEEGdata_eachWordAllData{participantNo} = onsetEEGdata_eachWord;
+   
+end
+
+finalERPdata = {1, numParticipants};
+% ERP of the word onset for each participant
+for participantNo = 1:numParticipants
+    
+    finalERPdata{participantNo} = mean(cat(3, onsetEEGdata_eachWordAllData{participantNo}{:}), 3);
     
 end
 
-sumEEGDataP1 = cat(3, onsetEEGdata_eachWordP1{:});
-ERPdataP1 = mean(sumEEGDataP1, 3);
+% ERP of the word onset
+avgERPAcrossParticipants = (finalERPdata{1} + finalERPdata{2} + finalERPdata{3} + finalERPdata{4} + finalERPdata{5} + finalERPdata{6})/numParticipants; % Average ERP of all participants 
 
-sumEEGDataP2 = cat(3, onsetEEGdata_eachWordP2{:});
-ERPdataP2 = mean(sumEEGDataP2, 3);
-
-sumEEGDataP3 = cat(3, onsetEEGdata_eachWordP3{:});
-ERPdataP3 = mean(sumEEGDataP3, 3);
-
-sumEEGDataP4 = cat(3, onsetEEGdata_eachWordP4{:});
-ERPdataP4 = mean(sumEEGDataP4, 3);
-
-sumEEGDataP5 = cat(3, onsetEEGdata_eachWordP5{:});
-ERPdataP5 = mean(sumEEGDataP5, 3);
-
-sumEEGDataP6 = cat(3, onsetEEGdata_eachWordP6{:});
-ERPdataP6 = mean(sumEEGDataP6, 3);
-
-avgERPAcrossParticipants = (ERPdataP1 + ERPdataP2 + ERPdataP3 + ERPdataP4 + ERPdataP5 + ERPdataP6)/numParticipants; % Average ERP of all participants 
-
-% GFP and topography of the ERP of the word onset
-
+% GFP of the ERP of the word onset
 gfp_WordOnset = sqrt(mean(avgERPAcrossParticipants.^2,2));
 
 disp('FINISHED SECTION 2: Calculated the ERP, GFP and GFP peak location of the word onset (ERP of all word onsets for 272 trials)');
 
-%% **************************** 3) PLOT ALL DATA TOGETHER IN ONE FIGURE ****************************************************
+%% **************************** 3) PLOT ALL ERP, GFP OF THE WORD ONSET AND TOPOGRAPHIES SHOWING THE AUDITORY RESPONSE ****************************************************
 
 time_axis = (round(-windowOfInterest(1) * fsDown):round(windowOfInterest(2) * fsDown))/fsDown*1000;
 
@@ -233,11 +207,10 @@ xlabel('Time (ms)')
 grid on
 ylabel('Magnitude (a.u.)')
 
-saveas(gcf,'./Figures/AuditoryResponse/WordOnsetERP_1_10Hz.png')
+% saveas(gcf,'./Figures/AuditoryResponse/WordOnsetERP_1_10Hz.png')
 
 % Plot the GFP
 figure(2);
-% plot(gfp_WordOnset, 'LineWidth', 2);
 plot(time_axis, gfp_WordOnset, 'LineWidth', 2);
 set(gcf,'color','white');
 ylim([-40, 80]);
@@ -248,7 +221,7 @@ xlabel('Time (ms)');
 grid on
 ylabel('Global Field Power (a.u.)');
 
-saveas(gcf,'./Figures/AuditoryResponse/WordOnsetGFP_1_10Hz.png')
+% saveas(gcf,'./Figures/AuditoryResponse/WordOnsetGFP_1_10Hz.png')
 
 % Topgraphies
 figure(3);
@@ -264,111 +237,7 @@ for plotNum = 1:numPlots
     topoplot(avgERPAcrossParticipants(topoplotLocsSamp(plotNum),:), chanlocs);
     set(gcf,'color','white');    
 end
-% cb = colorbar;
-% set(cb, 'Limits', [-50, 50])
-% set(cb,'position',[.5 .1 .07 .8])
-% set(cb, 'FontSize', 18)
 
-saveas(gcf,'./Figures/AuditoryResponse/WordOnsetTopographies_1_10Hz.png')
-
-%%
-figure(4);
-
-%ERP
-subplot(4,4,[1 2 5 6]);
-plot(time_axis, avgERPAcrossParticipants);
-xlim([time_axis(1),time_axis(end)]);
-ylim([-40,80]);
-
-set(gcf,'color','white');
-set(gca,'FontSize', 14);
-xline(0);
-
-xlabel('Time (ms)')
-ylabel('Magnitude (a.u.)')
-
-pos = get(gca, 'position');
-pos(1) = 0.1; % adjust the x position to center the topoplot
-set(gca, 'position', pos);
-
-%GFP
-subplot(4,4,[3 4 7 8]);
-plot(time_axis, gfp_WordOnset, 'LineWidth', 2);
-ylim([-40, 80]);
-xticks
-xline(0);
-xlim([time_axis(1),time_axis(end)]);
-set(gca,'FontSize', 14);
-xlabel('Time (ms)');
-ylabel('Global Field Power (a.u.)');
-
-%Topography one
-subplot(4,4,[13 14]);
-topoplot(avgERPAcrossParticipants(topoplotLocsSamp(1),:), chanlocs);
-title([num2str(round(time_axis(topoplotLocsSamp(1)))), 'ms']);
-set(gca,'FontSize', 14);
-
-% modify the position and size of the axes
-pos = get(gca, 'position');
-pos(1) = 0.12; % adjust the x position to center the topoplot
-pos(2) = 0.045; % adjust the y position
-pos(4) = 0.35; % adjust the height
-set(gca, 'position', pos);
-
-%Topgraphy two
-subplot(4,4,[15 16]);
-topoplot(avgERPAcrossParticipants(topoplotLocsSamp(2),:), chanlocs);
-title([num2str(round(time_axis(topoplotLocsSamp(2)))), 'ms']);
-set(gca,'FontSize', 14);
-
-% modify the position and size of the axes
-pos = get(gca, 'position');
-pos(1) = 0.55; % adjust the x position to center the topoplot
-pos(2) = 0.045; % adjust the y position
-pos(4) = 0.35; % adjust the height
-set(gca, 'position', pos);
-
-set(gcf,'color','white');
-
-set(gcf, 'Units', 'Inches', 'Position', [0, 0, 12, 8], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
-% % saveas(gcf, './Figures/AuditoryResponse/CombinedAuditoryResponseFigure.fig');
-% % saveas(gcf, './Figures/AuditoryResponse/CombinedAuditoryResponseFigure.png');
-
-% set(gcf, 'Units', 'Inches', 'Position', [0, 0, 12, 8], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
-% saveas(gcf, './Figures/AmbigVsNonAmbig/CombinedMeanAmbig.png');
-
-
-
-
-
-% % Topgraphies with GFP
-% figure(3);
-% tiledlayout(1,4);
-% nexttile([1 2]);
-% plot(time_axis, gfp_WordOnset, 'LineWidth', 2);
-% xlim([time_axis(1),time_axis(end)]);
-% 
-% hold on
-% topoplotLocs = [180, 226];
-% topoplotLocsSamp = [37, 43];
-% scatter(topoplotLocs, interp1(time_axis, gfp_WordOnset, topoplotLocs), 'filled');
-% 
-% textOffset = [0.3, 0.3];
-% textPositions = topoplotLocs;
-% % textPositions(1) = textPositions(1) + 12;
-% text(textPositions, interp1(time_axis, gfp_WordOnset, textPositions)+textOffset, {'T1', 'T2'}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'center')
-% hold off
-% 
-% xlabel('Time (ms)');
-% ylabel('Global Field Power (a.u.)');
-% title('Global field power for word onset ERP');
-% numPlots = length(topoplotLocsSamp);
-% for plotNum = 1:numPlots
-%     
-%     nexttile;
-%     topoplot(avgERPAcrossParticipants(topoplotLocsSamp(plotNum),:), chanlocs);
-%     title(['T', num2str(plotNum), ': Topography of word onset ERP at ', num2str(round(time_axis(topoplotLocsSamp(plotNum)))), 'ms']);
-%     
-% end
+% saveas(gcf,'./Figures/AuditoryResponse/WordOnsetTopographies_1_10Hz.png')
 
 disp('FINISHED SCRIPT');

@@ -1,4 +1,5 @@
-%% ADD LIBRARIES AND LOAD THE AUDIO ONSET FILES IN A CELL ARRAY FOR USE IN THE NEXT SECTION 
+
+%% Analysis code to calculate the stimulus-locked full sequence ERP
 
 close all; clear;
 addpath libs/eeglab
@@ -8,7 +9,6 @@ load('./analysisCode/chanlocs64.mat')
 disp('Loading in audio onset files and creating a cell array of tables');
 
 % ********************* STIMULI AND EEG DATA ***************************
-
 % Participant one
 load('./datasets/linguisticDecision/Subject1/MastoidReRef/dataStim1.mat','stimP1')
 load('./datasets/linguisticDecision/Subject1/MastoidReRef/dataSub1_1_10Hz.mat','eegP1')
@@ -32,11 +32,9 @@ load('./datasets/linguisticDecision/Subject5/MastoidReRef/dataSub5_1_10Hz.mat','
 % Participant six
 load('./datasets/linguisticDecision/Subject6/MastoidReRef/dataStim6.mat','stimP6')
 load('./datasets/linguisticDecision/Subject6/MastoidReRef/dataSub6_1_10Hz.mat','eegP6')
-
 % ***************************************************************************
-
+% Store the EEG and Stimulus data in cell arrays for automation
 stimulusEachParticipant = {stimP1, stimP2, stimP3, stimP4, stimP5, stimP6};
-EEGDataEachParticipant_ShortTrial = {eegP1, eegP2, eegP3, eegP4, eegP5, eegP6};
 EEGDataEachParticipant_LongTrial = {eegP1, eegP2, eegP3, eegP4, eegP5, eegP6};
 
 numParticipants = length(stimulusEachParticipant);
@@ -60,8 +58,9 @@ stimuliOrder = {soundsP1, soundsP2, soundsP3, soundsP4, soundsP5, soundsP6};
 nTrials = length(soundsP1); % 272 
 
 % Add a second column to the stim cell array that contains the same number of zeros as the length of the audio file in samples.
+% Later a 1 will be added to .data{2, colNum} at a sample numbers corresponding to the times a word audio occurs in a stimulus
+% Later a 1 will be added to .data{3, colNum} at a sample number corresponding to the time that a decision was made in each trial.
 columns = length(stimP1.data);
-
 for participantNo = 1:numParticipants
     for colNum = 1:columns
         stimulusEachParticipant{participantNo}.data{2,colNum} = zeros(size(stimulusEachParticipant{participantNo}.data{1,colNum}));
@@ -69,10 +68,8 @@ for participantNo = 1:numParticipants
     end
 end
 
+% Read in MATLAB generated audio onset files and store them in a large table for access later
 audioOnsetFilepaths = {'./datasets/AudioOnsetTimings_Matlab/AppleOrange_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/BedCouch_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/BeeWasp_AudioOnsetTiming.csv','./datasets/AudioOnsetTimings_Matlab/BusTrain_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/CarBus_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/CarrotPotato_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/CatDog_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/ChickenPork_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/FootballRugby_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/GoldSilver_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/HouseApartment_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/MovieBook_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/TshirtShirt_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/UniversitySchool_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/WaterMilk_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/RainSnow_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings_Matlab/TelevisionSmartphone_audioOnsetTiming.csv'};                                                                                                                                                                                                                                                                                                                                                                                                                                               
-% audioOnsetFilepaths = {'./datasets/AudioOnsetTimings/AppleOrange_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/BedCouch_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/BeeWasp_AudioOnsetTiming.csv','./datasets/AudioOnsetTimings/BusTrain_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/CarBus_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/CarrotPotato_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/CatDog_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/ChickenPork_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/FootballRugby_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/GoldSilver_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/HouseApartment_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/MovieBook_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/TshirtShirt_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/UniversitySchool_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/WaterMilk_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/RainSnow_AudioOnsetTiming.csv', './datasets/AudioOnsetTimings/TelevisionSmartphone_audioOnsetTiming.csv'};                                                                                                                                                                                                                                                                                                                                                                                                                                               
-
-% Read in MATLAB audio files  
 numFiles = length(audioOnsetFilepaths);
 arrayOfTables = {1,length(audioOnsetFilepaths)};
 for i = 1:numFiles
@@ -85,82 +82,7 @@ disp('FINISHED SECTION I: Read in clean EEG data and processed audio onset files
 
 %% ************************************************* 3) BY SENTENCE ANALYSIS **************************************************************
 
-%% METHOD ONE - CUTTING DATA OFF TRIALS THAT ARE TOO LONG (LONGER THAN SHORTEST TRIAL) 
-
-%% 3.1) ERP of the sentence - method one - cutting off data from trials that are longer than the shorter trial
-
-% Find the shortest trial for both participants and set the desired dimesions to be the size of the smallest trial
-desiredDim_Short = cell(1, numParticipants);
-for participantNo = 1:numParticipants
-    shortestTrialData = EEGDataEachParticipant_ShortTrial{participantNo}.data{1};
-    for trialNo = 2:nTrials
-    
-        shortestTrial = length(shortestTrialData);
-        nextEEGData = length(EEGDataEachParticipant_ShortTrial{participantNo}.data{trialNo});
-
-        if (nextEEGData < shortestTrial)
-            shortestTrialData = EEGDataEachParticipant_ShortTrial{participantNo}.data{trialNo};
-        end 
-    end
-    
-    desiredDim_Short{participantNo} = size(shortestTrialData);
-
-end
-
-% Remove data from matrices so that they are all the same dimensions as the smallest 
-for participantNo = 1:numParticipants
-    for trialNo = 1:nTrials
-
-        current_size = size(EEGDataEachParticipant_ShortTrial{participantNo}.data{trialNo});
-
-        % Remove rows if necessary
-        if current_size(1) > desiredDim_Short{participantNo}(1)
-            EEGDataEachParticipant_ShortTrial{participantNo}.data{trialNo}(desiredDim_Short{participantNo}(1)+1:end,:) = [];
-        end
-
-    end
-end
-   
-preStimulus = 1;
-postStimulus = 0.5 * fsDown;
-
-% Particpant one
-sumEEGDataShort_P1 = cat(3, EEGDataEachParticipant_ShortTrial{1}.data{:});
-avgEEGDataShort_P1 = mean(sumEEGDataShort_P1, 3);
-
-% Plots go crazy w/ baselining
-% baselineData_P1 = avgEEGDataShort_P1(preStimulus:postStimulus, 1:64);
-% baselineVoltage_P1 = mean(baselineData_P1, 1);
-% 
-% baselinedEEGData_P1 = avgEEGDataShort_P1 - baselineVoltage_P1;
-
-% Participant two
-sumEEGDataShort_P2 = cat(3, EEGDataEachParticipant_ShortTrial{2}.data{:});
-avgEEGDataShort_P2 = mean(sumEEGDataShort_P2, 3);
-
-% Participant three
-sumEEGDataShort_P3 = cat(3, EEGDataEachParticipant_ShortTrial{3}.data{:});
-avgEEGDataShort_P3 = mean(sumEEGDataShort_P3, 3);
-
-% Participant four
-sumEEGDataShort_P4 = cat(3, EEGDataEachParticipant_ShortTrial{4}.data{:});
-avgEEGDataShort_P4 = mean(sumEEGDataShort_P4, 3);
-
-% Participant five
-sumEEGDataShort_P5 = cat(3, EEGDataEachParticipant_ShortTrial{5}.data{:});
-avgEEGDataShort_P5 = mean(sumEEGDataShort_P5, 3);
-
-% Participant six
-sumEEGDataShort_P6 = cat(3, EEGDataEachParticipant_ShortTrial{6}.data{:});
-avgEEGDataShort_P6 = mean(sumEEGDataShort_P6, 3);
-
-allParticipant_ERP_ShortTrial = (avgEEGDataShort_P1 + avgEEGDataShort_P2 + avgEEGDataShort_P3 + avgEEGDataShort_P4 + avgEEGDataShort_P5 + avgEEGDataShort_P6)/numParticipants;
-
-disp('FINISHED SECTION 1: Shortened trials that are longer than the shortest trial and calculated ERP');
-
-%% METHOD TWO - PADDING DATA WITH ZEROS FOR TRIALS THAT ARE TOO SHORT (SHORTER THAN LONGEST TRIAL).
-
-%% 3.2) ERP of the sentence - method 2 - padding any trials that are shorter than the longest trial
+%% PADDING DATA WITH ZEROS FOR TRIALS THAT ARE TOO SHORT (SHORTER THAN LONGEST TRIAL).
 
 desiredDim_Long = cell(1, numParticipants);
 for participantNo = 1:numParticipants
@@ -193,112 +115,28 @@ for participantNo = 1:numParticipants
     end
 end
 
-% Participant one
-sumEEGDataLong_P1 = cat(3, EEGDataEachParticipant_LongTrial{1}.data{:});
-avgEEGDataLong_P1 = mean(sumEEGDataLong_P1, 3);
+finalLongTrialERPs = {1, numParticipants};
+% ERP of full sequence for all participants
+for participantNo = 1:numParticipants
+    
+    finalLongTrialERPs{participantNo} = mean(cat(3, EEGDataEachParticipant_LongTrial{participantNo}.data{:}), 3);
+    
+end
 
-% Plots go crazy w/ baselining
-% baselineData_P1 = avgEEGDataLong_P1(preStimulus:postStimulus, 1:64);
-% baselineVoltage_P1 = mean(baselineData_P1, 1);
-% 
-% baselinedEEGData_P1 = avgEEGDataLong_P1 - baselineVoltage_P1;
-
-% Participant two
-sumEEGDataLong_P2 = cat(3, EEGDataEachParticipant_LongTrial{2}.data{:});
-avgEEGDataLong_P2 = mean(sumEEGDataLong_P2, 3);
-
-% Participant three
-sumEEGDataLong_P3 = cat(3, EEGDataEachParticipant_LongTrial{3}.data{:});
-avgEEGDataLong_P3 = mean(sumEEGDataLong_P3, 3);
-
-% Participant four
-sumEEGDataLong_P4 = cat(3, EEGDataEachParticipant_LongTrial{4}.data{:});
-avgEEGDataLong_P4 = mean(sumEEGDataLong_P4, 3);
-
-% Participant five
-sumEEGDataLong_P5 = cat(3, EEGDataEachParticipant_LongTrial{5}.data{:});
-avgEEGDataLong_P5 = mean(sumEEGDataLong_P5, 3);
-
-% Participant six
-sumEEGDataLong_P6 = cat(3, EEGDataEachParticipant_LongTrial{6}.data{:});
-avgEEGDataLong_P6 = mean(sumEEGDataLong_P6, 3);
-
-allParticipant_ERP_LongTrial = (avgEEGDataLong_P1 + avgEEGDataLong_P2 + avgEEGDataLong_P3 + avgEEGDataLong_P4 + avgEEGDataLong_P5 + avgEEGDataLong_P6)/numParticipants;
+% Average ERP across participants
+allParticipant_ERP_LongTrial = (finalLongTrialERPs{1} + finalLongTrialERPs{2} + finalLongTrialERPs{3} + finalLongTrialERPs{4} + finalLongTrialERPs{5} + finalLongTrialERPs{6})/numParticipants;
 
 disp('FINISHED SECTION 2: Lengthening trials that are shorter than the longest trial by zero padding and calculating ERP');
 
-%% ******************* 3) PLOT ALL DATA TOGETHER IN TWO FIGURES - ONE FOR TRIAL CUTTING, ONE FOR TRIAL PADDING *************************
-
-% ------------------------- SHORT TRIAL PLOTS ---------------------
-
-time_axis_short = (0:size(allParticipant_ERP_ShortTrial,1)-1)/fsDown*1000;
-
-% % Setup figure grid layout
-% figure(1);
-% t1 = tiledlayout(2,4);
-% t1.Title.String = 'Figures: ERP, GFP and topographies of the word onset for trial reduction';
-% t1.Title.FontWeight = 'bold';
-
-% ERP
-figure(1);
-plot(time_axis_short, allParticipant_ERP_ShortTrial);
-xlim([time_axis_short(1),time_axis_short(end)]);
-title('ERP of Sentence - Trial Reduction');
-xlabel('Time (ms)')
-ylabel('Magnitude (a.u.)')
-
-% GFP
-figure(2);
-gfp_shortTrials = sqrt(mean(allParticipant_ERP_ShortTrial.^2,2));
-% plot(gfp_shortTrials);
-plot(time_axis_short, gfp_shortTrials);
-xlim([time_axis_short(1),time_axis_short(end)]);
-xlabel('Time (ms)');
-ylabel('Global Field Power (a.u.)');
-title('GFP - Trial Reduction');
-
-% Topographies
-% [peaks, peakLocations] = findpeaks(gfp_shortTrials);
-% 
-% nexttile;
-% topoplot(allParticipant_ERP_ShortTrial(21,:), chanlocs);
-% title(['Topography of word onset ERP at ', num2str(round(time_axis_short(21))), 'ms']);
-% 
-% nexttile;
-% topoplot(allParticipant_ERP_ShortTrial(58,:), chanlocs);
-% title(['Topography of word onset ERP at ', num2str(round(time_axis_short(58))), 'ms']);
-% 
-% nexttile;
-% topoplot(allParticipant_ERP_ShortTrial(80,:), chanlocs);
-% title(['Topography of word onset ERP at ', num2str(round(time_axis_short(80))), 'ms']);
-% 
-% nexttile;
-% topoplot(allParticipant_ERP_ShortTrial(105,:), chanlocs);
-% title(['Topography of word onset ERP at ', num2str(round(time_axis_short(105))), 'ms']);
-% 
-% nexttile;
-% topoplot(mean(allParticipant_ERP_ShortTrial(618:738,:)), chanlocs);
-% title(['Topography word onset ERP from ', num2str(round(time_axis_short(618))), 'ms - ', num2str(round(time_axis_short(738))), 'ms']);
-% 
-% nexttile;
-% topoplot(mean(allParticipant_ERP_ShortTrial(930:1142,:)), chanlocs);
-% title(['Topography word onset ERP from ', num2str(round(time_axis_short(930))), 'ms - ', num2str(round(time_axis_short(1142))), 'ms']);
-
-%%
-
-% ------------------------- LONG TRIAL PLOTS ---------------------------
+%% ******************************* PLOT THE ERP AND GFP OF THE FULL SEQUENCE ERP **********************************
 
 time_axis_long = (0:size(allParticipant_ERP_LongTrial,1)-1)/fsDown*1000;
-
-% figure(2);
-% t2 = tiledlayout(2,4);
-% t2.Title.String = 'Figures: ERP, GFP and topographies of the word onset for trial lengthen';
-% t2.Title.FontWeight = 'bold';
 
 % ERP
 figure(1);
 plot(time_axis_long, allParticipant_ERP_LongTrial);
 xlim([time_axis_long(1),time_axis_long(end)]);
+xticks(0:2000:18000);
 set(gcf,'color','white');
 set(gca,'FontSize', 15);
 xlabel('Time (ms)')
@@ -309,57 +147,19 @@ set(gcf, 'Units', 'Inches', 'Position', [0, 0, 7, 3], 'PaperUnits', 'Inches', 'P
 % saveas(gcf,'./Figures/FullSequence/SentenceERP_1_10Hz.png')
 
 % GFP
-figure(5);
+figure(2);
 gfp_longTrials = sqrt(mean(allParticipant_ERP_LongTrial.^2,2)); 
 plot(time_axis_long, gfp_longTrials, 'LineWidth', 1.5);
 set(gcf,'color','white');
 set(gca,'FontSize', 15);
-% plot(gfp_longTrials);
 xlim([time_axis_long(1),time_axis_long(end)]);
+xticks(0:2000:18000);
 xlabel('Time (ms)');
 grid on
 ylabel('Global Field Power (a.u.)');
 
 set(gcf, 'Units', 'Inches', 'Position', [0, 0, 7, 3], 'PaperUnits', 'Inches', 'PaperSize', [8, 8]);
 % saveas(gcf,'./Figures/FullSequence/SentenceGFP_1_10Hz.png')
-
-%%
-figure(3);
-topoplot(allParticipant_ERP_LongTrial(8,:), chanlocs);
-title(['At ', num2str(time_axis_long(8))]);
-
-saveas(gcf, './Figures/FullSequence/55ms.png')
-
-%%
-
-% % Topographies
-% figure(6);
-% nexttile;
-% plot(time_axis_long, gfp_longTrials, 'LineWidth', 2);
-% xlim([time_axis_long(1),time_axis_long(end)]);
-% 
-% hold on
-% topoplotLocs = [148, 578, 835, 1078, 1210, 1500, 8851];
-% topoplotLocsSamp = [20, 76, 107, 145, 155, 196, 1135];
-% scatter(topoplotLocs, interp1(time_axis_long, gfp_longTrials, topoplotLocs), 'filled');
-% 
-% textOffset = [0.5, 2, 2, 2, 2, 2, 2];
-% textPositions = topoplotLocs;
-% textPositions(1) = textPositions(1) + 12;
-% text(textPositions, interp1(time_axis_long, gfp_longTrials, textPositions)+textOffset, {'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'center')
-% hold off
-% 
-% xlabel('Time (ms)');
-% ylabel('Global Field Power (a.u.)');
-% title('Global field power for word onset ERP');
-% numPlots = length(topoplotLocsSamp);
-% for plotNum = 1:numPlots
-%     
-%     nexttile;
-%     topoplot(allParticipant_ERP_LongTrial(topoplotLocsSamp(plotNum),:), chanlocs);
-%     title(['T', num2str(plotNum), ': Topography of word onset ERP at ', num2str(round(time_axis_long(topoplotLocsSamp(plotNum)))), 'ms']);
-%     
-% end
 
 disp('FINISHED SCRIPT');
 

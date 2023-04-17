@@ -1,5 +1,5 @@
-% Function that takes in a sequence acronym such as US and returns an index
-% number for use in getting its audio onset file.
+% Function that takes in a sequence acronym such as US and returns an index number.
+% Index number is used in the main code to read in the correct audio onset table.
 
 function tableNumIndex = acronymToIndexNumber(acronym)
 

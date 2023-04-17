@@ -1,6 +1,6 @@
-% Function that returns the correct answer to a sequence
-% The function returns 1 if the answer to the sequence is meaning 1
-% The function returns 2 if the answer to the sequence is meaning 2
+% Function that returns the correct answer to a sequence - copied from the CorrectAnswersSwitch.txt file in each particiapnts stimuli folder.
+% The function returns 1 if the answer to the sequence is target word 1
+% The function returns 2 if the answer to the sequence is target word 2
 
 function answer = getAnswer(trial_number)
 

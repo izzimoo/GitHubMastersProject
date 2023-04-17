@@ -1,3 +1,6 @@
+
+# Code to implement the paradigm using Word2Vec and Cosine similarity.
+
 from operator import index
 import numpy as np
 from gensim.models import KeyedVectors
@@ -23,13 +26,6 @@ def indiciesGivenValue(value, array):
                 
     return(index) 
 
-# ----- FUNCTION TO RETURN AUDIO NUMBER ORDER BASED ON ORDER OF WORDS IN A SEQUENCE ----- #
-def returnAudioOrder(sequence):
-    audioNumbers = []
-    for val in sequence:
-        audioNumbers.append("f"+str(val))
-    return audioNumbers
-
 # ----------------------------------------------------------------------- #
 # ---------- TRAIN MODEL AND OBTAIN ALL WORDS AND VECTORS ----------- #
 
@@ -37,22 +33,19 @@ trainedModel = KeyedVectors.load_word2vec_format('./gensim_models/vectors.bin',b
 allWords = trainedModel.index_to_key # All words trained in the model
 vectors = trainedModel.vectors # All word embeddings for the words in the model 
 
-# # ------------------------------------------------------------------------ #
-# # Use Word2Vec similarity function to get candidate words for each ambiguous
-# # word and its two meanings
+# ------------------------- BAG OF WORDS FOR ALL OF THE PAIRS OF MEANINGS - YET TO BE CHARACTERISED BY WORD2VEC -------------------------- #
+
+# Ambiguous BOW chosen using Word2Vec and some I added in myself, for each pair of target words
+
+# When creating the sequences, uncomment the BOW that corresponds to the pair of target words you are creating sequences for.
+# And update targetWord1 and targetWord2
 
 # Smaller the angle - bigger the cosine similarity - more similar the word
 candidateWords = []
-meaning1 = 'car'
-meaning2 = 'bus' 
-candidateWords = trainedModel.most_similar(positive=[meaning1, meaning2], topn=150) # Get the top 150 words that are similar to both meaning 1 and meaning 2
+targetWord1 = 'car'
+targetWord2 = 'bus' 
+candidateWords = trainedModel.most_similar(positive=[targetWord1, targetWord2], topn=150) # Get the top 150 words that are similar to both meaning 1 and meaning 2
 print(candidateWords)
-
-# ------------------------- BAG OF WORDS FOR ALL OF THE PAIRS OF MEANINGS - YET TO BE CHARACTERISED BY WORD2VEC -------------------------- #
-
-# Ambiguous BOW chosen using Word2Vec and some I added in myself. The correct one should be uncommented depending on the target words
-# used. i.e. for 'CarBus chosenWords =' set meaning1 (above) to be car and meaning2 to be bus and run the code using the chosen words assigned
-# to CarBus
 
 # CarBus 
 chosenWords = ['engine', 'steer', 'drive', 'seat', 'wheels', 'commute', 'passenger', 'driver', 'fuel', 'motorway','intercity', 'open-top', 'windscreen', 'manual', 'automatic']
@@ -94,8 +87,8 @@ print(vectorsOfChosenWords.shape)
 # # # --------------------------------------------------------------------------- #
 
 # Get the indices of the two meanings in all words
-indexOfMeaning1 = indexGivenValue(meaning1, allWords)
-indexOfMeaning2 = indexGivenValue(meaning2, allWords)
+indexOfMeaning1 = indexGivenValue(targetWord1, allWords)
+indexOfMeaning2 = indexGivenValue(targetWord2, allWords)
 
 # Get the two meanings word embedded vectors using the indices gotten baove
 vectorOfMeaning1 = vectors[indexOfMeaning1]
@@ -328,10 +321,10 @@ def normalPercentile(chosenWords, percentageToMeaning1, percentageToMeaning2):
 for word, chosenVector in zip(chosenWords, vectorsOfChosenWords):
     cosine = np.dot(totalVector, chosenVector)/(norm(totalVector, axis=1) * norm(chosenVector)) # cosine similarity function
     print("Cosine similarity of:", "\n", 
-    meaning1,"and", word, "=", cosine[0], 
-    meaning2, "and", word, "=", cosine[1])
-    print("Percentage closer to", meaning1, cosine[0]/(cosine[0] + cosine[1])) # Get the percentage of how much closer each word is to meaning 1 than meaning 2
-    print("Percentage closer to", meaning2, cosine[1]/(cosine[0] + cosine[1])) # Get the percentage of how much closer each word is to meaning 2 than meaning 1
+    targetWord1,"and", word, "=", cosine[0], 
+    targetWord2, "and", word, "=", cosine[1])
+    print("Percentage closer to", targetWord1, cosine[0]/(cosine[0] + cosine[1])) # Get the percentage of how much closer each word is to meaning 1 than meaning 2
+    print("Percentage closer to", targetWord2, cosine[1]/(cosine[0] + cosine[1])) # Get the percentage of how much closer each word is to meaning 2 than meaning 1
 
     # Append the percentage values to arrays to pass into the percentile function to seperate words into meaning1, meaning2 and ambiguous cateogries
     percentageToMeaning1.append(cosine[0]/(cosine[0] + cosine[1]))
@@ -340,25 +333,6 @@ for word, chosenVector in zip(chosenWords, vectorsOfChosenWords):
 
 # Pass these arrays into the normal percentile function
 ambiguousWords, ambigPercentage, meaning1Words, meaning1Percentage, meaning2Words, meaning2Percentage = normalPercentile(chosenWords, percentageToMeaning1, percentageToMeaning2)
-
-# remove=[]
-# for value in ambigPercentage:
-#     if value < 0.4:
-#         remove.append(indexGivenValue(value, ambigPercentage))
-
-# for indexV in remove:
-#     print(type(meaning2Words))
-#     print(ambiguousWords[indexV])
-#     meaning2Words.append(ambiguousWords[indexV])
-#     print(type(meaning2Percentage))
-#     print(ambigPercentage[indexV])
-#     meaning2Percentage.append(1-(ambigPercentage[indexV]))
-
-# for delIndex in sorted(remove, reverse=True):
-#     del ambiguousWords[delIndex]
-#     del ambigPercentage[delIndex]
-
-# print(remove)
 
 print("Ambiguous words:")
 print(ambiguousWords)
@@ -462,432 +436,21 @@ meaning2S6 = listOfMeaning2Sequences[5]
 meaning2S7 = listOfMeaning2Sequences[6]
 meaning2S8 = listOfMeaning2Sequences[7]
 
-
 # ---------- Write the sequences to a CSV file for easy saving and reading -------------------------- #
 
 csv_dict = {'Meaning one words': meaning1Words, 'Meaning one percentage': meaning1Percentage, 'Meaning two words': meaning2Words, 'Meaning two percentage': meaning2Percentage,
         'Ambiguous words': ambiguousWords, 'Ambiguous percentage to meaning one': ambigPercentage, 
-        str(meaning1).capitalize()+' Sequence 1': meaning1S1, str(meaning1).capitalize()+' Sequence 2': meaning1S2, str(meaning1).capitalize()+' Sequence 3': meaning1S3,  str(meaning1).capitalize()+' Sequence 4': meaning1S4,  
-        str(meaning1).capitalize()+' Sequence 5': meaning1S5, str(meaning1).capitalize()+' Sequence 6': meaning1S6, str(meaning1).capitalize()+' Sequence 7': meaning1S7,  str(meaning1).capitalize()+' Sequence 8': meaning1S8,  
+        #Sequences for targetWord 1
+        str(targetWord1).capitalize()+' Sequence 1': meaning1S1, str(targetWord1).capitalize()+' Sequence 2': meaning1S2, str(targetWord1).capitalize()+' Sequence 3': meaning1S3,  str(targetWord1).capitalize()+' Sequence 4': meaning1S4,  
+        str(targetWord1).capitalize()+' Sequence 5': meaning1S5, str(targetWord1).capitalize()+' Sequence 6': meaning1S6, str(targetWord1).capitalize()+' Sequence 7': meaning1S7,  str(targetWord1).capitalize()+' Sequence 8': meaning1S8,  
 
-        #Sequences for meaning 2
-        str(meaning2).capitalize()+' Sequence 1': meaning2S1, str(meaning2).capitalize()+' Sequence 2': meaning2S2, str(meaning2).capitalize()+' Sequence 3': meaning2S3,  str(meaning2).capitalize()+' Sequence 4': meaning2S4,
-        str(meaning2).capitalize()+' Sequence 5': meaning2S5, str(meaning2).capitalize()+' Sequence 6': meaning2S6, str(meaning2).capitalize()+' Sequence 7': meaning2S7,  str(meaning2).capitalize()+' Sequence 8': meaning2S8
+        #Sequences for targetWord 2
+        str(targetWord2).capitalize()+' Sequence 1': meaning2S1, str(targetWord2).capitalize()+' Sequence 2': meaning2S2, str(targetWord2).capitalize()+' Sequence 3': meaning2S3,  str(targetWord2).capitalize()+' Sequence 4': meaning2S4,
+        str(targetWord2).capitalize()+' Sequence 5': meaning2S5, str(targetWord2).capitalize()+' Sequence 6': meaning2S6, str(targetWord2).capitalize()+' Sequence 7': meaning2S7,  str(targetWord2).capitalize()+' Sequence 8': meaning2S8
 
 }
 
-df = pd.DataFrame(dict([ (k,pd.Series(v)) for k,v in csv_dict.items() ])) # Adds NaN values to the arrays to pad them out so that all the arrays are the same length to create the dataframe
-df.to_csv('./SequenceCSVFiles/HouseApartment_SequencesCSV.csv', index=False)
-
-# ---------------------------- MATLAB AUDIO CREATION ------------------------- #
-# This code uses the values in the sequences to write a print statement that can be copy and pasted into 
-# the Matlab 'createAudios.m' script in order to create the audios for each sequence in every pair of meanings
-
-# ------------------- AUDIO FOR MEANING ONE SEQUENCE ONE -------------------- #
-
-indices=[]
-for wordInSequence in meaning1S1:
-    indices.append(indexGivenValue(wordInSequence, chosenWords))
-
-audioOrder = returnAudioOrder(indices)
-
-print("% Audios for sequences with meaning 1")
-print("% Audio 1")
-print("randNo = randNumber();")
-print('\n')
-print("combined1 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder[0])+")./fs," + " length("+str(audioOrder[1])+")./fs," + " length("+str(audioOrder[2])+")./fs," + " length("+str(audioOrder[3])+")./fs," + " length("+str(audioOrder[4])+")./fs," + " length("+str(audioOrder[5])+")./fs,"
-            + " length("+str(audioOrder[6])+")./fs," + " length("+str(audioOrder[7])+")./fs];" )
-print('\n')
-print("A1 = table(audioLen);")
-print("T1 = table(randNo);")
-print('\n')
-
-# # ------------------------------------------------------------------------------- #
-# # ------------------- AUDIO FOR MEANING ONE SEQUENCE TWO -------------------- #
-
-indices2=[]
-for wordInSequence2 in meaning1S2:
-    indices2.append(indexGivenValue(wordInSequence2, chosenWords))
-
-audioOrder2 = returnAudioOrder(indices2)
-
-print("% Audio 2")
-print("randNo = randNumber();")
-print('\n')
-print("combined2 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder2[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder2[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder2[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder2[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder2[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder2[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder2[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder2[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder2[0])+")./fs," + " length("+str(audioOrder2[1])+")./fs," + " length("+str(audioOrder2[2])+")./fs," + " length("+str(audioOrder2[3])+")./fs," + " length("+str(audioOrder2[4])+")./fs," + " length("+str(audioOrder2[5])+")./fs,"
-            + " length("+str(audioOrder2[6])+")./fs," + " length("+str(audioOrder2[7])+")./fs];" )
-print('\n')
-print("A2 = table(audioLen);")
-print("T2 = table(randNo);")
-print('\n')
-
-# ------------------------------------------------------------------------------- #
-# ------------------- AUDIO FOR MEANING ONE SEQUENCE THREE -------------------- #
-
-indices3=[]
-for wordInSequence3 in meaning1S3:
-    indices3.append(indexGivenValue(wordInSequence3, chosenWords))
-
-audioOrder3 = returnAudioOrder(indices3)
-
-print("% Audio 3")
-print("randNo = randNumber();")
-print('\n')
-print("combined3 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder3[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder3[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder3[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder3[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder3[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder3[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder3[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder3[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder3[0])+")./fs," + " length("+str(audioOrder3[1])+")./fs," + " length("+str(audioOrder3[2])+")./fs," + " length("+str(audioOrder3[3])+")./fs," + " length("+str(audioOrder3[4])+")./fs," + " length("+str(audioOrder3[5])+")./fs,"
-            + " length("+str(audioOrder3[6])+")./fs," + " length("+str(audioOrder3[7])+")./fs];" )
-print('\n')
-print("A3 = table(audioLen);")
-print("T3 = table(randNo);")
-print('\n')
-
-# ------------------------------------------------------------------------------- #
-# ------------------- AUDIO FOR MEANING ONE SEQUENCE FOUR -------------------- #
-
-indices4=[]
-for wordInSequence4 in meaning1S4:
-    indices4.append(indexGivenValue(wordInSequence4, chosenWords))
-
-audioOrder4 = returnAudioOrder(indices4)
-
-print("% Audio 4")
-print("randNo = randNumber();")
-print('\n')
-print("combined4 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder4[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder4[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder4[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder4[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder4[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder4[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder4[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder4[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder4[0])+")./fs," + " length("+str(audioOrder4[1])+")./fs," + " length("+str(audioOrder4[2])+")./fs," + " length("+str(audioOrder4[3])+")./fs," + " length("+str(audioOrder4[4])+")./fs," + " length("+str(audioOrder4[5])+")./fs,"
-            + " length("+str(audioOrder4[6])+")./fs," + " length("+str(audioOrder4[7])+")./fs];\n" )
-print('\n')
-print("A4 = table(audioLen);")
-print("T4 = table(randNo);")
-print('\n')
-
-# ------------------------------------------------------------------------------- #
-# ------------------- AUDIO FOR MEANING ONE SEQUENCE FIVE -------------------- #
-
-indices5=[]
-for wordInSequence5 in meaning1S5:
-    indices5.append(indexGivenValue(wordInSequence5, chosenWords))
-
-audioOrder5 = returnAudioOrder(indices5)
-
-print("% Audio 5")
-print("randNo = randNumber();")
-print('\n')
-print("combined5 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder5[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder5[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder5[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder5[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder5[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder5[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder5[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder5[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder5[0])+")./fs," + " length("+str(audioOrder5[1])+")./fs," + " length("+str(audioOrder5[2])+")./fs," + " length("+str(audioOrder5[3])+")./fs," + " length("+str(audioOrder5[4])+")./fs," + " length("+str(audioOrder5[5])+")./fs,"
-            + " length("+str(audioOrder5[6])+")./fs," + " length("+str(audioOrder5[7])+")./fs];\n" )
-print('\n')
-print("A5 = table(audioLen);")
-print("T5 = table(randNo);")
-print('\n')
-
-# # ------------------------------------------------------------------------------- #
-# # ------------------- AUDIO FOR MEANING ONE SEQUENCE SIX -------------------- #
-
-indices6=[]
-for wordInSequence6 in meaning1S6:
-    indices6.append(indexGivenValue(wordInSequence6, chosenWords))
-
-audioOrder6 = returnAudioOrder(indices6)
-
-print("% Audio 6")
-print("randNo = randNumber();")
-print('\n')
-print("combined6 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder6[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder6[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder6[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder6[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder6[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder6[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder6[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder6[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder6[0])+")./fs," + " length("+str(audioOrder6[1])+")./fs," + " length("+str(audioOrder6[2])+")./fs," + " length("+str(audioOrder6[3])+")./fs," + " length("+str(audioOrder6[4])+")./fs," + " length("+str(audioOrder6[5])+")./fs,"
-            + " length("+str(audioOrder6[6])+")./fs," + " length("+str(audioOrder6[7])+")./fs];\n" )
-print('\n')
-print("A6 = table(audioLen);")
-print("T6 = table(randNo);")
-print('\n')
-
-# # ------------------------------------------------------------------------------- #
-# # ------------------- AUDIO FOR MEANING ONE SEQUENCE SEVEN -------------------- #
-
-indices7=[]
-for wordInSequence7 in meaning1S7:
-    indices7.append(indexGivenValue(wordInSequence7, chosenWords))
-
-audioOrder7 = returnAudioOrder(indices7)
-
-print("% Audio 7")
-print("randNo = randNumber();")
-print('\n')
-print("combined7 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder7[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder7[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder7[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder7[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder7[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder7[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder7[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder7[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder7[0])+")./fs," + " length("+str(audioOrder7[1])+")./fs," + " length("+str(audioOrder7[2])+")./fs," + " length("+str(audioOrder7[3])+")./fs," + " length("+str(audioOrder7[4])+")./fs," + " length("+str(audioOrder7[5])+")./fs,"
-            + " length("+str(audioOrder7[6])+")./fs," + " length("+str(audioOrder7[7])+")./fs];\n" )
-print('\n')
-print("A7 = table(audioLen);")
-print("T7 = table(randNo);")
-print('\n')
-
-# ------------------------------------------------------------------------------- #
-# ------------------- AUDIO FOR MEANING ONE SEQUENCE EIGHT -------------------- #
-
-indices8=[]
-for wordInSequence8 in meaning1S8:
-    indices8.append(indexGivenValue(wordInSequence8, chosenWords))
-
-audioOrder8 = returnAudioOrder(indices8)
-
-print("% Audio 8")
-print("randNo = randNumber();")
-print('\n')
-print("combined8 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder8[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder8[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder8[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder8[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder8[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder8[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder8[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder8[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder8[0])+")./fs," + " length("+str(audioOrder8[1])+")./fs," + " length("+str(audioOrder8[2])+")./fs," + " length("+str(audioOrder8[3])+")./fs," + " length("+str(audioOrder8[4])+")./fs," + " length("+str(audioOrder7[5])+")./fs,"
-            + " length("+str(audioOrder8[6])+")./fs," + " length("+str(audioOrder8[7])+")./fs];\n" )
-print('\n')
-print("A8 = table(audioLen);")
-print("T8 = table(randNo);")
-print('\n')
-
-# ------------------------------------------------------------------------------- #
-
-# ------------------- AUDIO FOR MEANING TWO SEQUENCE ONE -------------------- #
-
-indices9=[]
-for wordInSequence9 in meaning2S1:
-    indices9.append(indexGivenValue(wordInSequence9, chosenWords))
-
-audioOrder9 = returnAudioOrder(indices9)
-
-print("% Audios for sequences with meaning 2")
-print("% Audio 9")
-print("randNo = randNumber();")
-print('\n')
-print("combined9 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder9[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder9[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder9[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder9[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder9[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder9[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder9[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder9[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder9[0])+")./fs," + " length("+str(audioOrder9[1])+")./fs," + " length("+str(audioOrder9[2])+")./fs," + " length("+str(audioOrder9[3])+")./fs," + " length("+str(audioOrder9[4])+")./fs," + " length("+str(audioOrder9[5])+")./fs,"
-            + " length("+str(audioOrder9[6])+")./fs," + " length("+str(audioOrder9[7])+")./fs];" )
-print('\n')
-print("A9 = table(audioLen);")
-print("T9 = table(randNo);")
-print('\n')
-
-# ------------------------------------------------------------------------------- #
-# ------------------- AUDIO FOR MEANING TWO SEQUENCE TWO -------------------- #
-
-indices10=[]
-for wordInSequence10 in meaning2S2:
-    indices10.append(indexGivenValue(wordInSequence10, chosenWords))
-
-audioOrder10 = returnAudioOrder(indices10)
-
-print("% Audio 10")
-print("randNo = randNumber();")
-print('\n')
-print("combined10 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder10[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder10[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder10[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder10[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder10[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder10[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder10[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder10[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder10[0])+")./fs," + " length("+str(audioOrder10[1])+")./fs," + " length("+str(audioOrder10[2])+")./fs," + " length("+str(audioOrder10[3])+")./fs," + " length("+str(audioOrder10[4])+")./fs," + " length("+str(audioOrder10[5])+")./fs,"
-            + " length("+str(audioOrder10[6])+")./fs," + " length("+str(audioOrder10[7])+")./fs];" )
-print('\n')
-print("A10 = table(audioLen);")
-print("T10 = table(randNo);")
-print('\n')
-
-# ------------------------------------------------------------------------------- #
-# ------------------- AUDIO FOR MEANING TWO SEQUENCE THREE -------------------- #
-
-indices11=[]
-for wordInSequence11 in meaning2S3:
-    indices11.append(indexGivenValue(wordInSequence11, chosenWords))
-
-audioOrder11 = returnAudioOrder(indices11)
-
-print("% Audio 11")
-print("randNo = randNumber();")
-print('\n')
-print("combined11 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder11[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder11[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder11[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder11[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder11[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder11[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder11[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder11[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder11[0])+")./fs," + " length("+str(audioOrder11[1])+")./fs," + " length("+str(audioOrder11[2])+")./fs," + " length("+str(audioOrder11[3])+")./fs," + " length("+str(audioOrder11[4])+")./fs," + " length("+str(audioOrder11[5])+")./fs,"
-            + " length("+str(audioOrder11[6])+")./fs," + " length("+str(audioOrder11[7])+")./fs];" )
-print('\n')
-print("A11 = table(audioLen);")
-print("T11 = table(randNo);")
-print('\n')
-
-# ------------------------------------------------------------------------------- #
-# ------------------- AUDIO FOR MEANING TWO SEQUENCE FOUR -------------------- #
-
-indices12=[]
-for wordInSequence12 in meaning2S4:
-    indices12.append(indexGivenValue(wordInSequence12, chosenWords))
-
-audioOrder12 = returnAudioOrder(indices12)
-
-print("% Audio 12")
-print("randNo = randNumber();")
-print('\n')
-print("combined12 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder12[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder12[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder12[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder12[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder12[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder12[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder12[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder12[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder12[0])+")./fs," + " length("+str(audioOrder12[1])+")./fs," + " length("+str(audioOrder12[2])+")./fs," + " length("+str(audioOrder12[3])+")./fs," + " length("+str(audioOrder12[4])+")./fs," + " length("+str(audioOrder12[5])+")./fs,"
-            + " length("+str(audioOrder12[6])+")./fs," + " length("+str(audioOrder12[7])+")./fs];" )
-print('\n')
-print("A12 = table(audioLen);")
-print("T12 = table(randNo);")
-print('\n')
-
-# # ------------------------------------------------------------------------------- #
-# # ------------------- AUDIO FOR MEANING TWO SEQUENCE FIVE -------------------- #
-
-indices13=[]
-for wordInSequence13 in meaning2S5:
-    indices13.append(indexGivenValue(wordInSequence13, chosenWords))
-
-audioOrder13 = returnAudioOrder(indices13)
-
-print("% Audio 13")
-print("randNo = randNumber();")
-print('\n')
-print("combined13 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder13[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder13[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder13[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder13[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder13[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder13[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder13[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder13[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder13[0])+")./fs," + " length("+str(audioOrder13[1])+")./fs," + " length("+str(audioOrder13[2])+")./fs," + " length("+str(audioOrder13[3])+")./fs," + " length("+str(audioOrder13[4])+")./fs," + " length("+str(audioOrder13[5])+")./fs,"
-            + " length("+str(audioOrder13[6])+")./fs," + " length("+str(audioOrder13[7])+")./fs];" )
-print('\n')
-print("A13 = table(audioLen);")
-print("T13 = table(randNo);")
-print('\n')
-
-# # ------------------------------------------------------------------------------- #
-# # ------------------- AUDIO FOR MEANING TWO SEQUENCE SIX -------------------- #
-
-indices14=[]
-for wordInSequence14 in meaning2S6:
-    indices14.append(indexGivenValue(wordInSequence14, chosenWords))
-
-audioOrder14 = returnAudioOrder(indices14)
-
-print("% Audio 14")
-print("randNo = randNumber();")
-print('\n')
-print("combined14 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder14[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder14[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder14[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder14[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder14[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder14[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder14[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder14[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder14[0])+")./fs," + " length("+str(audioOrder14[1])+")./fs," + " length("+str(audioOrder14[2])+")./fs," + " length("+str(audioOrder14[3])+")./fs," + " length("+str(audioOrder14[4])+")./fs," + " length("+str(audioOrder14[5])+")./fs,"
-            + " length("+str(audioOrder14[6])+")./fs," + " length("+str(audioOrder14[7])+")./fs];" )
-print('\n')
-print("A14 = table(audioLen);")
-print("T14 = table(randNo);")
-print('\n')
-
-# # ------------------------------------------------------------------------------- #
-# # ------------------- AUDIO FOR MEANING TWO SEQUENCE SEVEN -------------------- #
-
-indices15=[]
-for wordInSequence15 in meaning2S7:
-    indices15.append(indexGivenValue(wordInSequence15, chosenWords))
-
-audioOrder15 = returnAudioOrder(indices15)
-
-print("% Audio 15")
-print("randNo = randNumber();")
-print('\n')
-print("combined15 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder15[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder15[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder15[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder15[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder15[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder15[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder15[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder15[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder15[0])+")./fs," + " length("+str(audioOrder15[1])+")./fs," + " length("+str(audioOrder15[2])+")./fs," + " length("+str(audioOrder15[3])+")./fs," + " length("+str(audioOrder15[4])+")./fs," + " length("+str(audioOrder15[5])+")./fs,"
-            + " length("+str(audioOrder15[6])+")./fs," + " length("+str(audioOrder15[7])+")./fs];" )
-print('\n')
-print("A15 = table(audioLen);")
-print("T15 = table(randNo);")
-print('\n')
-
-# ------------------------------------------------------------------------------- #
-# ------------------- AUDIO FOR MEANING TWO SEQUENCE EIGHT -------------------- #
-
-indices16=[]
-for wordInSequence16 in meaning2S8:
-    indices16.append(indexGivenValue(wordInSequence16, chosenWords))
-
-audioOrder16 = returnAudioOrder(indices16)
-
-print("% Audio 16")
-print("randNo = randNumber();")
-print('\n')
-print("combined16 = [zeros(round(fs*0.5),size(f1,2));"+str(audioOrder16[0])+";zeros(round(fs*randNo(1)),size(f1,2));\n"
-            +str(audioOrder16[1])+";zeros(round(fs*randNo(2)),size(f1,2));"+str(audioOrder16[2])+";zeros(round(fs*randNo(3)),size(f1,2));\n"
-            +str(audioOrder16[3])+";zeros(round(fs*randNo(4)),size(f1,2));"+str(audioOrder16[4])+";zeros(round(fs*randNo(5)),size(f1,2));\n"
-            +str(audioOrder16[5])+";zeros(round(fs*randNo(6)),size(f1,2));"+str(audioOrder16[6])+";zeros(round(fs*randNo(7)),size(f1,2));\n"
-            +str(audioOrder16[7])+";zeros(round(fs*randNo(8)),size(f1,2))]; ")
-print('\n')
-print("audioLen = [length("+str(audioOrder16[0])+")./fs," + " length("+str(audioOrder16[1])+")./fs," + " length("+str(audioOrder16[2])+")./fs," + " length("+str(audioOrder16[3])+")./fs," + " length("+str(audioOrder16[4])+")./fs," + " length("+str(audioOrder16[5])+")./fs,"
-            + " length("+str(audioOrder16[6])+")./fs," + " length("+str(audioOrder16[7])+")./fs];" )
-print('\n')
-print("A16 = table(audioLen);")
-print("T16 = table(randNo);")
-print('\n')
-
-# # ------------------------------------------------------------------------------- #
-
-
-
-
-   
+# Adds NaN values to the arrays to pad them out so that all the arrays are the same length to create the dataframe
+df = pd.DataFrame(dict([ (k,pd.Series(v)) for k,v in csv_dict.items() ])) 
+# Specify the path to save the new sequences CSV to
+#df.to_csv('./HouseApartment_SequencesCSV.csv', index=False) 

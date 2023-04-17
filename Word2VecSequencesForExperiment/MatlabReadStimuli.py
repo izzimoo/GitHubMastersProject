@@ -1,14 +1,15 @@
-# File that creates the order ot the stimuli for the experiment and using this order creates the case statement that supply
-# MATLAB with the meanings for each sequence and the correct answer for each sequence. 
+
+# Script to generate stimuli in random order files for each participants, also creates the corresponding correct answers switch statement for each trial for MATLAB
+# and the corresponding target word pair switch statement for MATLAB.
+
+# Run this script one to generate the stimuli for a participant and paste the contents of the files into MATLAB.
 
 import os, random
 import numpy as np
 
-# Putting the stimuli in a random order array to use in Matlab 
-
+# Putting the stimuli in a random order array to use in MATLAB.
+# Copy and paste the contents of this file into the start of the experiment to replace the 'sounds' array in experiment.m
 recordings = os.listdir('./ExperimentData-ForEEG/AllRecordingsEEG')
-
-print(len(recordings))
 
 random.shuffle(recordings)
 
@@ -31,7 +32,8 @@ text_file.write(finalString)
 
 text_file.close()
 
-# Finding the answer for each sequence
+# Generate the correct answers for each sequence by extracting whether they are a target word one or target word two sequence
+# Copy and paste the contents of this file into the 'returnMeanings.m' function in MATLAB
 
 answers = []
 for sequence in recordings:
@@ -49,15 +51,12 @@ with open("./Stimuli_OrderMeaningsAnswers/CorrectAnswersSwitch.txt", "w") as f:
         print('case ' + str(i+1), file=f)
         print('    answer = ' + str(ans) + ';', file=f)
 
-# # Meanings switch statment
+# Generate the target word pairs for each sequence by extracting them from the acroynm
+# Copy and paste the contents of this file into the 'getAnswer.m' function in MATLAB
 
 acronyms = []
 for sequence in recordings:
     acronyms.append(sequence.split('_')[0])
-
-# acronyms = np.array(acronyms)
-# uniqueAcro = np.unique(acronyms)
-# print(uniqueAcro)
 
 meaningOne=[]; meaningTwo=[]
 for acro in acronyms:
@@ -124,5 +123,3 @@ with open("./Stimuli_OrderMeaningsAnswers/MeaningsForEachSequence.txt", "w") as 
         print('case ' + str(j+1), file=g)
         print('    meaning1 = ' + f"'{str(mean1)}'" + ';', file=g)
         print('    meaning2 = ' + f"'{str(mean2)}'" + ';', file=g)
-
-

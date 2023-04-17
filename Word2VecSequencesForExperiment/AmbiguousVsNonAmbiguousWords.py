@@ -1,3 +1,7 @@
+
+# Script to determine if a word is a meaning or ambiguous word for the meaningVsAmbig ERP analysis in MATLAB.
+# Only need to run script once to run all 17 pairs of target words' sequence CSVs.
+
 import pandas as pd
 
 AO_word2vec = pd.read_csv('./Word2VecSequencesEEG/AppleOrange/AppleOrange_SequencesCSV.csv')
@@ -18,12 +22,14 @@ WM_word2vec = pd.read_csv('./Word2VecSequencesEEG/WaterMilk/WaterMilk_SequencesC
 RS_word2vec = pd.read_csv('./Word2VecSequencesEEG/RainSnow/RainSnow_SequencesCSV.csv')
 TSP_word2vec = pd.read_csv('./Word2VecSequencesEEG/TelevisionSmartphone/TelevisionSmartphone_SequencesCSV.csv')
 
-numberCSVs = 17
-numSequences = 16
-
 arrayOfCSVs = [AO_word2vec, BC_word2vec, BW_word2vec, BT_word2vec, CB_word2vec, CP_word2vec, CD_word2vec, CHP_word2vec, FR_word2vec, GS_word2vec, HA_word2vec,
                 MB_word2vec, TSS_word2vec, US_word2vec, WM_word2vec, RS_word2vec, TSP_word2vec]
 
+numberCSVs = len(arrayOfCSVs)
+numSequences = 16
+
+# For loop essentially checks if a word in a sequence is in the target word one or two column, if it yes it is assigned as a meaning word or 'M', if not it
+# is assigned as an ambiguous word or 'A'.
 for CSVFile in range(numberCSVs):
     
     meaningOneWords = arrayOfCSVs[CSVFile].iloc[:,0] 
@@ -48,7 +54,6 @@ for CSVFile in range(numberCSVs):
             else: 
                 arrayMvA.append('A')  
 
-        #print(arrayMvA)
         allArrayMvAs.append(arrayMvA)
 
     # create a new dataframe containing the arrayMvAs and save as a new CSV file

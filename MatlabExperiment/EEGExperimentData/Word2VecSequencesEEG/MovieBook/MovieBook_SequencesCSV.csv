@@ -1,9 +1,9 @@
 Meaning one words,Meaning one percentage,Meaning two words,Meaning two percentage,Ambiguous words,Ambiguous percentage to meaning one,Movie Sequence 1,Movie Sequence 2,Movie Sequence 3,Movie Sequence 4,Movie Sequence 5,Movie Sequence 6,Movie Sequence 7,Movie Sequence 8,Book Sequence 1,Book Sequence 2,Book Sequence 3,Book Sequence 4,Book Sequence 5,Book Sequence 6,Book Sequence 7,Book Sequence 8
-characters,0.7196228060085322,biographical,0.6337014321179036,story,0.4859201878419449,characters,plot,writer,trilogy,genre,writer,adaptation,story,biographical,fiction,award,long,trilogy,collection,fantasy,biographical
-sequel,0.5961154903384596,review,0.6646803592931114,narrator,0.5258436537485833,cliff-hanger,sequel,plot,genre,adaptation,cliff-hanger,genre,award,long,story,review,fiction,fiction,trilogy,long,story
-genre,0.6505466231482199,fiction,0.5529684757217027,writer,0.4614767382938021,sequel,fantasy,narrator,cliff-hanger,cliff-hanger,trilogy,fantasy,adaptation,story,biographical,story,narrator,fantasy,review,writer,review
-plot,0.6582395241671948,collection,0.8272001210895632,long,0.45023004354865526,trilogy,adaptation,long,story,writer,award,long,characters,review,long,long,biographical,narrator,fiction,award,narrator
-cliff-hanger,0.580975404548295,,,trilogy,0.5181278529277489,fantasy,writer,cliff-hanger,sequel,sequel,genre,characters,plot,narrator,writer,writer,award,biographical,story,fiction,long
-adaptation,0.5991155814853957,,,fantasy,0.49100368447506815,writer,long,sequel,long,story,characters,award,cliff-hanger,fiction,collection,fiction,collection,collection,writer,biographical,award
-,,,,award,0.4891489829346686,award,genre,characters,award,narrator,plot,sequel,trilogy,writer,review,biographical,trilogy,review,biographical,review,fiction
-,,,,,,adaptation,cliff-hanger,genre,adaptation,award,sequel,writer,genre,collection,narrator,collection,review,story,narrator,collection,collection
+characters,0.719622806,biographical,0.633701432,story,0.485920188,characters,plot,writer,trilogy,genre,writer,adaptation,story,biographical,fiction,award,long,trilogy,collection,fantasy,biographical
+sequel,0.59611549,review,0.664680359,narrator,0.525843654,cliffhanger,sequel,plot,genre,adaptation,cliffhanger,genre,award,long,story,review,fiction,fiction,trilogy,long,story
+genre,0.650546623,fiction,0.552968476,writer,0.461476738,sequel,fantasy,narrator,cliffhanger,cliffhanger,trilogy,fantasy,adaptation,story,biographical,story,narrator,fantasy,review,writer,review
+plot,0.658239524,collection,0.827200121,long,0.450230044,trilogy,adaptation,long,story,writer,award,long,characters,review,long,long,biographical,narrator,fiction,award,narrator
+cliffhanger,0.580975405,,,trilogy,0.518127853,fantasy,writer,cliffhanger,sequel,sequel,genre,characters,plot,narrator,writer,writer,award,biographical,story,fiction,long
+adaptation,0.599115581,,,fantasy,0.491003684,writer,long,sequel,long,story,characters,award,cliffhanger,fiction,collection,fiction,collection,collection,writer,biographical,award
+,,,,award,0.489148983,award,genre,characters,award,narrator,plot,sequel,trilogy,writer,review,biographical,trilogy,review,biographical,review,fiction
+,,,,,,adaptation,cliffhanger,genre,adaptation,award,sequel,writer,genre,collection,narrator,collection,review,story,narrator,collection,collection

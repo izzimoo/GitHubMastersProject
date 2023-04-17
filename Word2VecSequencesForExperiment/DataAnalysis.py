@@ -1,23 +1,18 @@
+
+# Data analysis code for behavioural data, i.e. accuracy, reaction time and decision distribution metrics, from the behavioural experiments and EEG experiments
+
 import re
 import pandas as pd
 import matplotlib.pyplot as plt
 from collections import Counter
 import numpy as np 
 
-# # --------------------- FUNCTIONS ---------------------------------------- #
 
-def indexGivenValue(value, array):
-    for idx, val in enumerate(array):
-        if(value == val):           
-            return(idx)
+# ------------ READ IN DATA FROM PARTICIPANT EXPERIMENTS --------------------- #
 
-# ------------------------------------------------------------------------ #
-
-# ------------ READ IN DATA GOTTEN FROM PARTICIPANTS --------------------- #
-
-#resultsBehavioural1 = pd.read_csv('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/DecisionsAndTimings.csv')
-#resultsBehavioural2 = pd.read_csv('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/DecisionsAndTimings.csv')
-resultsBehavioural3 = pd.read_csv('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/DecisionsAndTimings.csv')
+#resultsBehavioural1 = pd.read_csv('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Participant1/DecisionsAndTimings.csv')
+#resultsBehavioural2 = pd.read_csv('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Participant2/DecisionsAndTimings.csv')
+resultsBehavioural3 = pd.read_csv('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Participant3/DecisionsAndTimings.csv')
 
 #resultsEEG1 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant1Results/DecisionsAndTimings.csv')
 #resultsEEG2 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/DecisionsAndTimings.csv')
@@ -28,8 +23,8 @@ resultsEEG6 = pd.read_csv('./ExperimentData-ForEEG/EEGExperimentDataAndResults/E
 
 participantNum = 6
 
-print(len(resultsEEG6))
-
+# Read in the decision times and the button presses for each trial
+# When analysing the results of a different particiapnt, replace resultsEEG6 with the corresponding dataframe for that participant
 participantButtonClickTiming = resultsEEG6.iloc[:,1] 
 participantLeftButtonClicks = resultsEEG6.iloc[:,0]
 
@@ -49,17 +44,12 @@ ax.set_ylabel("Reaction Time (Seconds)")
 ax.set_title("Time of reaction for each trial")
 
 # Choose a saving location depending on the participant
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/ResultsFigures/fig1.png')
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/ResultsFigures/fig1.png')
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/ResultsFigures/fig1.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig1.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/ResultsFigures/fig1.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig1.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig1.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig1.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig1.png')
+plt.savefig('./ReactionTimeDistributionPlot.png')
 
 # ---------------------------- CODE TO CREATE THE AUDIO ONSET FILES ---------------------------------#
+
+# Note: This code is only used for this type of analysis, a more accurate solution to generating the word onsets is used 
+# for the actual EEG analysis
 
 # AudioOnset files = This code reads in the audio length and silence length files generated in Matlab.
 # It then iterates over these values and multiplies them by 48000 which is the frequency value of the files
@@ -159,11 +149,8 @@ df = pd.DataFrame(array_toDict, index=['Audio1 Onset', 'Audio2 Onset', 'Audio3 O
 # ----------------------- ANALYSIS CODE BEGINS FOR EACH PARTICIPANTS DATA ---------------------------------------
 
 # Change file when wanting different participants results
-#file = open("BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
-#file = open("BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
-
 # Participant 1
-# file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
+# file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant1Results/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
 #Participant 2
 #file = open("ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/Stimuli/ArrayOfStimuliInRandomOrder.txt", "r")
 # Participant 3
@@ -298,8 +285,7 @@ def returnDF(audioVal):
 lines=[]
 
 # Choose a file depending on the participant data you are analysing
-#with open('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Stimuli/CorrectAnswersSwitch.txt') as myFile:
-#with open('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
+#with open('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Participants/Participant1/CorrectAnswersSwitch.txt') as myFile:
 
 # Participant 1
 #with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
@@ -313,7 +299,6 @@ lines=[]
 #with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
 # Participant 6
 with open('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/Stimuli/CorrectAnswersSwitch.txt') as myFile: 
-
 
     for myLine in myFile:
         lines.append(myLine) # Append each line in the txt file to an array called lines
@@ -358,16 +343,6 @@ missedSequenceIdentifiers = []; gottenQuicklyIndetifiers = []; sequencesRemoveFr
 
 print("STARTING ANALYSIS OF BUTTON PRESSES VERSUS PLACE IN SEQUENCE")
 for audioAcro, meaningNo, seqOrder, buttonTiming, stimuliNumber in zip(sequenceName, meaningNum, sequenceNum, participantButtonClickTiming, range(len(orderOfAudios))):
-    
-#     if (meaningNo == 'M2'):
-
-#         # Add 8 to the index if the meaning is 2 to get the meaning 2 sequence audio onsets 
-
-#         dataframe = returnDF(audioAcro) # Pass in sequence acronym to obtain the correct audio onset file
-#         audioOnsetColumn = dataframe.iloc[:,4+int(seqOrder)][0:9] 
-#         #word1 = dataframe.iloc[:,8+int(seqOrder)][0:9]
-
-    #else: 
 
     dataframe = returnDF(audioAcro) # Pass in sequence acronym to obtain the correct audio onset file
     audioOnsetColumn = dataframe.iloc[:,int(seqOrder)][0:9]
@@ -385,12 +360,10 @@ for audioAcro, meaningNo, seqOrder, buttonTiming, stimuliNumber in zip(sequenceN
             print('Button pressed at: ' + str(buttonTiming) + ' which is on word ' + str(i))
             countList[i] = countList[i] + 1 # Add 1 to the count on the ith word
 
-            if(i == 3):
-                print("hi")
-
             if ((i == 1) or (i == 2)):
                 tempList = []; tempList.append(audioAcro); tempList.append(meaningNo); tempList.append(seqOrder)
 
+                # Finding sequences that were guessed correctly on the first or second word, they may be too easy and need to be removed later
                 if (((int(participantLeftButtonClicks[stimuliNumber]) == 1) and (answerRemovedSemiColon[stimuliNumber] == '1')) or ((int(participantLeftButtonClicks[stimuliNumber]) == 0) and (answerRemovedSemiColon[stimuliNumber] == '2'))):
                     gottenQuicklyIndetifiers.append(stimuliNumber)
             break
@@ -432,9 +405,7 @@ for audioAcro, meaningNo, seqOrder, buttonTiming, stimuliNumber in zip(sequenceN
    
     print('****************************************************************************************************************')
 
-# ----------------------------------------------------------------------------------------------------------------------------------------------------------------- #
-
-#print(missedSequenceIdentifiers)
+# ------------------------- PRINT SOME GENERAL STATISTICS ABOUT THE DATA ANALYSIS SUCH AS ACCURACY, MISS TRIAL, DECISION DISTRIBUTION -----------------------------------------
 
 print('\n')
 print("Data Analysis Statements:")
@@ -456,21 +427,14 @@ countDict = Counter(acrosOfMissed) # Make this into a dictionary and count the n
 print(countDict) # Prints a dictionary of acronym and count: {AO:2, COP:4} so it is easy to see which sequences are often missed
 print('\n')
 
-
 print("Number of decisions made on each word, missed sequences - word 8")
 print(countList)
 print('\n')
 
-# ---------------- MAKE FIGURE FOR NUMBER OF DECISION MADE ON EACH WORD ------------------------- #
+# -------------------------------- MAKE FIGURE FOR NUMBER OF DECISION MADE ON EACH WORD ------------------------------------------- #
 
 x_axis = ['Missed Seq.', '1', '2', '3', '4', '5', '6', '7', '8']
-# All count for behavioural 
-#allParticipantsCount = [37, 62, 92, 67, 38, 43, 34, 24, 11]
-# All count for EEG 
-allParticipantsCount = [29, 211, 376, 369, 291, 182, 95, 54, 25]
-
-y_axis = allParticipantsCount
-#countList
+y_axis = countList
 
 fig2, ax2 = plt.subplots()
 
@@ -488,50 +452,23 @@ for bar in ax2.patches: # Gets the bars on the chart
     ax2.annotate(f'{height}', (x + width/2, y + height*1.01), fontsize=13, ha='center') # Prints a label on top of the bar displaying the decision number
 
 # Choose a saving location depending on the participant
-plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/ResultsFigures/fig2.png')
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/ResultsFigures/fig2.png')
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/ResultsFigures/fig2.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig2.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/ResultsFigures/fig2.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig2.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig2.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig2.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig2.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/AllPsDecisionCount.png')
+plt.savefig('./DecisionDistributionBarChart.png')
 
-# ------------------------------------------------------------------------------------------------------------------------- #
-
-# ---------------------------------- CREATE FIGURE FOR THE PERCENTAGE OF MISSED SEQUENCES ------------------------------------------------ #
+# ---------------------------------- CREATE PIE CHART FOR THE PERCENTAGE OF MISSED SEQUENCES ------------------------------------------------ #
 
 fig3, ax3 = plt.subplots()
 
 # Number of seqeucnes missed in total during behavioural
 
-#percentages = [ (countList[0]/sum(countList))*100,  (100 - ((countList[0]/sum(countList))*100)) ]
-# EEG 
-percentages = [1.78, 98.22]
-# Behavioural
-#percentages = [9.07, 90.93]
+percentages = [ (countList[0]/sum(countList))*100,  (100 - ((countList[0]/sum(countList))*100)) ]
 pieLabels = ['Missed', 'Not Missed']
-#ax3.set_title('Percentage of Sequences with Decision vs No Decision')
-ax3.pie(percentages, labels=pieLabels, autopct='%1.2f%%', textprops={'fontsize': 18})
+ 
+ax3.pie(percentages, labels=pieLabels, autopct='%1.2f%%', textprops={'fontsize': 18}, colors=['#F85F45', '#2D9C4F'])
 
 # Choose a saving location depending on the participant
-plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/ResultsFigures/fig3.png')
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/ResultsFigures/fig3.png')
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/ResultsFigures/fig3.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig3.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/ResultsFigures/fig3.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig3.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig3.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig3.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig3.png')
+plt.savefig('./HitVersusMissTrialPieChart.png')
 
-# ---------------------------------------------------------------------------------------------------- #
-
-# ------ PREPPING DATA TO DETERMINE HOW ACCURATE PARTICIPANT IS - REMOVING MISSED SEQUENCES ---- #
-
-# Need to remove datapoints relating to any missed sequences and ensure the indices from the data still match up
+# -------------------------------------- ACCURACY ANALYSIS ---------------------------------------------- #
 
 for indexToRemove in sequencesRemoveFromAccuracy: # Remove all data points relating to any missed sequences
     participantLeftButtonClicks = participantLeftButtonClicks.drop(indexToRemove) # Drop from answers given by participant
@@ -588,8 +525,6 @@ accuracyValueForBarChart = round((countCorrect)/(countCorrect + countIncorrect) 
 print(accuracyStr)
 print('\n')
 
-# --------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
-
 # ------------------------ FINAL PRINT STATEMENTS TO DISPLAY THE CORRECT AND INCORRECT SEQUENCES (AFTER MISSED SEQUENCE REMOVAL) -------------------------------------- #
 
 listToSort1=[]; count1=0
@@ -612,81 +547,41 @@ print(*sorted(listToSort2), sep='\n')
 print("Length of list which should equal number stated above for incorrect sequences", len(listToSort2))
 print('\n')
 
-# ------------------------------------------------------------------------------------------------------------- #
-
-# ---------------------- CREATE BAR CHART FOR ALL PARTICIPANTS ACCURACIES AND INACCURACIES (AFTER MISSED SEQUENCE REMOVAL) ------------------------------- #
+# ---------------------- CREATE BAR CHART FOR ALL PARTICIPANTS ACCURACIES (AFTER MISSED SEQUENCE REMOVAL) ------------------------------- #
 
 ## Results Behavioural
-accuracies = [69.42, 75.44, 66.18] # Accuracies taken from the print statements
-#inaccuracies = [round((100-69.42),2), round((100-75.44),2), round((100-66.18),2)] # Inaccuracies gotten by 100-accuracies
+#accuracies = [69.42, 75.44, 66.18] # Accuracies taken from the print statements
 
 ## Results EEG
-#accuracies = [74.63, 69.12, 69.47, 72.66, 69.49, 82.53] # Accuracies taken from the print statements 
-#inaccuracies = [round((100-74.63),2), round((100-69.12),2), round((100-69.47),2), round((100-72.66),2), round((100-69.49),2), round((100-82.53),2)] # Inaccuracies gotten by 100-accuracies
+accuracies = [74.63, 69.12, 69.47, 72.66, 69.49, 82.53] # Accuracies taken from the print statements 
 
-#labels = ['1', '2', '3', '4', '5', '6'] # Labels for X axis bar chart
-labels = ['1', '2', '3'] # Labels for X axis bar chart
+labels = ['1', '2', '3', '4', '5', '6'] # Labels for X axis bar chart for EEG participants
+#labels = ['1', '2', '3'] # Labels for X axis bar chart for behavioural participants
 
 xAxis = np.arange(len(labels)) # Enumerate x axis label values 
 fig4, ax4 = plt.subplots()
 
 # Format the bar chart so that there are two bars for each participant - one showing the accuracy percentage and one showing the inaccuracy percentage
-ax4.bar(xAxis - 0.2, accuracies, width=0.3, label = 'Correct', color='#2D9C4F') 
-#ax4.bar(xAxis + 0.2, inaccuracies, width=0.3, label = 'Incorrect', color='#F85F45')
+ax4.bar(xAxis - 0.1, accuracies, width=0.7, label = 'Correct', color='#2D9C4F') 
 
 plt.xticks(xAxis, labels, fontsize=15)
 ax4.tick_params(axis='both', which='major', labelsize=16)
 
 ax4.set_xlabel("Participant", fontsize=17)
-ax4.xaxis.labelpad = -3
 ax4.set_ylabel("Accuracy (%)", fontsize= 17)
-#ax4.set_title("Participant Accuracy", fontsize= 15)
+ax4.xaxis.labelpad = -1
 ax4.legend(bbox_to_anchor=[1.13, 1.14], prop={'size': 30}, framealpha=1)
 
 for bar in ax4.patches: # Gets the bars on the chart (6 - (2 bars x 3 participants))
     width = bar.get_width(); height = bar.get_height() # Get height and width of bars
     x, y = bar.get_xy() # Gets values for the bars - participant and their accuracy and inaccuracy values
-    ax4.annotate(f'{height}', (x + width/2, y + height*1.01), fontsize = 13.5, ha='center') # Annotates the accuracy and inaccuracy values on top of the bars in the chart
+    ax4.annotate(f'{height}', (x + width/2, y + height*1), fontsize = 13.5, ha='center') # Annotates the accuracy and inaccuracy values on top of the bars in the chart
 
 #plt.show()
 # Choose a saving location depending on the participant   
-plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/Ciaran/ResultsFigures/fig4.png')
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/Charbel/ResultsFigures/fig4.png')
-#plt.savefig('./BehaviouralExperimentData-PreEEG/ExperimentResults/Participants/First2Behaviourals/John/ResultsFigures/fig4.png')
-# ----------------------- BAR CHART FOR ACCURACY OF EEG PARTICIPANTS ---------------------- #
+plt.savefig('./AccuracyBarChart.png')
 
-accuracies = [accuracyValueForBarChart] # Accuracies taken from the print statements
-inaccuracies = [round((100-accuracyValueForBarChart),2)] # Inaccuracies gotten by 100-accuracies
-
-labels = ['Participant ' + str(participantNum)]
-
-xAxis = np.arange(len(labels)) # Enumerate x axis label values 
-fig5, ax5 = plt.subplots()
-
-# Format the bar chart so that there are two bars for each participant - one showing the accuracy percentage and one showing the inaccuracy percentage
-ax5.bar(xAxis - 0.2, accuracies, width=0.3, label = 'Percentage Correct', color='#2D9C4F') 
-ax5.bar(xAxis + 0.2, inaccuracies, width=0.3, label = 'Percentage Incorrect', color='#F85F45')
-
-plt.xticks(xAxis, labels)
-
-ax5.set_ylabel("Accuracy (percent %)")
-ax5.set_title("Accuracy of participant " + str(participantNum), x=0.47)
-ax5.legend(bbox_to_anchor=[1.13, 1.14])
-
-for bar in ax5.patches: # Gets the bars on the chart (2 bars x 1 participant))
-    width = bar.get_width(); height = bar.get_height() # Get height and width of bars
-    x, y = bar.get_xy() # Gets values for the bars - participant and their accuracy and inaccuracy values
-    ax5.annotate(f'{height}', (x + width/2, y + height*1.01), ha='center') # Annotates the accuracy and inaccuracy values on top of the bars in the chart
-
-# Choose a saving location depending on the participant
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/ResultsFigures/fig4.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant2Results/ResultsFigures/fig4.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant3Results/ResultsFigures/fig4.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant4Results/ResultsFigures/fig4.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant5Results/ResultsFigures/fig4.png')
-#plt.savefig('./ExperimentData-ForEEG/EEGExperimentDataAndResults/EEGParticipant6Results/ResultsFigures/fig4.png')
-
-# ----------------- ANALYSIS TO DETERMINE SEQUENCES THAT WERE GOTTEN CORRECT IN THE FIRST ONE OR TWO WORDS ---------------------- #
+# ----------------- PRINT SEQUENCES THAT WERE TOO EASY TO IDENTIFY RECURRING TARGET WORD PAIRS ---------------------- #
 
 print("Sequences that decided correctly in the first two words - may be too easy:")
 listToBeSorted=[]

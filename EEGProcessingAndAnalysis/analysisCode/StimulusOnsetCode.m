@@ -1,95 +1,85 @@
 
+%% Stimuli for each pair of target words are read in and their word onsets are calculated 
+
+% Need to swtich out the 16 sequences each time you want to get the audio onsets of a different pair of target words
+sounds = {'./EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_1.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_2.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_3.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_4.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_5.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_6.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_7.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M1_8.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_9.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_10.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_11.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_12.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_13.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_14.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_15.wav', './EEGExperimentData/CompletedRecordingsEEG/AllRecordings/US_M2_16.wav'};
+nTrials = length(sounds);
+
+% Getting trial length and set up stimulus structure
+trialDurSec = zeros(1, nTrials);
+fsDown = 128;
+clear stimInOrder
+for trialNo = 1:nTrials
+    [audio, fsStimulus] = audioread(sounds{trialNo});
+    trialDurSec(trialNo) = size(audio,1)/fsStimulus;
+    stimInOrder.data{1,trialNo} = resample(abs(hilbert(audio(:,1))),fsDown,fsStimulus);
+end
+stimInOrder.names = {'Envelope'};
+stimInOrder.fs = fsDown;
+
+save('./dataStimInOrder.mat','stimInOrder')
+
 % Load in stimulus data
-load('./datasets/linguisticDecision/dataStimInOrder.mat', 'stimInOrder');
+load('./dataStimInOrder.mat', 'stimInOrder');
 disp(stimInOrder.data);
 
-%% Initial calculations - TO DO: Create a new stim with the in order trials 
+%% ********************* CALCULATE THE AUDIO ONSET TIMES USING A THRESHOLD ALGORITHM **************************
 
 numStimFiles = length(stimInOrder.data);
-
 audioOnsets = {1, numStimFiles};
+
 for stimNum = 1:numStimFiles
     
-    maxSoundLen_Samples = round(0.99 * 128);
-
-    if (stimNum == 16)
-          maxSoundLen_Samples = round(0.7 * 128);
-%     if (stimNum == 2 || stimNum == 5 || stimNum == 7 || stimNum == 8 || stimNum == 9 || stimNum == 10 || stimNum == 11 || stimNum == 12 || stimNum == 13 || stimNum == 14 || stimNum == 15 || stimNum == 16)
-%         maxSoundLen_Samples = round(0.9 * 128);
-    end
+    maxSoundLen_Samples = round(0.99 * 128); % Max length of a word in the audios, this sometimes needs to be manually adjusted
     
+    % Get the envelope of each stimulus
     envelopeSound = stimInOrder.data{stimNum};
     maxAmp = max(envelopeSound);
 
+    % Get the low threshold value, where each peak in the envelope begins to go from 0 to non-zero
     lowThreshold = maxAmp * 0.02;
 
     sampNum = 1;
     itr = 1;
 
     while (sampNum <= length(envelopeSound))
-        if (envelopeSound(sampNum) > lowThreshold)
-            audioOnsets{stimNum}(itr) = sampNum;
+        if (envelopeSound(sampNum) > lowThreshold) 
+            audioOnsets{stimNum}(itr) = sampNum; % Save the sample number of the threshold crossing as this is the audio onset 
             itr = itr + 1;
             if (itr == 9)
-                audioOnsets{stimNum}(9) = length(envelopeSound);
+                audioOnsets{stimNum}(9) = length(envelopeSound); % Length of the stimulus is also saved
                 break
             end
-            sampNum = sampNum + maxSoundLen_Samples;
+            sampNum = sampNum + maxSoundLen_Samples; % Skip onto the next word but adding the typical length of a word in sample to the sample number
         else
-            sampNum = sampNum + 1;
+            sampNum = sampNum + 1; % Else move to the next sample 
         end
     end
     
+    % Plot a figure for each stimulus to examine visually how accurately the audio onset is being determined.
+    % Manual intervention may be needed for some sequences that do not accurately track the audio onsets using this method.
     figure(stimNum);
-    plot(envelopeSound);
+    plot(envelopeSound, 'LineWidth', 1.0);
     hold on;
     for i = 1:length(audioOnsets{stimNum})
-        line([audioOnsets{stimNum}(i) audioOnsets{stimNum}(i)], ylim, 'Color', 'r');
+        line([audioOnsets{stimNum}(i) audioOnsets{stimNum}(i)], ylim, 'Color', 'r', 'LineWidth', 1.5);
     end
-    legend('Audio Envelope', 'Onset Values');
     hold off;
+    
+    legend('Audio Envelope', 'Word Onset');
+    xlabel('Samples (a.u.)');
+    ylabel('Amplitude (a.u.)');
+    set(gca, 'FontSize', 14);
+    set(gcf, 'Color', 'white');
+    xlim([0, 2000]);
+    ylim([-0.01, 0.18]);
+    set(legend, 'FontSize', 12);
     
 end
 
-disp('hi');
 
+%% ****************** WRITE THE NEW ONSET TIMES IN SAMPLES TO A CSV THAT CAN BE READ IN LATER ************************
 
-%% Add to a new CSV file
-
-audioOnsets{12}(3) = 316;
-
-audioOnsets{9}(3) = 497;
-audioOnsets{9}(4) = 601;
-audioOnsets{9}(5) = 760;
-audioOnsets{9}(6) = 860;
-
-audioOnsets{6}(4) = 535;
-audioOnsets{6}(6) = 847;
-
-audioOnsets{5}(3) = 519;
-audioOnsets{5}(4) = 645;
-audioOnsets{5}(5) = 749;
-audioOnsets{5}(6) = 911;
-
-audioOnsets{3}(7) = 1509;
-
-audioOnsets{2}(3) = 474;
-
-for stimNum = 1:numStimFiles
-
-    figure(stimNum);
-    envelopeSound = stimInOrder.data{stimNum};
-    plot(envelopeSound);
-    hold on;
-    for i = 1:length(audioOnsets{stimNum})
-        line([audioOnsets{stimNum}(i) audioOnsets{stimNum}(i)], ylim, 'Color', 'r');
-    end
-    legend('Audio Envelope', 'Onset Values');
-    hold off;
-
-end
-
-%%
 rownames = {'Audio1';'Audio2';'Audio3';'Audio4';'Audio5';'Audio6';'Audio7';'Audio8';'AudioLength'};
 
 Sequence1 = audioOnsets{1}';
@@ -115,7 +105,7 @@ T = table(Sequence1, Sequence2, Sequence3, Sequence4, Sequence5, Sequence6, Sequ
 % write the table to a CSV file named 'example2.csv'
 writetable(T, './US.csv', 'WriteRowNames', true);
 
-disp('done');
+disp('FINISHED SCRIPT');
 
 
 

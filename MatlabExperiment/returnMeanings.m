@@ -1,3 +1,7 @@
+
+% Case statement to return the target word pair for the trial, this is copied from the MeaningsForEachSequence.txt file for each participant in
+% their stimuli folder
+
 function [meaning1, meaning2]=returnMeanings(number)
 
     switch number
